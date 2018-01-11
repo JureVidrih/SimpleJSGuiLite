@@ -1,0 +1,78 @@
+.gui-panel {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 40px;
+    background: gray;
+
+    &__item {
+        display: inline-block;
+        text-align: center;
+        padding-top: 9px;
+        height: 100%;
+        width: 12%;
+        border: 1px solid white;
+        color: white;
+        
+        &--active {
+            border: 1px dashed black;
+            color: black;
+            background: rgba(255, 255, 255, 0.87);
+        }
+    }
+}
+
+.window-btn {
+    width: 25px;
+    height: 25px;
+}
+
+.gui-window {
+    position: fixed;
+    top: 200px;
+    left: 250px;
+    min-width: 350px;
+    min-height: 400px;
+    width: 350px;
+    height: 400px;
+
+    &__titlebar {
+        display: block;
+        width: 100%;
+        height: 25px;
+        padding-top: 0;
+        background: lightgray;
+        &__buttons {
+            display: block;
+            float: left;
+            width: 75px;
+            height: 24px;
+            padding: 0;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        &__title {
+            display: block;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 24px;
+            text-align: center;
+            font-size: 1.2rem;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    }
+
+    &__content {
+        border: 1px solid black;
+        width: 100%;
+        height: 100%;
+        padding: 8px;
+        background: white;
+    }
+}
