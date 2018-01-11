@@ -3,11 +3,11 @@ var PanelItem = function(id, itemName) {
     this.itemName = itemName;
     this.getName = function() {
         return this.itemName;
-    }.bind(this);
+    }
     this.getTemplate = function() {
         var node = document.createElement("div");
         node.classList.add("gui-panel__item");
         node.appendChild(document.createTextNode(this.itemName));
         return node;
-    }.bind(this);
+    }
 }

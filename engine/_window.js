@@ -11,7 +11,7 @@ var Window = function(panelInstance, windowId) {
     this.initialize = function() {
         this.createDOMObject();
         this.registerEvents();
-    }.bind(this);
+    }
 
     this.createDOMObject = function() {
         var domObj = document.createElement("div");
@@ -24,7 +24,7 @@ var Window = function(panelInstance, windowId) {
         this.min = domObj.getElementsByClassName("window-btn-minimize")[0];
         this.max = domObj.getElementsByClassName("window-btn-maximize")[0];
         document.body.appendChild(domObj);
-    }.bind(this);
+    }
 
     this.registerEvents = function() {
         this.close.addEventListener('click', function() {
@@ -67,5 +67,5 @@ var Window = function(panelInstance, windowId) {
                 this.cachedY = event.clientY;
             }
         }.bind(this));
-    }.bind(this);
+    }
 }

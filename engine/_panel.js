@@ -24,11 +24,11 @@ var Panel = function() {
             this.windowAction("minimize", newWindow.getId());
         }.bind(this));
         document.getElementById(this.panelInstance).appendChild(node);
-    }.bind(this);
+    }
     this.panelInstance = null;
     this.selectInstance = function(instanceId) {
         this.panelInstance = instanceId;
-    }.bind(this);
+    }
 
     this.windowAction = function(actionToDo, id) {
         if(actionToDo == "minimize") {
@@ -63,7 +63,7 @@ var Panel = function() {
             this.items.splice(windowId, 1);
             
         }
-    }.bind(this);
+    }
 
     this.getWindowOrderNumberById = function(id) {
         for(i = 0; i < this.windows.length; i++) {
@@ -71,7 +71,7 @@ var Panel = function() {
                 return i;
             }
         }
-    }.bind(this);
+    }
 
     this.initialize();
 }
