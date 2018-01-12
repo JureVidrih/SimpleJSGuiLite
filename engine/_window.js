@@ -97,9 +97,30 @@ var Window = function(panelInstance, windowId) {
 
     this.setTitle = function(title) {
         this.title.textContent = title;
+        panelInstance.getPanelItem(this.id).setTitle(title);
     }
 
     this.setContent = function(content) {
         this.windowContent.textContent = content;
+    }
+
+    this.getWidth = function() {
+        return this.guiWindow.style.width;
+    }
+
+    this.getHeight = function() {
+        return this.guiWindow.style.height;
+    }
+
+    this.getBackgroundColor = function() {
+        return this.guiWindow.querySelector(".gui-window__content").style.background;
+    }
+
+    this.getTitle = function() {
+        return this.title.textContent;
+    }
+
+    this.getContent = function() {
+        return this.windowContent.textContent;
     }
 }
