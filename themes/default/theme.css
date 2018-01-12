@@ -1,6 +1,4 @@
-.window-effect-transparency {
-    opacity: 0.5;
-}
+@import '_effects';
 
 body {
     background-color: #f4fcff;
@@ -12,9 +10,8 @@ body {
     width: 100vw;
     height: 40px;
     background: gray;
-}
 
-.gui-panel__item {
+    &__item {
         display: inline-block;
         text-align: center;
         padding-top: 9px;
@@ -22,41 +19,42 @@ body {
         width: 12%;
         border: 1px solid white;
         color: white;
-    }
-
-.gui-panel__item--active {
+        
+        &--active {
             border: 1px dashed black;
             color: black;
             background: rgba(255, 255, 255, 0.87);
         }
+    }
+}
 
 .window-btn {
     display: inline-block;
     width: 25px;
     height: 25px;
     margin-left: 1px;
-}
 
-.window-btn-close {
+    &-close {
         background-image: url('../themes/default/assets/window/window_button_close.png');
         background-size: 21px 21px;
         background-position: center;
         background-repeat: no-repeat;
     }
 
-.window-btn-minimize {
+    &-minimize {
         background-image: url('../themes/default/assets/window/window_button_minimize.png');
         background-size: 21px 21px;
         background-position: center;
         background-repeat: no-repeat;
     }
 
-.window-btn-maximize {
+    &-maximize {
         background-image: url('../themes/default/assets/window/window_button_maximize.png');
         background-size: 21px 21px;
         background-position: center;
         background-repeat: no-repeat;
     }
+}
 
 .gui-window {
     position: fixed;
@@ -72,18 +70,15 @@ body {
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-}
 
-.gui-window__titlebar {
+    &__titlebar {
         display: block;
         position: relative;
         width: 100%;
         height: 25px;
         padding-top: 0;
         background: lightgray;
-    }
-
-.gui-window__titlebar__buttons {
+        &__buttons {
             display: block;
             float: left;
             width: 78px;
@@ -92,8 +87,7 @@ body {
             margin: 0;
             font-size: 1.2rem;
         }
-
-.gui-window__titlebar__title {
+        &__title {
             position: absolute;
             padding-top: 2px;
             left: 50%;
@@ -102,17 +96,13 @@ body {
             text-align: center;
             font-size: 1.1rem;
         }
+    }
 
-.gui-window__content {
+    &__content {
         border: 1px solid black;
         width: 100%;
         height: 100%;
         padding: 8px;
         background: white;
     }
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
