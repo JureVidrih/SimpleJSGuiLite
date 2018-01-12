@@ -14,7 +14,7 @@
         this.addAWindow = function(newWindow) {
             this.windows.push(newWindow);
             this.windowsStatus.set(newWindow.getId(), "active");
-            this.items.push(new PanelItem(this.windows.length, newWindow.getId()));
+            this.items.push(new PanelItem(newWindow.getId(), newWindow.getTitle()));
             var node = this.items[this.items.length-1].getTemplate();
             node.classList.add("gui-panel__item--active");
             node.addEventListener('click', function() {
@@ -71,5 +71,16 @@
             }
         }
     
+        this.getPanelItem = function(windowId) {
+            console.log(this.items.length);
+            for(i = 0; i < this.items.length; i++) {
+                console.log(this.items[i].getId());
+                if(this.items[i].getId() == windowId) {
+                    return this.items[i];
+                }
+            }
+            return null;
+        }
+
         this.initialize();
     }
