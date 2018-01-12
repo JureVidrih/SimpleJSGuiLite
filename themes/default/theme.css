@@ -1,5 +1,9 @@
 @import '_effects';
 
+body {
+    background-color: #f4fcff;
+}
+
 .gui-panel {
     position: fixed;
     bottom: 0;

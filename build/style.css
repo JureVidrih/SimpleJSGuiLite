@@ -2,6 +2,10 @@
     opacity: 0.5;
 }
 
+body {
+    background-color: #f4fcff;
+}
+
 .gui-panel {
     position: fixed;
     bottom: 0;
@@ -87,8 +91,4 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-body {
-    background: #f4fcff;
 }
