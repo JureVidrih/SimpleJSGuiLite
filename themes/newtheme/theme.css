@@ -1,25 +1,27 @@
 @import 'https://fonts.googleapis.com/css?family=Montserrat';
-.window-effect-transparency {
-    opacity: 0.86;
-}
+@import '_effects';
+
 body {
     background-color: #00d4ff;
     font-family: 'Montserrat';
 }
+
 a {
     
 }
+
 a:focus {
     outline: none;
 }
+
 .gui-panel {
     position: fixed;
     bottom: 0;
     width: 100vw;
     height: 35px;
     background: #5b5b5b;
-}
-.gui-panel__item {
+
+    &__item {
         display: inline-block;
         text-align: center;
         padding-top: 7px;
@@ -27,37 +29,43 @@ a:focus {
         width: 12%;
         color: white;
         transition: background, color 0.2s;
-    }
-.gui-panel__item--active {
+        &--active {
             border-top: 4px solid black;
             padding-top: 4px;
             color: black;
             background: rgba(255, 255, 255, 0.87);
         }
+    }
+}
+
 .window-btn {
     display: inline-block;
     width: 25px;
     height: 25px;
     margin-left: 1px;
-}
-.window-btn-close {
+
+    &-close {
         background-image: url('../themes/newtheme/assets/window/window_button_close.png');
         background-size: 21px 21px;
         background-position: center;
         background-repeat: no-repeat;
     }
-.window-btn-minimize {
+
+    &-minimize {
         background-image: url('../themes/newtheme/assets/window/window_button_minimize.png');
         background-size: 21px 21px;
         background-position: center;
         background-repeat: no-repeat;
     }
-.window-btn-maximize {
+
+    &-maximize {
         background-image: url('../themes/newtheme/assets/window/window_button_maximize.png');
         background-size: 18px 18px;
         background-position: center;
         background-repeat: no-repeat;
     }
+}
+
 .gui-window {
     position: fixed;
     top: 200px;
@@ -72,8 +80,8 @@ a:focus {
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-}
-.gui-window__titlebar {
+
+    &__titlebar {
         position: relative;
         display: block;
         width: 100%;
@@ -83,8 +91,7 @@ a:focus {
         border-radius: 5px 5px 0 0;
         color: white;
         font-weight: bold;
-    }
-.gui-window__titlebar__buttons {
+        &__buttons {
             display: block;
             float: left;
             width: 78px;
@@ -93,7 +100,7 @@ a:focus {
             margin: 0;
             font-size: 1.3rem;
         }
-.gui-window__titlebar__title {
+        &__title {
             position: absolute;
             padding-top: 2px;
             left: 50%;
@@ -102,7 +109,9 @@ a:focus {
             text-align: center;
             font-size: 1.1rem;
         }
-.gui-window__content {
+    }
+
+    &__content {
         border: 1px solid white;
         border-radius: 0 0 5px 5px;
         width: 100%;
@@ -110,8 +119,4 @@ a:focus {
         padding: 8px;
         background: white;
     }
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }

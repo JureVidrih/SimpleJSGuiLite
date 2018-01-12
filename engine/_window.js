@@ -18,7 +18,7 @@ var Window = function(panelInstance, windowId) {
         domObj.classList.add("gui-window");
         domObj.id = this.id;
         domObj.innerHTML = '<div class="gui-window__titlebar">'
-                                +'<div class="gui-window__titlebar__buttons"><a href="#"><img class="window-btn window-btn-close" src="themes/default/assets/window/window_button_close.png"></a><a href="#"><img class="window-btn window-btn-minimize" src="themes/default/assets/window/window_button_minimize.png"></a><a href="#"><img class="window-btn window-btn-maximize" src="themes/default/assets/window/window_button_maximize.png"></a></div><div class="gui-window__titlebar__title">Window Title</div></div><div class="gui-window__content">Window content.</div>'
+                                +'<div class="gui-window__titlebar__buttons"><a class="window-btn window-btn-close" href="#"></a><a class="window-btn window-btn-minimize" href="#"></a><a class="window-btn window-btn-maximize" href="#"></a></div><div class="gui-window__titlebar__title">Window Title</div></div><div class="gui-window__content">Window content.</div>'
                             +'</div>';
         this.panel = domObj.getElementsByClassName("gui-panel")[0];
         this.guiWindow = domObj;

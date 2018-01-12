@@ -72,9 +72,7 @@
         }
     
         this.getPanelItem = function(windowId) {
-            console.log(this.items.length);
             for(i = 0; i < this.items.length; i++) {
-                console.log(this.items[i].getId());
                 if(this.items[i].getId() == windowId) {
                     return this.items[i];
                 }

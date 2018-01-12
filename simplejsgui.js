@@ -12,6 +12,6 @@ myPanel.addAWindow(myWindow);
 
 myWindow.setWidth(1024);
 myWindow.setHeight(768);
-myWindow.setBackgroundColor("lightgray");
+myWindow.setBackgroundColor("white");
 myWindow.setTitle("My first window's title!");
 myWindow.setContent("It works!");
