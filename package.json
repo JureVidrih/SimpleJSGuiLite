@@ -13,7 +13,6 @@
     "gulp": "^3.9.1",
     "gulp-postcss": "^7.0.1",
     "gulp-watch": "^5.0.0",
-    "postcss": "^6.0.16",
     "postcss-import": "^11.0.0",
     "postcss-nested": "^3.0.0",
     "postcss-simple-vars": "^4.1.0"

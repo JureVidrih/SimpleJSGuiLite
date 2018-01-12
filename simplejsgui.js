@@ -1,10 +1,16 @@
-var vrstica = new Panel();
-vrstica.selectInstance("pult");
+/*
+    SimpleJSGui v0.0.1(alpha)
+*/
 
-var okno = new Window(vrstica, "okno");
-var okno_dve = new Window(vrstica, "okno_dve");
-okno.initialize();
-okno_dve.initialize();
+var myPanel = new Panel();
 
-vrstica.addAWindow(okno);
-vrstica.addAWindow(okno_dve);
+var myWindow = new Window(myPanel, "MyWindowNo1");
+
+myWindow.initialize();
+myWindow.setWidth(1024);
+myWindow.setHeight(768);
+myWindow.setBackgroundColor("lightgray");
+myWindow.setTitle("My first window's title!");
+myWindow.setContent("It works!");
+
+myPanel.addAWindow(myWindow);
