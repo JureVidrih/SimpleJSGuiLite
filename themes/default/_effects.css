@@ -1,3 +1,7 @@
 .window-effect-transparency {
     opacity: 0.5;
 }
+
+.window-effect-dismiss {
+    display: none;
+}

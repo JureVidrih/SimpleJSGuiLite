@@ -36,13 +36,13 @@
                     var node = document.getElementsByClassName("gui-panel__item")[windowId];
                     this.windowsStatus.set(id, "unactive");
                     node.classList.remove("gui-panel__item--active");
-                    document.getElementById(this.windows[windowId].getId()).style.display = "none";
+                    document.getElementById(this.windows[windowId].getId()).classList.add("window-effect-dismiss");
                 } else if(status == "unactive") {
                     var windowId = this.getWindowOrderNumberById(id);
                     var node = document.getElementsByClassName("gui-panel__item")[windowId];
                     this.windowsStatus.set(id, "active");
                     node.classList.add("gui-panel__item--active");
-                    document.getElementById(this.windows[windowId].getId()).style.display = "block";
+                    document.getElementById(this.windows[windowId].getId()).classList.remove("window-effect-dismiss");
                 }
             } else if(actionToDo == "maximize") {
                 var windowId = this.getWindowOrderNumberById(id);
@@ -59,7 +59,6 @@
                 this.windows.splice(windowId, 1);
                 this.windowsStatus.splice(windowId, 1);
                 this.items.splice(windowId, 1);
-                
             }
         }
     
