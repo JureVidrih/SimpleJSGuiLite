@@ -2,6 +2,8 @@
         this.windows = [];
         this.windowsStatus = new Map();
         this.items = [];
+        this.globalMouseX = 0;
+        this.globalMouseY = 0;
     
         this.initialize = function() {
             var domObj = document.createElement("div");
@@ -9,6 +11,15 @@
             domObj.id = "panelInstance1";
             this.panelInstance = domObj.id;
             document.body.appendChild(domObj);
+            
+            this.addGlobalMouseEvents();
+        }
+
+        this.addGlobalMouseEvents = function() {
+            document.addEventListener('mousemove', function(event) {
+                this.globalMouseX = event.clientX;
+                this.globalMouseY = event.clientY;
+            }.bind(this));
         }
     
         this.addAWindow = function(newWindow) {
@@ -77,6 +88,10 @@
                 }
             }
             return null;
+        }
+
+        this.getGlobalMouseCoords = function() {
+            return [this.globalMouseX, this.globalMouseY];
         }
 
         this.initialize();
