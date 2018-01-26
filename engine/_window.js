@@ -9,6 +9,10 @@ var Window = function(panelInstance, windowId) {
     this.cachedY = 0;
     
     this.isBeingResized = false;
+    this.isResizingNW = false;
+    this.isResizingNE = false;
+    this.isResizingSW = false;
+    this.isResizingSE = false;
     this.cachedResizeX = 0;
     this.cachedResizeY = 0;
     
@@ -64,122 +68,95 @@ var Window = function(panelInstance, windowId) {
         
         this.nwResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
+            this.isResizingNW = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
         
         this.neResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
+            this.isResizingNE = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
         
         this.swResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
+            this.isResizingSW = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
         
         this.seResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
+            this.isResizingSE = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
         
-        this.nwResize.addEventListener('mouseup', function(event) {
-            this.isBeingResized = false;
-        }.bind(this));
-        
-        this.neResize.addEventListener('mouseup', function(event) {
-            this.isBeingResized = false;
-        }.bind(this));
-        
-        this.swResize.addEventListener('mouseup', function(event) {
-            this.isBeingResized = false;
-        }.bind(this));
-        
-        this.seResize.addEventListener('mouseup', function(event) {
-            this.isBeingResized = false;
-        }.bind(this));
-        
-        this.nwResize.addEventListener('mousemove', function(event) {
+        document.addEventListener('mouseup', function(event) {
             if(this.isBeingResized) {
-                var change = this.cachedResizeX-event.clientX;
-                var changeToApply = this.getWindowX() - change;
-                this.guiWindow.style.left = changeToApply+"px";
-                this.setWidth(this.getWidth()+change);
-                change = this.cachedResizeY-event.clientY;
-                changeToApply = this.getWindowY() - change;
-                this.guiWindow.style.top = changeToApply+"px";
-                this.setHeight(this.getHeight()+change);
-                
-                this.cachedResizeX = event.clientX;
-                this.cachedResizeY = event.clientY;
-            } 
+                this.isBeingResized = false;
+                this.isResizingNW = false;
+                this.isResizingNE = false;
+                this.isResizingSW = false;
+                this.isResizingSE = false;
+            }
         }.bind(this));
         
-        this.neResize.addEventListener('mousemove', function(event) {
+        document.addEventListener('mousemove', function(event) {
             if(this.isBeingResized) {
-                var change = event.clientX-this.cachedResizeX;
-                var changeToApply = (this.getWindowX()+this.getWidth()) + change;
-                this.guiWindow.style.right = changeToApply+"px";
-                this.setWidth(this.getWidth()+change);
-                change = this.cachedResizeY-event.clientY;
-                changeToApply = this.getWindowY() - change;
-                this.guiWindow.style.top = changeToApply+"px";
-                this.setHeight(this.getHeight()+change);
-                
-                this.cachedResizeX = event.clientX;
-                this.cachedResizeY = event.clientY;
-            } 
-        }.bind(this));
-        
-        this.swResize.addEventListener('mousemove', function(event) {
-            if(this.isBeingResized) {
-                var change = this.cachedResizeX-event.clientX;
-                var changeToApply = this.getWindowX() - change;
-                this.guiWindow.style.left = changeToApply+"px";
-                this.setWidth(this.getWidth()+change);
-                change = event.clientY-this.cachedResizeY;
-                changeToApply = (this.getWindowY()+this.getHeight()) - change;
-                this.guiWindow.style.bottom = changeToApply+"px";
-                this.setHeight(this.getHeight()+change);
-                
-                this.cachedResizeX = event.clientX;
-                this.cachedResizeY = event.clientY;
-            } 
-        }.bind(this));
-        
-        this.seResize.addEventListener('mousemove', function(event) {
-            if(this.isBeingResized) {
-                var change = event.clientX-this.cachedResizeX;
-                var changeToApply = (this.getWindowX()+this.getWidth()) + change;
-                this.guiWindow.style.right = changeToApply+"px";
-                this.setWidth(this.getWidth()+change);
-                change = event.clientY-this.cachedResizeY;
-                changeToApply = (this.getWindowY()+this.getHeight()) - change;
-                this.guiWindow.style.bottom = changeToApply+"px";
-                this.setHeight(this.getHeight()+change);
-                
-                this.cachedResizeX = event.clientX;
-                this.cachedResizeY = event.clientY;
-            } 
-        }.bind(this));
-        
-        this.nwResize.addEventListener('mouseout', function(event) {
-            this.isBeingResized = false;
-        }.bind(this));
-        
-        this.neResize.addEventListener('mouseout', function(event) {
-            this.isBeingResized = false;
-        }.bind(this));
-        
-        this.swResize.addEventListener('mouseout', function(event) {
-            this.isBeingResized = false;
-        }.bind(this));
-        
-        this.seResize.addEventListener('mouseout', function(event) {
-            this.isBeingResized = false;
+                if(this.isResizingNW) {
+                    console.log("test!");
+                    change = this.cachedResizeX-event.clientX;
+                    changeToApply = this.getWindowX() - change;
+                    this.guiWindow.style.left = changeToApply+"px";
+                    this.setWidth(this.getWidth()+change);
+                    change = this.cachedResizeY-event.clientY;
+                    changeToApply = this.getWindowY() - change;
+                    this.guiWindow.style.top = changeToApply+"px";
+                    this.setHeight(this.getHeight()+change);
+                    
+                    this.cachedResizeX = event.clientX;
+                    this.cachedResizeY = event.clientY;
+                } else if(this.isResizingNE) {
+                    change = event.clientX-this.cachedResizeX;
+                    changeToApply = (this.getWindowX()+this.getWidth()) + change;
+                    this.guiWindow.style.right = changeToApply+"px";
+                    this.setWidth(this.getWidth()+change);
+                    change = this.cachedResizeY-event.clientY;
+                    changeToApply = this.getWindowY() - change;
+                    this.guiWindow.style.top = changeToApply+"px";
+                    this.setHeight(this.getHeight()+change);
+                    
+                    this.cachedResizeX = event.clientX;
+                    this.cachedResizeY = event.clientY;
+                } else if(this.isResizingSW) {
+                    change = this.cachedResizeX-event.clientX;
+                    changeToApply = this.getWindowX() - change;
+                    this.guiWindow.style.left = changeToApply+"px";
+                    this.setWidth(this.getWidth()+change);
+                    change = event.clientY-this.cachedResizeY;
+                    changeToApply = (this.getWindowY()+this.getHeight()) - change;
+                    this.guiWindow.style.bottom = changeToApply+"px";
+                    this.setHeight(this.getHeight()+change);
+                    
+                    this.cachedResizeX = event.clientX;
+                    this.cachedResizeY = event.clientY;
+                } else if(this.isResizingSE) {
+                    change = event.clientX-this.cachedResizeX;
+                    changeToApply = (this.getWindowX()+this.getWidth()) + change;
+                    this.guiWindow.style.right = changeToApply+"px";
+                    this.setWidth(this.getWidth()+change);
+                    change = event.clientY-this.cachedResizeY;
+                    changeToApply = (this.getWindowY()+this.getHeight()) - change;
+                    this.guiWindow.style.bottom = changeToApply+"px";
+                    this.setHeight(this.getHeight()+change);
+                    
+                    this.cachedResizeX = event.clientX;
+                    this.cachedResizeY = event.clientY;
+                }
+            }
         }.bind(this));
         
         // this.guiWindow.addEventListener('mousedown', function(event) {
@@ -188,46 +165,39 @@ var Window = function(panelInstance, windowId) {
         
         this.titleBar.addEventListener('mousedown', function(event) {
             this.isBeingDragged = true;
-            mouseCoords = this.panelInstance.getGlobalMouseCoords();
-            // console.log(mouseCoords);
-            mouseX = mouseCoords[0];
-            mouseY = mouseCoords[1];
-            // console.log(mouseX + " | " + mouseY);
-            this.cachedX = mouseX;
-            this.cachedY = mouseY;
+            this.cachedX = event.clientX;
+            this.cachedY = event.clientY;
             if(!this.guiWindow.classList.contains("window-effect-transparency")) {
                 this.guiWindow.classList.add("window-effect-transparency");
             }
         }.bind(this));
         
-        this.titleBar.addEventListener('mouseup', function(event) {
-            this.isBeingDragged = false;
-            this.guiWindow.classList.remove("window-effect-transparency");
-        }.bind(this));
-        
-        this.titleBar.addEventListener('mouseleave', function(event) {
-            this.isBeingDragged = false;
-            this.guiWindow.classList.remove("window-effect-transparency");
-        }.bind(this));
-        
-        this.titleBar.addEventListener('mousemove', function(event) {
+        document.addEventListener('mouseup', function(event) {
             if(this.isBeingDragged) {
-                mouseCoords = this.panelInstance.getGlobalMouseCoords();
-                mouseX = mouseCoords[0];
-                mouseY = mouseCoords[1];
-                console.log(mouseX + " | " + mouseY);
+                this.isBeingDragged = false;
+                this.guiWindow.classList.remove("window-effect-transparency");
+            }
+        }.bind(this));
+        
+        // this.titleBar.addEventListener('mouseleave', function(event) {
+        //     this.isBeingDragged = false;
+        //     this.guiWindow.classList.remove("window-effect-transparency");
+        // }.bind(this));
+        
+        document.addEventListener('mousemove', function(event) {
+            if(this.isBeingDragged) {
                 coord = this.guiWindow.getBoundingClientRect();
-                resizeChangeHorizontal = (((mouseX)-this.cachedX)+coord.left);
-                resizeChangeVertical = (((mouseY)-this.cachedY)+coord.top);
+                resizeChangeHorizontal = (((event.clientX)-this.cachedX)+coord.left);
+                resizeChangeVertical = (((event.clientY)-this.cachedY)+coord.top);
                 this.guiWindow.style.left = resizeChangeHorizontal+"px";
                 this.guiWindow.style.top = resizeChangeVertical+"px";
                 coord = this.guiWindow.getBoundingClientRect();
                 if(coord.top < 0) {
                     this.guiWindow.style.top = 0+"px";
-                    this.cachedX = mouseX;
+                    this.cachedX = event.clientX;
                 } else {
-                    this.cachedX = mouseX;
-                    this.cachedY = mouseY;
+                    this.cachedX = event.clientX;
+                    this.cachedY = event.clientY;
                 }
             }
         }.bind(this));
