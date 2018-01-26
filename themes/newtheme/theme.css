@@ -170,7 +170,6 @@ a:focus {
         left: -5px;
         width: 10px;
         height: 10px;
-        background-color: red;
         cursor: nw-resize;
     }
 
@@ -181,7 +180,6 @@ a:focus {
         right: -5px;
         width: 10px;
         height: 10px;
-        background-color: red;
         cursor: ne-resize;
     }
 
@@ -192,7 +190,6 @@ a:focus {
         left: -5px;
         width: 10px;
         height: 10px;
-        background-color: red;
         cursor: sw-resize;
     }
 
@@ -203,7 +200,6 @@ a:focus {
         right: -5px;
         width: 10px;
         height: 10px;
-        background-color: red;
         cursor: se-resize;
     }
 }

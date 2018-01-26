@@ -195,6 +195,7 @@ var Window = function(panelInstance, windowId) {
                 if(coord.top < 0) {
                     this.guiWindow.style.top = 0+"px";
                     this.cachedX = event.clientX;
+                    this.cachedY = 0;
                 } else {
                     this.cachedX = event.clientX;
                     this.cachedY = event.clientY;

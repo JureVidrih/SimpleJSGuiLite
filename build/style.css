@@ -155,7 +155,6 @@ a:focus {
         left: -5px;
         width: 10px;
         height: 10px;
-        background-color: red;
         cursor: nw-resize;
     }
 .gui-window #ne-resize {
@@ -165,7 +164,6 @@ a:focus {
         right: -5px;
         width: 10px;
         height: 10px;
-        background-color: red;
         cursor: ne-resize;
     }
 .gui-window #sw-resize {
@@ -175,7 +173,6 @@ a:focus {
         left: -5px;
         width: 10px;
         height: 10px;
-        background-color: red;
         cursor: sw-resize;
     }
 .gui-window #se-resize {
@@ -185,7 +182,6 @@ a:focus {
         right: -5px;
         width: 10px;
         height: 10px;
-        background-color: red;
         cursor: se-resize;
     }
 * {
