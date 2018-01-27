@@ -19,22 +19,23 @@
             this.windowsStatus.set(newWindow.getId(), "active");
             this.items.push(new PanelItem(newWindow.getId(), newWindow.getTitle()));
             var node = this.items[this.items.length-1].getTemplate();
-            node.classList.add("gui-panel__item--active");
-            node.addEventListener('click', function(event) {
+            var nodeItem = node.querySelector(".gui-panel__item");
+            nodeItem.classList.add("gui-panel__item--active");
+            nodeItem.addEventListener('click', function(event) {
                 var status = this.windowsStatus.get(newWindow.getId());
                 this.windowAction("minimize", newWindow.getId());
                 if(contextMenu.style.display == "inline-block") {
                     contextMenu.style.display = "none";
                 }
             }.bind(this));
-            node.addEventListener('contextmenu', function(event) {
+            nodeItem.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
                 contextMenu = node.querySelector(".gui-panel__item__context-menu");
-                // if(contextMenu.style.display == "none") {
-                //     contextMenu.style.display = "inline-block";
-                // } else {
-                //     contextMenu.style.display = "none";
-                // }
+                if(contextMenu.style.display == "none") {
+                    contextMenu.style.display = "inline-block";
+                } else {
+                    contextMenu.style.display = "none";
+                }
                 var status = this.windowsStatus.get(newWindow.getId());
                 if(status == "unactive") {
                     this.windowAction("minimize", newWindow.getId());

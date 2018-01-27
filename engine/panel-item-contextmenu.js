@@ -9,8 +9,10 @@ var PanelItemContextMenu = function() {
         this.menuContent = this.DOMobj.querySelector(".gui-panel__item__context-menu__content");
 
         document.addEventListener('mousedown', function(event) {
-            if(!event.target.classList.contains("gui-panel__item__context-menu")) {
-                this.DOMobj.style.display = "none";
+            if(event.button == 0) {
+                if(!event.target.classList.contains("gui-panel__item")) {
+                    this.DOMobj.style.display = "none";
+                }
             }
         }.bind(this));
     }

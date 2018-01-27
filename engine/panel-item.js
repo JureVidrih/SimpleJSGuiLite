@@ -1,5 +1,6 @@
 var PanelItem = function(id, itemName) {
     this.item;
+    this.wrapper;
     this.id = id;
     this.itemName = itemName;
     this.nameObj;
@@ -14,12 +15,15 @@ var PanelItem = function(id, itemName) {
         return this.item;
     }
     this.getTemplate = function() {
+        this.wrapper = document.createElement("div");
+        this.wrapper.classList.add("gui-panel__item-wrapper");
         this.item = document.createElement("div");
         this.item.classList.add("gui-panel__item");
         this.nameObj = document.createElement("p");
         this.nameObj.textContent = this.itemName;
         this.item.appendChild(this.nameObj);
-        this.item.appendChild(this.contextMenu.getDOMObject());
+        this.wrapper.appendChild(this.item);
+        this.wrapper.appendChild(this.contextMenu.getDOMObject());
         this.contextMenu.addAnItem("Spremeni ozadje", function() {
             document.body.style.backgroundColor = "pink";
         });
@@ -27,7 +31,7 @@ var PanelItem = function(id, itemName) {
         this.contextMenu.addAnItem("Spremeni ozadje v rumeno barvo", function() {
             document.body.style.backgroundColor = "yellow";
         });
-        return this.item;
+        return this.wrapper;
     }
 
     this.getTitleObj = function() {

@@ -30,12 +30,20 @@ a:focus {
 
     &__item {
         display: inline-block;
-        text-align: center;
         padding-top: 7px;
         height: 100%;
-        width: 12%;
+        width: 100%;
         color: white;
         transition: background, color 0.2s;
+
+        &-wrapper {
+            display: inline-block;
+            padding: 0;
+            height: 100%;
+            width: 12%;
+            text-align: center;
+        }
+
         &--active {
             border-top: 4px solid black;
             padding-top: 3px;
@@ -63,6 +71,7 @@ a:focus {
                 width: 100%;
                 height: auto;
                 text-align: center;
+                margin-bottom: 5px;
 
                 &__item-separator {
                     display: inline-block;
