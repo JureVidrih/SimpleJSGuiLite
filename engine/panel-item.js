@@ -2,6 +2,7 @@ var PanelItem = function(id, itemName) {
     this.item;
     this.id = id;
     this.itemName = itemName;
+    this.nameObj;
     this.contextMenu = new PanelItemContextMenu();
     this.getName = function() {
         return this.itemName;
@@ -28,6 +29,11 @@ var PanelItem = function(id, itemName) {
         });
         return this.item;
     }
+
+    this.getTitleObj = function() {
+        return this.nameObj;
+    }
+
     this.setTitle = function(newtitle) {
         this.itemName = newtitle;
         this.nameObj.textContent = this.itemName;

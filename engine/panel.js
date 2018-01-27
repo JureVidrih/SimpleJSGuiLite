@@ -2,12 +2,15 @@
         this.windows = [];
         this.windowsStatus = new Map();
         this.items = [];
+        this.panelClock = new PanelItemClock();
     
         this.initialize = function() {
             var domObj = document.createElement("div");
             domObj.classList.add("gui-panel");
             domObj.id = "panelInstance1";
             this.panelInstance = domObj.id;
+            domObj.appendChild(this.panelClock.getTemplate());
+            this.panelClock.startTheClock();
             document.body.appendChild(domObj);
         }
 
@@ -17,18 +20,21 @@
             this.items.push(new PanelItem(newWindow.getId(), newWindow.getTitle()));
             var node = this.items[this.items.length-1].getTemplate();
             node.classList.add("gui-panel__item--active");
-            node.addEventListener('click', function() {
+            node.addEventListener('click', function(event) {
                 var status = this.windowsStatus.get(newWindow.getId());
                 this.windowAction("minimize", newWindow.getId());
+                if(contextMenu.style.display == "inline-block") {
+                    contextMenu.style.display = "none";
+                }
             }.bind(this));
             node.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
                 contextMenu = node.querySelector(".gui-panel__item__context-menu");
-                if(contextMenu.style.display == "none") {
-                    contextMenu.style.display = "inline-block";
-                } else {
-                    contextMenu.style.display = "none";
-                }
+                // if(contextMenu.style.display == "none") {
+                //     contextMenu.style.display = "inline-block";
+                // } else {
+                //     contextMenu.style.display = "none";
+                // }
                 var status = this.windowsStatus.get(newWindow.getId());
                 if(status == "unactive") {
                     this.windowAction("minimize", newWindow.getId());

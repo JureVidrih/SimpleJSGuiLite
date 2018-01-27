@@ -72,13 +72,20 @@ a:focus {
                     display: inline-block;
                     width: 100%;
                     height: auto;
-                    font-size: 0.9rem;
                     font-weight: bold;
                     transition: all ease-out .2s;
                 }
 .gui-panel__item__context-menu__content__menu-item:hover {
                     letter-spacing: .1rem;
                 }
+.gui-panel__clock {
+        position: absolute;
+        right: 0;
+        margin-right: 6px;
+        padding-top: 5px;
+        color: white;
+        font-size: 1.3rem;
+    }
 .window-btn {
     display: inline-block;
     width: 25px;

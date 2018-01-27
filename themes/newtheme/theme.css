@@ -76,7 +76,6 @@ a:focus {
                     display: inline-block;
                     width: 100%;
                     height: auto;
-                    font-size: 0.9rem;
                     font-weight: bold;
                     transition: all ease-out .2s;
                 }
@@ -86,6 +85,15 @@ a:focus {
                 }
             }
         }
+    }
+
+    &__clock {
+        position: absolute;
+        right: 0;
+        margin-right: 6px;
+        padding-top: 5px;
+        color: white;
+        font-size: 1.3rem;
     }
 }
 
