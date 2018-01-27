@@ -21,6 +21,20 @@
                 var status = this.windowsStatus.get(newWindow.getId());
                 this.windowAction("minimize", newWindow.getId());
             }.bind(this));
+            node.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+                contextMenu = node.querySelector(".gui-panel__item__context-menu");
+                if(contextMenu.style.display == "none") {
+                    contextMenu.style.display = "inline-block";
+                } else {
+                    contextMenu.style.display = "none";
+                }
+                var status = this.windowsStatus.get(newWindow.getId());
+                if(status == "unactive") {
+                    this.windowAction("minimize", newWindow.getId());
+                }
+                return false;
+            }.bind(this), false);
             document.getElementById(this.panelInstance).appendChild(node);
         }
         this.panelInstance = null;
@@ -36,13 +50,13 @@
                     var node = document.getElementsByClassName("gui-panel__item")[windowId];
                     this.windowsStatus.set(id, "unactive");
                     node.classList.remove("gui-panel__item--active");
-                    document.getElementById(this.windows[windowId].getId()).classList.add("window-effect-dismiss");
+                    document.getElementById(this.windows[windowId].getId()).style.display = "none";
                 } else if(status == "unactive") {
                     var windowId = this.getWindowOrderNumberById(id);
                     var node = document.getElementsByClassName("gui-panel__item")[windowId];
                     this.windowsStatus.set(id, "active");
                     node.classList.add("gui-panel__item--active");
-                    document.getElementById(this.windows[windowId].getId()).classList.remove("window-effect-dismiss");
+                    document.getElementById(this.windows[windowId].getId()).style.display = "block";
                 }
             } else if(actionToDo == "maximize") {
                 var windowId = this.getWindowOrderNumberById(id);
