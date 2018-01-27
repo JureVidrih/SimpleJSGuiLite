@@ -15,6 +15,12 @@ var Window = function(panelInstance, windowId) {
     this.isResizingSE = false;
     this.cachedResizeX = 0;
     this.cachedResizeY = 0;
+
+    this.isMaximized = false;
+    this.cachedXBeforeMax;
+    this.cachedYBeforeMax;
+    this.cachedWidth = 0;
+    this.cachedHeight = 0;
     
     this.initialize = function() {
         this.createDOMObject();
@@ -62,8 +68,23 @@ var Window = function(panelInstance, windowId) {
             // } else {
             //     content.style.display = "none";
             // }
-            this.guiWindow.setWidth("100%");
-            this.guiWindow.setHeight("100%");
+            if(this.isMaximized) {
+                this.isMaximized = false;
+                this.guiWindow.style.left = this.cachedXBeforeMax;
+                this.guiWindow.style.top = this.cachedYBeforeMax;
+                this.setWidth(this.cachedWidth);
+                this.setHeight(this.cachedHeight);
+            } else {
+                this.cachedXBeforeMax = this.guiWindow.style.left;
+                this.cachedYBeforeMax = this.guiWindow.style.top;
+                this.cachedWidth = this.getWidth();
+                this.cachedHeight = this.getHeight();
+                this.guiWindow.style.left = "0";
+                this.guiWindow.style.top = "0";
+                this.setWidth("100%");
+                this.setHeight("100%");
+                this.isMaximized = true;
+            }
         }.bind(this));
         
         this.nwResize.addEventListener('mousedown', function(event) {
@@ -205,11 +226,23 @@ var Window = function(panelInstance, windowId) {
     }
     
     this.setWidth = function(width) {
-        this.guiWindow.style.width = width+"px";
+        width = width + "";
+        if(width.indexOf('%') != -1) {
+            console.log("width: " + width);
+            this.guiWindow.style.width = width;
+        } else {
+            this.guiWindow.style.width = width+"px";
+        }
     }
     
     this.setHeight = function(height) {
-        this.guiWindow.style.height = height+"px";
+        height = height + "";
+        if(height.indexOf('%') != -1) {
+            console.log("height: " + height);
+            this.guiWindow.style.height = height;
+        } else {
+            this.guiWindow.style.height = height+"px";
+        }
     }
     
     this.setBackgroundColor = function(bgrcolor) {
