@@ -1,5 +1,5 @@
 /*
-    SimpleJSGui v0.0.1(alpha)
+    SimpleJSGui v0.0.2(alpha)
 */
 
 var myPanel = new Panel();
@@ -16,7 +16,7 @@ myPanel.addAWindow(myWindow);
 myWindow.setWidth(1024);
 myWindow.setHeight(768);
 myWindow.setBackgroundColor("white");
-myWindow.setTitle("My first window's title!");
+myWindow.setTitle("My first window's title! My first window's title! My first window's title! My first window's title! My first window's title!");
 myWindow.setContent("It works!");
 
 myWindow.getPanelItem().getContextMenu().addAnItem("Spremeni ozadje", function() {

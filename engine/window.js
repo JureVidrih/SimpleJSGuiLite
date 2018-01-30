@@ -1,4 +1,5 @@
 var Window = function(panelInstance, windowId) {
+    this.maxTitleLength = 30;
     this.domObj;
     this.getDOMObject = function() {
         return this.domObj;
@@ -17,6 +18,8 @@ var Window = function(panelInstance, windowId) {
     this.cachedY = 0;
     
     this.isBeingResized = false;
+    this.minWidth = 350;
+    this.minHeight = 400;
     this.isResizingNW = false;
     this.isResizingNE = false;
     this.isResizingSW = false;
@@ -124,51 +127,106 @@ var Window = function(panelInstance, windowId) {
         document.addEventListener('mousemove', function(event) {
             if(this.isBeingResized) {
                 if(this.isResizingNW) {
-                    console.log("test!");
                     change = this.cachedResizeX-event.clientX;
                     changeToApply = this.getWindowX() - change;
-                    this.guiWindow.style.left = changeToApply+"px";
-                    this.setWidth(this.getWidth()+change);
+                    if(this.getWidth() > this.minWidth) {
+                        this.guiWindow.style.left = changeToApply+"px";
+                        this.setWidth(this.getWidth()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.left = changeToApply+"px";
+                            this.setWidth(this.getWidth()+change);
+                        }
+                    }
                     change = this.cachedResizeY-event.clientY;
                     changeToApply = this.getWindowY() - change;
-                    this.guiWindow.style.top = changeToApply+"px";
-                    this.setHeight(this.getHeight()+change);
+                    if(this.getHeight() > this.minHeight) {
+                        this.guiWindow.style.top = changeToApply+"px";
+                        this.setHeight(this.getHeight()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.top = changeToApply+"px";
+                            this.setHeight(this.getHeight()+change);
+                        }
+                    }
                     
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingNE) {
                     change = event.clientX-this.cachedResizeX;
-                    changeToApply = (this.getWindowX()+this.getWidth()) + change;
-                    this.guiWindow.style.right = changeToApply+"px";
-                    this.setWidth(this.getWidth()+change);
+                    changeToApply = this.getWindowX() - change;
+                    if(this.getWidth() > this.minWidth) {
+                        this.guiWindow.style.right = changeToApply+"px";
+                        this.setWidth(this.getWidth()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.right = changeToApply+"px";
+                            this.setWidth(this.getWidth()+change);
+                        }
+                    }
                     change = this.cachedResizeY-event.clientY;
                     changeToApply = this.getWindowY() - change;
-                    this.guiWindow.style.top = changeToApply+"px";
-                    this.setHeight(this.getHeight()+change);
+                    if(this.getHeight() > this.minHeight) {
+                        this.guiWindow.style.top = changeToApply+"px";
+                        this.setHeight(this.getHeight()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.top = changeToApply+"px";
+                            this.setHeight(this.getHeight()+change);
+                        }
+                    }
                     
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingSW) {
                     change = this.cachedResizeX-event.clientX;
                     changeToApply = this.getWindowX() - change;
-                    this.guiWindow.style.left = changeToApply+"px";
-                    this.setWidth(this.getWidth()+change);
+                    if(this.getWidth() > this.minWidth) {
+                        this.guiWindow.style.left = changeToApply+"px";
+                        this.setWidth(this.getWidth()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.left = changeToApply+"px";
+                            this.setWidth(this.getWidth()+change);
+                        }
+                    }
                     change = event.clientY-this.cachedResizeY;
-                    changeToApply = (this.getWindowY()+this.getHeight()) - change;
-                    this.guiWindow.style.bottom = changeToApply+"px";
-                    this.setHeight(this.getHeight()+change);
+                    changeToApply = this.getWindowY() - change;
+                    if(this.getHeight() > this.minHeight) {
+                        this.guiWindow.style.bottom = changeToApply+"px";
+                        this.setHeight(this.getHeight()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.bottom = changeToApply+"px";
+                            this.setHeight(this.getHeight()+change);
+                        }
+                    }
                     
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingSE) {
                     change = event.clientX-this.cachedResizeX;
-                    changeToApply = (this.getWindowX()+this.getWidth()) + change;
-                    this.guiWindow.style.right = changeToApply+"px";
-                    this.setWidth(this.getWidth()+change);
+                    changeToApply = this.getWindowX() - change;
+                    if(this.getWidth() > this.minWidth) {
+                        this.guiWindow.style.right = changeToApply+"px";
+                        this.setWidth(this.getWidth()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.right = changeToApply+"px";
+                            this.setWidth(this.getWidth()+change);
+                        }
+                    }
                     change = event.clientY-this.cachedResizeY;
-                    changeToApply = (this.getWindowY()+this.getHeight()) - change;
-                    this.guiWindow.style.bottom = changeToApply+"px";
-                    this.setHeight(this.getHeight()+change);
+                    changeToApply = this.getWindowY() - change;
+                    if(this.getHeight() > this.minHeight) {
+                        this.guiWindow.style.bottom = changeToApply+"px";
+                        this.setHeight(this.getHeight()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.bottom = changeToApply+"px";
+                            this.setHeight(this.getHeight()+change);
+                        }
+                    }
                     
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
@@ -328,6 +386,9 @@ var Window = function(panelInstance, windowId) {
     }
     
     this.setTitle = function(title) {
+        if(title.length > this.maxTitleLength) {
+            title = title.substring(0, (this.maxTitleLength-3)) + "...";
+        }
         this.title.textContent = title;
         panelInstance.getPanelItem(this.id).setTitle(title);
     }

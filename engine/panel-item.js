@@ -2,6 +2,7 @@ var PanelItem = function(id, itemName) {
     this.item;
     this.wrapper;
     this.id = id;
+    this.maxTitleLength = 25;
     this.itemName = itemName;
     this.nameObj;
     this.contextMenu = new PanelItemContextMenu();
@@ -20,6 +21,9 @@ var PanelItem = function(id, itemName) {
         this.item = document.createElement("div");
         this.item.classList.add("gui-panel__item");
         this.nameObj = document.createElement("p");
+        if(this.itemName.length > this.maxTitleLength) {
+            this.itemName = this.itemName.substring(0, (this.maxTitleLength-3)) + "...";
+        }
         this.nameObj.textContent = this.itemName;
         this.item.appendChild(this.nameObj);
         this.wrapper.appendChild(this.item);
@@ -41,6 +45,9 @@ var PanelItem = function(id, itemName) {
 
     this.setTitle = function(newtitle) {
         this.itemName = newtitle;
+        if(this.itemName.length > this.maxTitleLength) {
+            this.itemName = this.itemName.substring(0, (this.maxTitleLength-3)) + "...";
+        }
         this.nameObj.textContent = this.itemName;
     }
 }
