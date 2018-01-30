@@ -217,51 +217,67 @@ var Window = function(panelInstance, windowId) {
                     this.cachedX = event.clientX;
                     this.cachedY = event.clientY;
                 }
-                this.checkForCorners();
+                this.checkForCorners(event);
             }
         }.bind(this));
     }
     
-    this.checkForCorners = function() {
-        if(this.getWindowY() <= 0 && this.getWindowX() >= 100 && (this.getWindowX() + this.getWidth()) <= (document.body.clientWidth - 100)) {
-            this.snapWindow();
+    this.checkForCorners = function(event) {
+        if(!this.isAtTop && event.clientY <= 0 && event.clientX >= 10 && event.clientX <= (document.body.clientWidth - 10)) {
             this.isAtTop = true;
-        } else if(this.getWindowX() <= 0) {
             this.snapWindow();
+        } else if(!this.isAtLeft && event.clientX <= 0) {
             this.isAtLeft = true;
-        } else if((this.getWindowX() + this.getWidth()) >= document.body.clientWidth) {
             this.snapWindow();
+        } else if(!this.isAtRight && event.clientX >= document.body.clientWidth) {
             this.isAtRight = true;
+            this.snapWindow();
+        }
+        if(this.isAtTop) {
+            if(event.clientY >= 10) {
+                this.snapWindow();
+                this.isAtTop = false;
+            }
+        }
+        if(this.isAtLeft) {
+            if(event.clientX >= 10) {
+                this.snapWindow();
+                this.isAtLeft = false;
+            }
+        }
+        if(this.isAtRight) {
+            if(event.clientX <= document.body.clientWidth - 10) {
+                this.snapWindow();
+                this.isAtRight = false;
+            }
         }
     }
 
     this.snapWindow = function() {
         if(!this.isSnapped) {
-            if(this.getWindowX() >= 100 && (this.getWindowX() + this.getWidth()) <= (document.body.clientWidth - 100)) {
+            if(this.isAtTop) {
                 this.maximizeWindow();
-            } else {
-                if(this.getWindowX() <= 100) {
-                    this.cachedWidth = this.getWidth();
-                    this.cachedHeight = this.getHeight();
-                    this.guiWindow.style.left = "0px";
-                    this.guiWindow.style.top = "0px";
-                    this.setWidth("50%");
-                    this.setHeight("100%");
-                } else if((this.getWindowX() + this.getWidth()) >= (document.body.clientWidth - 100)) {
-                    this.cachedWidth = this.getWidth();
-                    this.cachedHeight = this.getHeight();
-                    this.setWidth("50%");
-                    this.setHeight("100%");
-                    var temp = (document.body.clientWidth - this.getWidth());
-                    this.guiWindow.style.left = temp + "px";
-                    this.guiWindow.style.top = "0px";
-                }
+            } else if(this.isAtLeft) {
+                this.cachedWidth = this.getWidth();
+                this.cachedHeight = this.getHeight();
+                this.guiWindow.style.left = "0px";
+                this.guiWindow.style.top = "0px";
+                this.setWidth("50%");
+                this.setHeight("100%");
+            } else if(this.isAtRight) {
+                this.cachedWidth = this.getWidth();
+                this.cachedHeight = this.getHeight();
+                this.setWidth("50%");
+                this.setHeight("100%");
+                temp = (document.body.clientWidth - this.getWidth());
+                this.guiWindow.style.left = temp + "px";
+                this.guiWindow.style.top = "0px";
             }
             this.isSnapped = true;
         } else {
-            if(this.isMaximized) {
+            if(this.isAtTop) {
                 this.maximizeWindow();
-            } else {
+            } else if(this.isAtLeft || this.isAtRight) {
                 this.setWidth(this.cachedWidth);
                 this.setHeight(this.cachedHeight);
             }
@@ -292,7 +308,6 @@ var Window = function(panelInstance, windowId) {
     this.setWidth = function(width) {
         width = width + "";
         if(width.indexOf('%') != -1) {
-            console.log("width: " + width);
             this.guiWindow.style.width = width;
         } else {
             this.guiWindow.style.width = width+"px";
@@ -302,7 +317,6 @@ var Window = function(panelInstance, windowId) {
     this.setHeight = function(height) {
         height = height + "";
         if(height.indexOf('%') != -1) {
-            console.log("height: " + height);
             this.guiWindow.style.height = height;
         } else {
             this.guiWindow.style.height = height+"px";
