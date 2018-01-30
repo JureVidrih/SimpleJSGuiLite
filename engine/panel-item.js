@@ -25,6 +25,9 @@ var PanelItem = function(id, itemName) {
             this.itemName = this.itemName.substring(0, (this.maxTitleLength-3)) + "...";
         }
         this.nameObj.textContent = this.itemName;
+        this.itemIcon = document.createElement("img");
+        this.itemIcon.classList.add("gui-panel__item__icon");
+        this.item.appendChild(this.itemIcon);
         this.item.appendChild(this.nameObj);
         this.wrapper.appendChild(this.item);
         this.wrapper.appendChild(this.contextMenu.getDOMObject());
@@ -49,5 +52,9 @@ var PanelItem = function(id, itemName) {
             this.itemName = this.itemName.substring(0, (this.maxTitleLength-3)) + "...";
         }
         this.nameObj.textContent = this.itemName;
+    }
+
+    this.setIcon = function(path) {
+        this.itemIcon.setAttribute("src", path);
     }
 }

@@ -50,7 +50,7 @@ var Window = function(panelInstance, windowId) {
         this.domObj.innerHTML =  '<div class="gui-window">'
         +'<div id="nw-resize-wrapper"><div id="nw-resize"></div></div>'+'<div id="ne-resize-wrapper"><div id="ne-resize"></div></div>'+'<div id="sw-resize-wrapper"><div id="sw-resize"></div></div>'+'<div id="se-resize-wrapper"><div id="se-resize"></div></div>'
         +'<div class="gui-window__titlebar">'
-        +'<div class="gui-window__titlebar__buttons"><a class="window-btn window-btn-close" href="#"></a><a class="window-btn window-btn-minimize" href="#"></a><a class="window-btn window-btn-maximize" href="#"></a></div><div class="gui-window__titlebar__title">Window Title</div>'
+        +'<div class="gui-window__titlebar__buttons"><a class="window-btn window-btn-close" href="#"></a><a class="window-btn window-btn-minimize" href="#"></a><a class="window-btn window-btn-maximize" href="#"></a></div><div class="gui-window__titlebar__title">Window Title</div><img class="gui-window__titlebar__icon"></img>'
         +'</div>'
         +'<div class="gui-window__content">Window content.</div>'
         +'</div>';
@@ -64,6 +64,7 @@ var Window = function(panelInstance, windowId) {
         this.min = this.domObj.getElementsByClassName("window-btn-minimize")[0];
         this.max = this.domObj.getElementsByClassName("window-btn-maximize")[0];
         this.title = this.domObj.querySelector(".gui-window__titlebar__title");
+        this.windowIcon = this.domObj.querySelector(".gui-window__titlebar__icon");
         this.windowContent = this.domObj.querySelector(".gui-window__content");
     }
     
@@ -391,6 +392,11 @@ var Window = function(panelInstance, windowId) {
         }
         this.title.textContent = title;
         panelInstance.getPanelItem(this.id).setTitle(title);
+    }
+
+    this.setWindowIcon = function(path) {
+        this.windowIcon.setAttribute("src", path);
+        this.panelInstance.getPanelItem(this.id).setIcon(path);
     }
     
     this.setContent = function(content) {

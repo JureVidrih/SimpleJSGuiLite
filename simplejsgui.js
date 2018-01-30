@@ -17,6 +17,7 @@ myWindow.setWidth(1024);
 myWindow.setHeight(768);
 myWindow.setBackgroundColor("white");
 myWindow.setTitle("My first window's title! My first window's title! My first window's title! My first window's title! My first window's title!");
+myWindow.setWindowIcon("themes/newtheme/assets/icons/default.png");
 myWindow.setContent("It works!");
 
 myWindow.getPanelItem().getContextMenu().addAnItem("Spremeni ozadje", function() {

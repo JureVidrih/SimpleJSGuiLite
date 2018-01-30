@@ -36,8 +36,10 @@
                 }
                 if(contextMenu.style.display == "none") {
                     contextMenu.style.display = "block";
+                    contextMenu.classList.add("gui-panel__item__context-menu--crazy-effect");
                 } else {
                     contextMenu.style.display = "none";
+                    contextMenu.classList.remove("gui-panel__item__context-menu--crazy-effect");
                 }
                 var status = this.windowsStatus.get(newWindow.getId());
                 if(status == "unactive") {
