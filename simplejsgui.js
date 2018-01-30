@@ -11,7 +11,7 @@ myWindow.initialize();
 myWindow2.initialize();
 
 myPanel.addAWindow(myWindow);
-myPanel.addAWindow(myWindow2);
+// myPanel.addAWindow(myWindow2);
 
 myWindow.setWidth(1024);
 myWindow.setHeight(768);

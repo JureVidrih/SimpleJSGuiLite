@@ -45,6 +45,7 @@
                 }
                 return false;
             }.bind(this), false);
+            document.body.appendChild(newWindow.getDOMObject());
             document.getElementById(this.panelInstance).appendChild(node);
         }
         this.panelInstance = null;

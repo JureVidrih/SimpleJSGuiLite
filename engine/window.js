@@ -1,4 +1,8 @@
 var Window = function(panelInstance, windowId) {
+    this.domObj;
+    this.getDOMObject = function() {
+        return this.domObj;
+    }
     this.panelInstance = panelInstance;
     this.id = windowId;
     this.getId = function() {
@@ -25,35 +29,39 @@ var Window = function(panelInstance, windowId) {
     this.cachedYBeforeMax;
     this.cachedWidth = 0;
     this.cachedHeight = 0;
+    this.isSnapped = false;
+    this.isAtTop;
+    this.isAtLeft;
+    this.isAtRight;
     
     this.initialize = function() {
         this.createDOMObject();
+        this.guiWindow.style.top = "50px";
+        this.guiWindow.style.left = "300px";
         this.registerEvents();
     }
     
     this.createDOMObject = function() {
-        var domObj = document.createElement("div");
-        domObj.id = this.id;
-        domObj.innerHTML =  '<div class="gui-window">'
+        this.domObj = document.createElement("div");
+        this.domObj.id = this.id;
+        this.domObj.innerHTML =  '<div class="gui-window">'
         +'<div id="nw-resize-wrapper"><div id="nw-resize"></div></div>'+'<div id="ne-resize-wrapper"><div id="ne-resize"></div></div>'+'<div id="sw-resize-wrapper"><div id="sw-resize"></div></div>'+'<div id="se-resize-wrapper"><div id="se-resize"></div></div>'
         +'<div class="gui-window__titlebar">'
         +'<div class="gui-window__titlebar__buttons"><a class="window-btn window-btn-close" href="#"></a><a class="window-btn window-btn-minimize" href="#"></a><a class="window-btn window-btn-maximize" href="#"></a></div><div class="gui-window__titlebar__title">Window Title</div>'
         +'</div>'
         +'<div class="gui-window__content">Window content.</div>'
         +'</div>';
-        this.panel = domObj.getElementsByClassName("gui-panel")[0];
-        this.guiWindow = domObj.querySelector(".gui-window");
-        this.nwResize = domObj.querySelector("#nw-resize");
-        this.neResize = domObj.querySelector("#ne-resize");
-        this.swResize = domObj.querySelector("#sw-resize");
-        this.seResize = domObj.querySelector("#se-resize");
-        this.titleBar = domObj.querySelector(".gui-window__titlebar");
-        this.close = domObj.getElementsByClassName("window-btn-close")[0];
-        this.min = domObj.getElementsByClassName("window-btn-minimize")[0];
-        this.max = domObj.getElementsByClassName("window-btn-maximize")[0];
-        this.title = domObj.querySelector(".gui-window__titlebar__title");
-        this.windowContent = domObj.querySelector(".gui-window__content");
-        document.body.appendChild(domObj);
+        this.guiWindow = this.domObj.querySelector(".gui-window");
+        this.nwResize = this.domObj.querySelector("#nw-resize");
+        this.neResize = this.domObj.querySelector("#ne-resize");
+        this.swResize = this.domObj.querySelector("#sw-resize");
+        this.seResize = this.domObj.querySelector("#se-resize");
+        this.titleBar = this.domObj.querySelector(".gui-window__titlebar");
+        this.close = this.domObj.getElementsByClassName("window-btn-close")[0];
+        this.min = this.domObj.getElementsByClassName("window-btn-minimize")[0];
+        this.max = this.domObj.getElementsByClassName("window-btn-maximize")[0];
+        this.title = this.domObj.querySelector(".gui-window__titlebar__title");
+        this.windowContent = this.domObj.querySelector(".gui-window__content");
     }
     
     this.registerEvents = function() {
@@ -72,23 +80,7 @@ var Window = function(panelInstance, windowId) {
             // } else {
             //     content.style.display = "none";
             // }
-            if(this.isMaximized) {
-                this.isMaximized = false;
-                this.guiWindow.style.left = this.cachedXBeforeMax;
-                this.guiWindow.style.top = this.cachedYBeforeMax;
-                this.setWidth(this.cachedWidth);
-                this.setHeight(this.cachedHeight);
-            } else {
-                this.cachedXBeforeMax = this.guiWindow.style.left;
-                this.cachedYBeforeMax = this.guiWindow.style.top;
-                this.cachedWidth = this.getWidth();
-                this.cachedHeight = this.getHeight();
-                this.guiWindow.style.left = "0";
-                this.guiWindow.style.top = "0";
-                this.setWidth("100%");
-                this.setHeight("100%");
-                this.isMaximized = true;
-            }
+            this.maximizeWindow();
         }.bind(this));
         
         this.nwResize.addEventListener('mousedown', function(event) {
@@ -184,9 +176,9 @@ var Window = function(panelInstance, windowId) {
             }
         }.bind(this));
         
-        // this.guiWindow.addEventListener('mousedown', function(event) {
-        
-        // });
+        this.guiWindow.addEventListener('mousemove', function(event) {
+
+        }.bind(this));
         
         this.titleBar.addEventListener('mousedown', function(event) {
             this.isBeingDragged = true;
@@ -225,10 +217,78 @@ var Window = function(panelInstance, windowId) {
                     this.cachedX = event.clientX;
                     this.cachedY = event.clientY;
                 }
+                this.checkForCorners();
             }
         }.bind(this));
     }
     
+    this.checkForCorners = function() {
+        if(this.getWindowY() <= 0 && this.getWindowX() >= 100 && (this.getWindowX() + this.getWidth()) <= (document.body.clientWidth - 100)) {
+            this.snapWindow();
+            this.isAtTop = true;
+        } else if(this.getWindowX() <= 0) {
+            this.snapWindow();
+            this.isAtLeft = true;
+        } else if((this.getWindowX() + this.getWidth()) >= document.body.clientWidth) {
+            this.snapWindow();
+            this.isAtRight = true;
+        }
+    }
+
+    this.snapWindow = function() {
+        if(!this.isSnapped) {
+            if(this.getWindowX() >= 100 && (this.getWindowX() + this.getWidth()) <= (document.body.clientWidth - 100)) {
+                this.maximizeWindow();
+            } else {
+                if(this.getWindowX() <= 100) {
+                    this.cachedWidth = this.getWidth();
+                    this.cachedHeight = this.getHeight();
+                    this.guiWindow.style.left = "0px";
+                    this.guiWindow.style.top = "0px";
+                    this.setWidth("50%");
+                    this.setHeight("100%");
+                } else if((this.getWindowX() + this.getWidth()) >= (document.body.clientWidth - 100)) {
+                    this.cachedWidth = this.getWidth();
+                    this.cachedHeight = this.getHeight();
+                    this.setWidth("50%");
+                    this.setHeight("100%");
+                    var temp = (document.body.clientWidth - this.getWidth());
+                    this.guiWindow.style.left = temp + "px";
+                    this.guiWindow.style.top = "0px";
+                }
+            }
+            this.isSnapped = true;
+        } else {
+            if(this.isMaximized) {
+                this.maximizeWindow();
+            } else {
+                this.setWidth(this.cachedWidth);
+                this.setHeight(this.cachedHeight);
+            }
+            this.isSnapped = false;
+        }
+    }
+
+    this.maximizeWindow = function() {
+        if(this.isMaximized) {
+            this.isMaximized = false;
+            this.guiWindow.style.left = this.cachedXBeforeMax;
+            this.guiWindow.style.top = this.cachedYBeforeMax;
+            this.setWidth(this.cachedWidth);
+            this.setHeight(this.cachedHeight);
+        } else {
+            this.cachedXBeforeMax = this.guiWindow.style.left;
+            this.cachedYBeforeMax = this.guiWindow.style.top;
+            this.cachedWidth = this.getWidth();
+            this.cachedHeight = this.getHeight();
+            this.guiWindow.style.left = "0";
+            this.guiWindow.style.top = "0";
+            this.setWidth("100%");
+            this.setHeight("100%");
+            this.isMaximized = true;
+        }
+    }
+
     this.setWidth = function(width) {
         width = width + "";
         if(width.indexOf('%') != -1) {
@@ -272,11 +332,19 @@ var Window = function(panelInstance, windowId) {
     
     
     this.getWidth = function() {
-        return Number(this.guiWindow.style.width.split("px")[0]);
+        if(this.guiWindow.style.width.indexOf("%") != -1) {
+            return document.body.clientWidth * (Number(this.guiWindow.style.width.split("%")[0])/100);
+        } else {
+            return Number(this.guiWindow.style.width.split("px")[0]);
+        }
     }
     
     this.getHeight = function() {
-        return Number(this.guiWindow.style.height.split("px")[0]);
+        if(this.guiWindow.style.height.indexOf("%") != -1) {
+            return document.body.clientHeight * (Number(this.guiWindow.style.height.split("%")[0])/100);
+        } else {
+            return Number(this.guiWindow.style.height.split("px")[0]);
+        }
     }
     
     this.getBackgroundColor = function() {
