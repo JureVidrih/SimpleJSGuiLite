@@ -4,6 +4,10 @@ var Window = function(panelInstance, windowId) {
     this.getId = function() {
         return this.id;
     }
+    this.panelItem = this.panelInstance.getPanelItem(this.id);
+    this.getPanelItem = function() {
+        return this.panelInstance.getPanelItem(this.id);
+    }
     this.isBeingDragged = false;
     this.cachedX = 0;
     this.cachedY = 0;

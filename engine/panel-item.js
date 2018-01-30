@@ -24,14 +24,15 @@ var PanelItem = function(id, itemName) {
         this.item.appendChild(this.nameObj);
         this.wrapper.appendChild(this.item);
         this.wrapper.appendChild(this.contextMenu.getDOMObject());
-        this.contextMenu.addAnItem("Spremeni ozadje", function() {
-            document.body.style.backgroundColor = "pink";
-        });
-        this.contextMenu.addASeparator();
-        this.contextMenu.addAnItem("Spremeni ozadje v rumeno barvo", function() {
-            document.body.style.backgroundColor = "yellow";
-        });
         return this.wrapper;
+    }
+
+    this.getDOMObject = function() {
+        return this.wrapper;
+    }
+
+    this.getContextMenu = function() {
+        return this.contextMenu;
     }
 
     this.getTitleObj = function() {
