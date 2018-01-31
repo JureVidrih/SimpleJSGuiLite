@@ -32,7 +32,9 @@
                 event.preventDefault();
                 contextMenu = node.querySelector(".gui-panel__item__context-menu");
                 for(i = 0; i < this.items.length; i++) {
-                    this.items[i].getDOMObject().querySelector(".gui-panel__item__context-menu").style.display = "none";
+                    if(this.items[i].getId() != newWindow.getId()) {
+                        this.items[i].getDOMObject().querySelector(".gui-panel__item__context-menu").style.display = "none";
+                    }
                 }
                 if(contextMenu.style.display == "none") {
                     contextMenu.style.display = "block";

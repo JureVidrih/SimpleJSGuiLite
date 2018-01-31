@@ -252,6 +252,7 @@ var Window = function(panelInstance, windowId) {
         document.addEventListener('mouseup', function(event) {
             if(this.isBeingDragged) {
                 this.isBeingDragged = false;
+                this.checkForEnterCorners(event);
                 this.guiWindow.classList.remove("window-effect-transparency");
             }
         }.bind(this));
@@ -277,12 +278,12 @@ var Window = function(panelInstance, windowId) {
                     this.cachedX = event.clientX;
                     this.cachedY = event.clientY;
                 }
-                this.checkForCorners(event);
+                this.checkForLeaveCorners(event);
             }
         }.bind(this));
     }
     
-    this.checkForCorners = function(event) {
+    this.checkForEnterCorners = function(event) {
         if(!this.isAtTop && event.clientY <= 0 && event.clientX >= 10 && event.clientX <= (document.body.clientWidth - 10)) {
             this.isAtTop = true;
             this.snapWindow();
@@ -293,20 +294,23 @@ var Window = function(panelInstance, windowId) {
             this.isAtRight = true;
             this.snapWindow();
         }
+    }
+
+    this.checkForLeaveCorners = function() {
         if(this.isAtTop) {
-            if(event.clientY >= 10) {
+            if(this.getWindowY() >= 10) {
                 this.snapWindow();
                 this.isAtTop = false;
             }
         }
         if(this.isAtLeft) {
-            if(event.clientX >= 10) {
+            if(this.getWindowX() >= 10) {
                 this.snapWindow();
                 this.isAtLeft = false;
             }
         }
         if(this.isAtRight) {
-            if(event.clientX <= document.body.clientWidth - 10) {
+            if((this.getWindowX() + this.getWidth()) <= document.body.clientWidth - 10) {
                 this.snapWindow();
                 this.isAtRight = false;
             }
