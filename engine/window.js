@@ -5,6 +5,7 @@ var Window = function(panelInstance, windowId) {
         return this.domObj;
     }
     this.panelInstance = panelInstance;
+    this.isPinnable = true;
     this.id = windowId;
     this.getId = function() {
         return this.id;
@@ -438,5 +439,9 @@ var Window = function(panelInstance, windowId) {
     
     this.getContent = function() {
         return this.windowContent.textContent;
+    }
+
+    this.isWindowPinnable = function() {
+        return this.isPinnable;
     }
 }

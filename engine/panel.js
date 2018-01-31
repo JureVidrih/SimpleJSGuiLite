@@ -36,10 +36,10 @@
                 }
                 if(contextMenu.style.display == "none") {
                     contextMenu.style.display = "block";
-                    contextMenu.classList.add("gui-panel__item__context-menu--crazy-effect");
+                    // contextMenu.classList.add("context-menu-fadein");
                 } else {
+                    // contextMenu.classList.remove("context-menu-fadein");
                     contextMenu.style.display = "none";
-                    contextMenu.classList.remove("gui-panel__item__context-menu--crazy-effect");
                 }
                 var status = this.windowsStatus.get(newWindow.getId());
                 if(status == "unactive") {
@@ -47,6 +47,9 @@
                 }
                 return false;
             }.bind(this), false);
+            if(newWindow.isWindowPinnable()) {
+                this.items[this.items.length-1].getContextMenu().addAnItem("Pin this app", function() {}).addASeparator();
+            }
             document.body.appendChild(newWindow.getDOMObject());
             document.getElementById(this.panelInstance).appendChild(node);
         }

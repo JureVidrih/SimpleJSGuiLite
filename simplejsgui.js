@@ -22,8 +22,6 @@ myWindow.setContent("It works!");
 
 myWindow.getPanelItem().getContextMenu().addAnItem("Spremeni ozadje", function() {
     document.body.style.backgroundColor = "pink";
-});
-myWindow.getPanelItem().getContextMenu().addASeparator();
-myWindow.getPanelItem().getContextMenu().addAnItem("Spremeni ozadje v rumeno barvo", function() {
+}).addAnItem("Spremeni ozadje v rumeno barvo", function() {
     document.body.style.backgroundColor = "yellow";
 });

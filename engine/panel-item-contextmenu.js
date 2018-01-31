@@ -34,6 +34,8 @@ var PanelItemContextMenu = function() {
         } else {
             this.menuContent.insertBefore(newElement, this.menuContent.querySelector("*"));
         }
+
+        return this;
     }
 
     this.addASeparator = function() {
@@ -44,6 +46,8 @@ var PanelItemContextMenu = function() {
         } else {
             this.menuContent.insertBefore(newElement, this.menuContent.querySelector("p"));
         }
+
+        return this;
     }
 
     this.createAnEmptyContextMenu();
