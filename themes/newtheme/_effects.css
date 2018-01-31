@@ -1,8 +1,9 @@
-body .window-effect-transparency {
+html .window-effect-transparency {
     opacity: 0.86;
 }
 
-body .context-menu-fadein {
+html .context-menu-fadein {
+    visibility: visible;
     opacity: 1.0;
     transform: translateY(0%);
 }

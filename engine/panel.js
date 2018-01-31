@@ -36,13 +36,14 @@
                         this.items[i].getDOMObject().querySelector(".gui-panel__item__context-menu").style.display = "none";
                     }
                 }
-                if(contextMenu.style.display == "none") {
-                    contextMenu.style.display = "block";
-                    // contextMenu.classList.add("context-menu-fadein");
-                } else {
-                    // contextMenu.classList.remove("context-menu-fadein");
-                    contextMenu.style.display = "none";
-                }
+                // if(contextMenu.style.display == "none") {
+                //     contextMenu.style.display = "block";
+                //     contextMenu.classList.add("context-menu-fadein");
+                // } else {
+                //     contextMenu.classList.remove("context-menu-fadein");
+                //     contextMenu.style.display = "none";
+                // }
+                contextMenu.classList.toggle("context-menu-fadein");
                 var status = this.windowsStatus.get(newWindow.getId());
                 if(status == "unactive") {
                     this.windowAction("minimize", newWindow.getId());

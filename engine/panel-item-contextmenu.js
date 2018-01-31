@@ -11,7 +11,7 @@ var PanelItemContextMenu = function() {
         document.addEventListener('mousedown', function(event) {
             if(event.button == 0) {
                 if(!event.target.classList.contains("gui-panel__item")) {
-                    this.DOMobj.style.display = "none";
+                    this.DOMobj.classList.remove("context-menu-fadein");
                 }
             }
         }.bind(this));
@@ -27,7 +27,7 @@ var PanelItemContextMenu = function() {
         newElement.textContent = itemName;
         newElement.addEventListener('mousedown', function() {
             elementListener();
-            this.DOMobj.style.display = "none";
+            this.DOMobj.classList.toggle("context-menu-fadein");
         }.bind(this));
         if(this.menuContent.length == 0) {
             this.menuContent.appendChild(newElement);
