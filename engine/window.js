@@ -369,8 +369,33 @@ var Window = function(panelInstance, windowId) {
         }
     }
 
+    this.removeDimensionFlags = function() {
+        this.guiWindow.classList.remove("gui-window--size-fullhd");
+        this.guiWindow.classList.remove("gui-window--size-hd");
+        this.guiWindow.classList.remove("gui-window--size-vga");
+        this.guiWindow.classList.remove("gui-window--size-qvga");
+    }
+
+    this.applyNewDimensionFlags = function(width) {
+        if(width.indexOf("%") != -1) {
+            width = width.substring(0, width.length-1);
+            width = window.innerWidth * (width/100);
+        }
+        this.removeDimensionFlags();
+        if(width >= 1920) {
+            this.guiWindow.classList.add("gui-window--size-fullhd");
+        } else if(width >= 1280) {
+            this.guiWindow.classList.add("gui-window--size-hd");
+        } else if(width >= 640) {
+            this.guiWindow.classList.add("gui-window--size-vga");
+        } else if(width >= 320) {
+            this.guiWindow.classList.add("gui-window--size-qvga");
+        }
+    }
+
     this.setWidth = function(width) {
         width = width + "";
+        this.applyNewDimensionFlags(width);
         if(width.indexOf('%') != -1) {
             this.guiWindow.style.width = width;
         } else {
@@ -405,7 +430,7 @@ var Window = function(panelInstance, windowId) {
     }
     
     this.setContent = function(content) {
-        this.windowContent.textContent = content;
+        this.windowContent.innerHTML = content;
     }
     
     this.getWindowX = function() {
