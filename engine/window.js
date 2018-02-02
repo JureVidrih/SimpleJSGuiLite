@@ -295,13 +295,22 @@ var Window = function(panelInstance, windowId) {
     }
     
     this.checkForEnterCorners = function(event) {
-        if(!this.isAtTop && event.clientY <= 0 && event.clientX >= 10 && event.clientX <= (document.body.clientWidth - 10)) {
+        if(!this.isAtTop && event.clientY <= 0 && event.clientX >= 100 && event.clientX <= (document.body.clientWidth - 100)) {
+            if(this.isAtLeft || this.isAtRight) {
+                this.toggleWindowSnapVisualEffects();
+            }
             this.isAtTop = true;
             this.toggleWindowSnapVisualEffects();
         } else if(!this.isAtLeft && event.clientX <= 0) {
+            if(this.isAtTop) {
+                this.toggleWindowSnapVisualEffects();
+            }
             this.isAtLeft = true;
             this.toggleWindowSnapVisualEffects();
-        } else if(!this.isAtRight && event.clientX >= (document.body.clientWidth-5)) {
+        } else if(!this.isAtRight && event.clientX >= (document.body.clientWidth-10)) {
+            if(this.isAtTop) {
+                this.toggleWindowSnapVisualEffects();
+            }
             this.isAtRight = true;
             this.toggleWindowSnapVisualEffects();
         }
