@@ -272,11 +272,6 @@ var Window = function(panelInstance, windowId) {
             }
         }.bind(this));
         
-        // this.titleBar.addEventListener('mouseleave', function(event) {
-        //     this.isBeingDragged = false;
-        //     this.guiWindow.classList.remove("window-effect-transparency");
-        // }.bind(this));
-        
         document.addEventListener('mousemove', function(event) {
             if(this.isBeingDragged) {
                 coord = this.guiWindow.getBoundingClientRect();
@@ -306,7 +301,7 @@ var Window = function(panelInstance, windowId) {
         } else if(!this.isAtLeft && event.clientX <= 0) {
             this.isAtLeft = true;
             this.toggleWindowSnapVisualEffects();
-        } else if(!this.isAtRight && event.clientX >= document.body.clientWidth) {
+        } else if(!this.isAtRight && event.clientX >= (document.body.clientWidth-5)) {
             this.isAtRight = true;
             this.toggleWindowSnapVisualEffects();
         }
@@ -326,7 +321,6 @@ var Window = function(panelInstance, windowId) {
         if(this.isAtTop) {
             if(this.getWindowY() >= 10) {
                 this.leaveCornerAction();
-                
                 this.isAtTop = false;
             }
         }
@@ -339,7 +333,6 @@ var Window = function(panelInstance, windowId) {
         if(this.isAtRight) {
             if((this.getWindowX() + this.getWidth()) <= document.body.clientWidth - 10) {
                 this.leaveCornerAction();
-                
                 this.isAtRight = false;
             }
         }
@@ -348,6 +341,14 @@ var Window = function(panelInstance, windowId) {
     this.toggleWindowSnapVisualEffects = function() {
         desktop = this.panelInstance.getDesktop().getDOMObject();
         visualEffect = null;
+        
+        // visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
+        // visualEffect.classList.remove("window-snap-indicator-fade-in");
+        // visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
+        // visualEffect.classList.remove("window-snap-indicator-fade-in");
+        // visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
+        // visualEffect.classList.remove("window-snap-indicator-fade-in");
+        
         if(this.isAtTop) {
             visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
             visualEffect.classList.toggle("window-snap-indicator-fade-in");
