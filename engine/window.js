@@ -1,5 +1,7 @@
 var Window = function(panelInstance, windowId) {
-    this.maxTitleLength = 30;
+    this.maxTitleLength = 3000;
+    this.titleText;
+    this.remInPixels;
     this.domObj;
     this.getDOMObject = function() {
         return this.domObj;
@@ -41,6 +43,8 @@ var Window = function(panelInstance, windowId) {
     
     this.initialize = function() {
         this.createDOMObject();
+        this.setTitle("M");
+        this.remInPixels = parseInt(getComputedStyle(this.domObj).fontSize);
         this.guiWindow.style.top = "50px";
         this.guiWindow.style.left = "300px";
         this.registerEvents();
@@ -234,6 +238,8 @@ var Window = function(panelInstance, windowId) {
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 }
+
+                this.calculateNewTitleLimits();
             }
         }.bind(this));
         
@@ -392,8 +398,10 @@ var Window = function(panelInstance, windowId) {
     this.maximizeWindow = function() {
         if(this.isMaximized) {
             this.isMaximized = false;
+            this.isSnapped = false;
+            this.isAtTop = false;
             this.guiWindow.style.left = this.cachedXBeforeMax;
-            this.guiWindow.style.top = this.cachedYBeforeMax;
+            // this.guiWindow.style.top = this.cachedYBeforeMax;
             this.setWidth(this.cachedWidth);
             this.setHeight(this.cachedHeight);
         } else {
@@ -406,6 +414,8 @@ var Window = function(panelInstance, windowId) {
             this.setWidth("100%");
             this.setHeight("100%");
             this.isMaximized = true;
+            this.isSnapped = true;
+            this.isAtTop = true;
         }
     }
 
@@ -457,11 +467,32 @@ var Window = function(panelInstance, windowId) {
     }
     
     this.setTitle = function(title) {
+        this.titleText = title;
         if(title.length > this.maxTitleLength) {
             title = title.substring(0, (this.maxTitleLength-3)) + "...";
         }
         this.title.textContent = title;
-        panelInstance.getPanelItem(this.id).setTitle(title);
+        this.calculateNewTitleLimits();
+        if(panelInstance.getPanelItem(this.id) != null) {
+            panelInstance.getPanelItem(this.id).setTitle(title);
+        }
+    }
+
+    this.calculateNewTitleLimits = function() {
+        width = this.getWidth();
+        leftLimit = this.domObj.querySelector(".window-btn-maximize").getBoundingClientRect().right - this.getWindowX();
+        rightLimit = this.getWidth() - (this.domObj.querySelector(".gui-window__titlebar__icon").getBoundingClientRect().left-this.getWindowX());
+        appliableWidth = width - (leftLimit + rightLimit);
+        numOfChars = Math.floor(appliableWidth / this.remInPixels);
+        if(this.titleText.length > numOfChars) {
+            if(this.titleText[numOfChars-4] == " ") {
+                this.title.textContent = this.titleText.substring(0, numOfChars-4)+"...";
+            } else {
+                this.title.textContent = this.titleText.substring(0, numOfChars-3)+"...";
+            }
+        } else {
+            this.title.textContent = this.titleText;
+        }
     }
 
     this.setWindowIcon = function(path) {
