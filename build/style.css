@@ -9,7 +9,7 @@ html .window-effect-transparency {
 html .window-effect-shade {
     transition: ease-out .1s;
     filter: grayscale(.3) brightness(.95);
-    border: none;
+    border: 1px solid transparent;
 }
 html .context-menu-fadein {
     visibility: visible;
