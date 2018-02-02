@@ -109,7 +109,7 @@
             } else if(actionToDo == "close") {
                 var windowId = this.getWindowOrderNumberById(id);
                 var windownode = document.getElementsByClassName("gui-window")[windowId];
-                var itemnode = document.getElementsByClassName("gui-panel__item")[windowId];
+                var itemnode = document.getElementsByClassName("gui-panel__item-wrapper")[windowId];
                 windownode.remove();
                 itemnode.remove();
                 this.windows.splice(windowId, 1);

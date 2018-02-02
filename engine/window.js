@@ -295,13 +295,13 @@ var Window = function(panelInstance, windowId) {
     }
     
     this.checkForEnterCorners = function(event) {
-        if(!this.isAtTop && event.clientY <= 0 && event.clientX >= 100 && event.clientX <= (document.body.clientWidth - 100)) {
+        if(!this.isAtTop && event.clientY <= 0 && event.clientX > 10 && event.clientX < (document.body.clientWidth - 10)) {
             if(this.isAtLeft || this.isAtRight) {
                 this.toggleWindowSnapVisualEffects();
             }
             this.isAtTop = true;
             this.toggleWindowSnapVisualEffects();
-        } else if(!this.isAtLeft && event.clientX <= 0) {
+        } else if(!this.isAtLeft && event.clientX <= 10) {
             if(this.isAtTop) {
                 this.toggleWindowSnapVisualEffects();
             }
@@ -329,18 +329,27 @@ var Window = function(panelInstance, windowId) {
     this.checkForLeaveCorners = function() {
         if(this.isAtTop) {
             if(this.getWindowY() >= 10) {
+                if(this.isAtLeft || this.isAtRight) {
+                    this.toggleWindowSnapVisualEffects();
+                }
                 this.leaveCornerAction();
                 this.isAtTop = false;
             }
         }
         if(this.isAtLeft) {
             if(this.getWindowX() >= 10) {
+                if(this.isAtTop) {
+                    this.toggleWindowSnapVisualEffects();
+                }
                 this.leaveCornerAction();
                 this.isAtLeft = false;
             }
         }
         if(this.isAtRight) {
             if((this.getWindowX() + this.getWidth()) <= document.body.clientWidth - 10) {
+                if(this.isAtTop) {
+                    this.toggleWindowSnapVisualEffects();
+                }
                 this.leaveCornerAction();
                 this.isAtRight = false;
             }
