@@ -3,6 +3,7 @@
         this.windowsStatus = new Map();
         this.items = [];
         this.panelClock = new PanelItemClock();
+        this.desktop = new Desktop();
     
         this.initialize = function() {
             var domObj = document.createElement("div");
@@ -12,6 +13,7 @@
             domObj.appendChild(this.panelClock.getTemplate());
             this.panelClock.startTheClock();
             document.body.appendChild(domObj);
+            document.body.appendChild(this.desktop.getDOMObject());
         }
 
         this.addAWindow = function(newWindow) {
@@ -95,6 +97,10 @@
             }
         }
     
+        this.getDesktop = function() {
+            return this.desktop;
+        }
+
         this.getWindowOrderNumberById = function(id) {
             for(i = 0; i < this.windows.length; i++) {
                 if(this.windows[i].getId() == id) {

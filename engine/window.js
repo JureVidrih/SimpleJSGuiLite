@@ -34,6 +34,7 @@ var Window = function(panelInstance, windowId) {
     this.cachedWidth = 0;
     this.cachedHeight = 0;
     this.isSnapped = false;
+    this.snapEffectsToggled = false;
     this.isAtTop;
     this.isAtLeft;
     this.isAtRight;
@@ -252,7 +253,10 @@ var Window = function(panelInstance, windowId) {
         document.addEventListener('mouseup', function(event) {
             if(this.isBeingDragged) {
                 this.isBeingDragged = false;
-                this.checkForEnterCorners(event);
+                if(this.isAtTop || this.isAtLeft || this.isAtRight) {
+                    this.toggleWindowSnapVisualEffects();
+                }
+                this.snapWindow();
                 this.guiWindow.classList.remove("window-effect-transparency");
             }
         }.bind(this));
@@ -278,6 +282,7 @@ var Window = function(panelInstance, windowId) {
                     this.cachedX = event.clientX;
                     this.cachedY = event.clientY;
                 }
+                this.checkForEnterCorners(event);
                 this.checkForLeaveCorners(event);
             }
         }.bind(this));
@@ -286,40 +291,75 @@ var Window = function(panelInstance, windowId) {
     this.checkForEnterCorners = function(event) {
         if(!this.isAtTop && event.clientY <= 0 && event.clientX >= 10 && event.clientX <= (document.body.clientWidth - 10)) {
             this.isAtTop = true;
-            this.snapWindow();
+            this.toggleWindowSnapVisualEffects();
         } else if(!this.isAtLeft && event.clientX <= 0) {
             this.isAtLeft = true;
-            this.snapWindow();
+            this.toggleWindowSnapVisualEffects();
         } else if(!this.isAtRight && event.clientX >= document.body.clientWidth) {
             this.isAtRight = true;
+            this.toggleWindowSnapVisualEffects();
+        }
+    }
+
+    this.leaveCornerAction = function() {
+        if(this.isSnapped) {
             this.snapWindow();
+        }
+
+        if(this.snapEffectsToggled) {
+            this.toggleWindowSnapVisualEffects();
         }
     }
 
     this.checkForLeaveCorners = function() {
         if(this.isAtTop) {
             if(this.getWindowY() >= 10) {
-                this.snapWindow();
+                this.leaveCornerAction();
+                
                 this.isAtTop = false;
             }
         }
         if(this.isAtLeft) {
             if(this.getWindowX() >= 10) {
-                this.snapWindow();
+                this.leaveCornerAction();
                 this.isAtLeft = false;
             }
         }
         if(this.isAtRight) {
             if((this.getWindowX() + this.getWidth()) <= document.body.clientWidth - 10) {
-                this.snapWindow();
+                this.leaveCornerAction();
+                
                 this.isAtRight = false;
             }
         }
     }
 
+    this.toggleWindowSnapVisualEffects = function() {
+        desktop = this.panelInstance.getDesktop().getDOMObject();
+        visualEffect = null;
+        if(this.isAtTop) {
+            visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
+            visualEffect.classList.toggle("window-snap-indicator-fade-in");
+        }
+        if(this.isAtLeft) {
+            visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
+            visualEffect.classList.toggle("window-snap-indicator-fade-in");
+        }
+        if(this.isAtRight) {
+            visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
+            visualEffect.classList.toggle("window-snap-indicator-fade-in");
+        }
+
+        if(visualEffect.classList.contains("window-snap-indicator-fade-in")) {
+            this.snapEffectsToggled = true;
+        } else {
+            this.snapEffectsToggled = false;
+        }
+    }
+
     this.snapWindow = function() {
         if(!this.isSnapped) {
-            if(this.isAtTop) {
+            if(this.isAtTop && !this.isMaximized) {
                 this.maximizeWindow();
             } else if(this.isAtLeft) {
                 this.cachedWidth = this.getWidth();
@@ -339,7 +379,7 @@ var Window = function(panelInstance, windowId) {
             }
             this.isSnapped = true;
         } else {
-            if(this.isAtTop) {
+            if(this.isAtTop && this.isMaximized) {
                 this.maximizeWindow();
             } else if(this.isAtLeft || this.isAtRight) {
                 this.setWidth(this.cachedWidth);
