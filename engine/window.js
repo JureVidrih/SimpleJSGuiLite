@@ -534,6 +534,14 @@ var Window = function(panelInstance, windowId) {
         this.windowContent.innerHTML = content;
     }
     
+    this.setWindowX = function(x) {
+        this.guiWindow.style.left = x+"px";
+    }
+    
+    this.setWindowY = function(y) {
+        this.guiWindow.style.top = y+"px";
+    }
+
     this.getWindowX = function() {
         return Number(this.guiWindow.style.left.split("px")[0]);
     }
@@ -541,7 +549,6 @@ var Window = function(panelInstance, windowId) {
     this.getWindowY = function() {
         return Number(this.guiWindow.style.top.split("px")[0]);
     }
-    
     
     this.getWidth = function() {
         if(this.guiWindow.style.width.indexOf("%") != -1) {
