@@ -458,7 +458,7 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.focusWindow = function() {
+    this.unfocusAllWindows = function() {
         allWindows = panelInstance.getWindows();
         for(i = 0; i < allWindows.length; i++) {
             aWindow = allWindows[i].getDOMObject().querySelector(".gui-window");
@@ -466,6 +466,10 @@ var Window = function(panelInstance, windowId) {
                 aWindow.classList.add("window-effect-shade");
             }
         }
+    }
+
+    this.focusWindow = function() {
+        this.unfocusAllWindows();
         this.guiWindow.classList.remove("window-effect-shade");
     }
     

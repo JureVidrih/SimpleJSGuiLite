@@ -14,6 +14,23 @@
             this.panelClock.startTheClock();
             document.body.appendChild(domObj);
             document.body.appendChild(this.desktop.getDOMObject());
+
+            document.addEventListener('mousedown', function(event) {
+                if(event.button == 0 && this.windows.length > 0) {
+                    element = event.target;
+                    isAChild = false;
+                    do {
+                        if(element.classList && element.classList.contains("gui-window")) {
+                            isAChild = true;
+                            break;
+                        }
+                        element = element.parentNode;
+                    } while(element);
+                    if(!isAChild) {
+                        this.windows[0].unfocusAllWindows();
+                    }
+                }
+            }.bind(this));
         }
 
         this.addAWindow = function(newWindow) {
