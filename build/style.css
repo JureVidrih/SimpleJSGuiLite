@@ -9,7 +9,7 @@ html .window-effect-transparency {
 html .window-effect-shade {
     transition: ease-out .1s;
     filter: grayscale(.3) brightness(.95);
-    border: 1px solid transparent;
+    border: 1px solid rgb(235, 235, 235);
     border-radius: 5px 5px 5px 5px;
 }
 html .context-menu-fadein {
@@ -201,7 +201,7 @@ a:focus {
     width: 350px;
     height: 400px;
     opacity: 1.0;
-    border: 1px solid rgb(235, 235, 235);
+    border: 1px solid transparent;
     border-radius: 5px 5px 5px 5px;
     -webkit-touch-callout: none;
         -webkit-user-select: none;
