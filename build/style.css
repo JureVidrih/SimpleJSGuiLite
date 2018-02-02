@@ -6,6 +6,11 @@ html .window-snap-indicator-fade-in {
 html .window-effect-transparency {
     opacity: 0.86;
 }
+html .window-effect-shade {
+    transition: ease-out .1s;
+    filter: grayscale(.3) brightness(.95);
+    border: none;
+}
 html .context-menu-fadein {
     visibility: visible;
     opacity: 1.0;
@@ -80,6 +85,7 @@ a:focus {
 .gui-panel__item {
         display: block;
         padding-top: 7px;
+        border-right: 1px solid gray;
         height: 100%;
         width: 100%;
         color: white;
@@ -194,6 +200,8 @@ a:focus {
     width: 350px;
     height: 400px;
     opacity: 1.0;
+    border: 1px solid rgb(235, 235, 235);
+    border-radius: 5px 5px 0 0;
     -webkit-touch-callout: none;
         -webkit-user-select: none;
         -khtml-user-select: none;

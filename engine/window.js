@@ -29,7 +29,7 @@ var Window = function(panelInstance, windowId) {
     this.isResizingSE = false;
     this.cachedResizeX = 0;
     this.cachedResizeY = 0;
-
+    
     this.isMaximized = false;
     this.cachedXBeforeMax;
     this.cachedYBeforeMax;
@@ -238,13 +238,15 @@ var Window = function(panelInstance, windowId) {
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 }
-
+                
                 this.calculateNewTitleLimits();
             }
         }.bind(this));
         
-        this.guiWindow.addEventListener('mousemove', function(event) {
-
+        this.guiWindow.addEventListener('mousedown', function(event) {
+            if(event.button == 0) {
+                this.focusWindow();
+            }
         }.bind(this));
         
         this.titleBar.addEventListener('mousedown', function(event) {
@@ -306,17 +308,17 @@ var Window = function(panelInstance, windowId) {
             this.toggleWindowSnapVisualEffects();
         }
     }
-
+    
     this.leaveCornerAction = function() {
         if(this.isSnapped) {
             this.snapWindow();
         }
-
+        
         if(this.snapEffectsToggled) {
             this.toggleWindowSnapVisualEffects();
         }
     }
-
+    
     this.checkForLeaveCorners = function() {
         if(this.isAtTop) {
             if(this.getWindowY() >= 10) {
@@ -339,7 +341,7 @@ var Window = function(panelInstance, windowId) {
             }
         }
     }
-
+    
     this.toggleWindowSnapVisualEffects = function() {
         desktop = this.panelInstance.getDesktop().getDOMObject();
         visualEffect = null;
@@ -355,14 +357,14 @@ var Window = function(panelInstance, windowId) {
             visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
             visualEffect.classList.toggle("window-snap-indicator-fade-in");
         }
-
+        
         if(visualEffect.classList.contains("window-snap-indicator-fade-in")) {
             this.snapEffectsToggled = true;
         } else {
             this.snapEffectsToggled = false;
         }
     }
-
+    
     this.snapWindow = function() {
         if(!this.isSnapped) {
             if(this.isAtTop && !this.isMaximized) {
@@ -394,7 +396,7 @@ var Window = function(panelInstance, windowId) {
             this.isSnapped = false;
         }
     }
-
+    
     this.maximizeWindow = function() {
         if(this.isMaximized) {
             this.isMaximized = false;
@@ -418,14 +420,14 @@ var Window = function(panelInstance, windowId) {
             this.isAtTop = true;
         }
     }
-
+    
     this.removeDimensionFlags = function() {
         this.guiWindow.classList.remove("gui-window--size-fullhd");
         this.guiWindow.classList.remove("gui-window--size-hd");
         this.guiWindow.classList.remove("gui-window--size-vga");
         this.guiWindow.classList.remove("gui-window--size-qvga");
     }
-
+    
     this.applyNewDimensionFlags = function(width) {
         if(width.indexOf("%") != -1) {
             width = width.substring(0, width.length-1);
@@ -442,7 +444,18 @@ var Window = function(panelInstance, windowId) {
             this.guiWindow.classList.add("gui-window--size-qvga");
         }
     }
-
+    
+    this.focusWindow = function() {
+        allWindows = panelInstance.getWindows();
+        for(i = 0; i < allWindows.length; i++) {
+            aWindow = allWindows[i].getDOMObject().querySelector(".gui-window");
+            if(!aWindow.classList.contains("window-effect-shade")) {
+                aWindow.classList.add("window-effect-shade");
+            }
+        }
+        this.guiWindow.classList.remove("window-effect-shade");
+    }
+    
     this.setWidth = function(width) {
         width = width + "";
         this.applyNewDimensionFlags(width);
@@ -477,7 +490,7 @@ var Window = function(panelInstance, windowId) {
             panelInstance.getPanelItem(this.id).setTitle(title);
         }
     }
-
+    
     this.calculateNewTitleLimits = function() {
         width = this.getWidth();
         leftLimit = this.domObj.querySelector(".window-btn-maximize").getBoundingClientRect().right - this.getWindowX();
@@ -494,7 +507,7 @@ var Window = function(panelInstance, windowId) {
             this.title.textContent = this.titleText;
         }
     }
-
+    
     this.setWindowIcon = function(path) {
         this.windowIcon.setAttribute("src", path);
         this.panelInstance.getPanelItem(this.id).setIcon(path);
@@ -540,7 +553,7 @@ var Window = function(panelInstance, windowId) {
     this.getContent = function() {
         return this.windowContent.textContent;
     }
-
+    
     this.isWindowPinnable = function() {
         return this.isPinnable;
     }

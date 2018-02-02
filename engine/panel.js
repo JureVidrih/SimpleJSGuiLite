@@ -35,7 +35,10 @@
                 contextMenu = node.querySelector(".gui-panel__item__context-menu");
                 for(i = 0; i < this.items.length; i++) {
                     if(this.items[i].getId() != newWindow.getId()) {
-                        this.items[i].getDOMObject().querySelector(".gui-panel__item__context-menu").style.display = "none";
+                        anItem = this.items[i].getDOMObject().querySelector(".gui-panel__item__context-menu");
+                        if(anItem.classList.contains("context-menu-fadein")) {
+                            anItem.classList.remove("context-menu-fadein");
+                        }
                     }
                 }
                 // if(contextMenu.style.display == "none") {
@@ -57,6 +60,7 @@
             }
             document.body.appendChild(newWindow.getDOMObject());
             document.getElementById(this.panelInstance).appendChild(node);
+            newWindow.focusWindow();
         }
         this.panelInstance = null;
         this.selectInstance = function(instanceId) {
@@ -99,6 +103,10 @@
     
         this.getDesktop = function() {
             return this.desktop;
+        }
+
+        this.getWindows = function() {
+            return this.windows;
         }
 
         this.getWindowOrderNumberById = function(id) {

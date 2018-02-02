@@ -7,6 +7,12 @@ html .window-effect-transparency {
     opacity: 0.86;
 }
 
+html .window-effect-shade {
+    transition: ease-out .1s;
+    filter: grayscale(.3) brightness(.95);
+    border: none;
+}
+
 html .context-menu-fadein {
     visibility: visible;
     opacity: 1.0;
