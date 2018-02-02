@@ -45,8 +45,11 @@ var Window = function(panelInstance, windowId) {
         this.createDOMObject();
         this.setTitle("M");
         this.remInPixels = parseInt(getComputedStyle(this.domObj).fontSize);
+        this.setTitle("Window Title");
         this.guiWindow.style.top = "50px";
         this.guiWindow.style.left = "300px";
+        this.setWidth(350);
+        this.setHeight(400);
         this.registerEvents();
     }
     
