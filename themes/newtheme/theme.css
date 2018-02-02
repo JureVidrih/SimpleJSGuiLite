@@ -210,7 +210,7 @@ a:focus {
     height: 400px;
     opacity: 1.0;
     border: 1px solid rgb(235, 235, 235);
-    border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 5px 5px;
     -webkit-touch-callout: none;
         -webkit-user-select: none;
         -khtml-user-select: none;
