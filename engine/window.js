@@ -331,6 +331,8 @@ var Window = function(panelInstance, windowId) {
             if(this.getWindowY() >= 10) {
                 if(this.isAtLeft || this.isAtRight) {
                     this.toggleWindowSnapVisualEffects();
+                    this.isAtLeft = false;
+                    this.isAtRight = false;
                 }
                 this.leaveCornerAction();
                 this.isAtTop = false;
@@ -340,6 +342,7 @@ var Window = function(panelInstance, windowId) {
             if(this.getWindowX() >= 10) {
                 if(this.isAtTop) {
                     this.toggleWindowSnapVisualEffects();
+                        this.isAtTop = false;
                 }
                 this.leaveCornerAction();
                 this.isAtLeft = false;
@@ -349,6 +352,7 @@ var Window = function(panelInstance, windowId) {
             if((this.getWindowX() + this.getWidth()) <= document.body.clientWidth - 10) {
                 if(this.isAtTop) {
                     this.toggleWindowSnapVisualEffects();
+                    this.isAtTop = false;
                 }
                 this.leaveCornerAction();
                 this.isAtRight = false;
@@ -492,6 +496,7 @@ var Window = function(panelInstance, windowId) {
         } else {
             this.guiWindow.style.width = width+"px";
         }
+        this.calculateNewTitleLimits();
     }
     
     this.setHeight = function(height) {
@@ -501,6 +506,7 @@ var Window = function(panelInstance, windowId) {
         } else {
             this.guiWindow.style.height = height+"px";
         }
+        this.calculateNewTitleLimits();
     }
     
     this.setBackgroundColor = function(bgrcolor) {

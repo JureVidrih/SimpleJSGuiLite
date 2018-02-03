@@ -8,7 +8,7 @@ html .window-effect-transparency {
 }
 
 html .window-effect-shade {
-    transition: ease-out .1s;
+    transition: filter ease-out .1s;
     filter: grayscale(.3) brightness(.95);
     border: 1px solid rgb(235, 235, 235);
     border-radius: 5px 5px 5px 5px;
