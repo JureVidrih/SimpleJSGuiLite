@@ -194,6 +194,21 @@ a:focus {
         background-position: center;
         background-repeat: no-repeat;
     }
+
+    .window-effect-shade &-close {
+        transition: ease-out .1s;
+        filter: brightness(300%);
+    }
+
+    .window-effect-shade &-minimize {
+        transition: ease-out .1s;
+        filter: brightness(300%);
+    }
+
+    .window-effect-shade &-maximize {
+        transition: ease-out .1s;
+        filter: brightness(300%);
+    }
 }
 
 .window-btn:hover {
