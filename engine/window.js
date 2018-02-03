@@ -407,7 +407,9 @@ var Window = function(panelInstance, windowId) {
                 this.guiWindow.style.left = temp + "px";
                 this.guiWindow.style.top = "0px";
             }
-            this.isSnapped = true;
+            if((this.isAtTop && !this.isMaximized) || this.isAtLeft || this.isAtRight) {
+                this.isSnapped = true;
+            }
         } else {
             if(this.isAtTop && this.isMaximized) {
                 this.maximizeWindow();
