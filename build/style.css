@@ -270,6 +270,7 @@ a:focus {
         bottom: 0;
         padding: 8px;
         background-color: white;
+        overflow: hidden;
     }
 .gui-window #nw-resize-wrapper {
         position: absolute;
