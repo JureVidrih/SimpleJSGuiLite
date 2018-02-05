@@ -37,6 +37,7 @@ var Window = function(panelInstance, windowId) {
     this.cachedHeight = 0;
     this.isSnapped = false;
     this.snapEffectsToggled = false;
+    this.cachedXBeforeSnap;
     this.isAtTop;
     this.isAtLeft;
     this.isAtRight;
@@ -266,7 +267,6 @@ var Window = function(panelInstance, windowId) {
             if(this.isBeingDragged) {
                 this.isBeingDragged = false;
                 if(!this.isMaximized && (this.isAtTop || this.isAtLeft || this.isAtRight)) {
-                    this.toggleWindowSnapVisualEffects();
                     this.snapWindow();
                 }
                 this.guiWindow.classList.remove("window-effect-transparency");
@@ -295,121 +295,69 @@ var Window = function(panelInstance, windowId) {
         }.bind(this));
     }
     
-    // this.checkForEnterCorners = function(event) {
-    //     if(!this.isAtTop && event.clientY <= 0 && event.clientX > 10 && event.clientX < (document.body.clientWidth - 10)) {
-    //         if(this.isAtLeft || this.isAtRight) {
-    //             this.toggleWindowSnapVisualEffects();
-    //         }
-    //         this.isAtTop = true;
-    //         this.toggleWindowSnapVisualEffects();
-    //     } else if(!this.isAtLeft && event.clientX <= 10) {
-    //         if(this.isAtTop) {
-    //             this.toggleWindowSnapVisualEffects();
-    //         }
-    //         this.isAtLeft = true;
-    //         this.toggleWindowSnapVisualEffects();
-    //     } else if(!this.isAtRight && event.clientX >= (document.body.clientWidth-10)) {
-    //         if(this.isAtTop) {
-    //             this.toggleWindowSnapVisualEffects();
-    //         }
-    //         this.isAtRight = true;
-    //         this.toggleWindowSnapVisualEffects();
-    //     }
-    // }
-    
     this.checkForEnterCorners = function(event) {
-        if(!this.isAtTop && this.getWindowY() <= 0 && this.getWindowX() > 10 && (this.getWindowX() + this.getWidth()) < (document.body.clientWidth - 10)) {
-            // if(this.isAtLeft || this.isAtRight) {
-            //     this.toggleWindowSnapVisualEffects();
-            //     this.isAtLeft = false;
-            //     this.isAtRight = false;
-            // }
-            this.isAtTop = true;
-            this.toggleWindowSnapVisualEffects();
-        } else if(!this.isAtLeft && this.getWindowX() <= 10 && !this.isMaximized) {
-            // if(this.isAtTop) {
-            //     this.toggleWindowSnapVisualEffects();
-            //     this.isAtTop = false;
-            // }
-            this.isAtLeft = true;
-            this.toggleWindowSnapVisualEffects();
-        } else if(!this.isAtRight && (this.getWindowX() + this.getWidth()) >= (document.body.clientWidth-10) && !this.isMaximized) {
-            // if(this.isAtTop) {
-            //     this.toggleWindowSnapVisualEffects();
-            //     this.isAtTop = false;
-            // }
-            this.isAtRight = true;
-            this.toggleWindowSnapVisualEffects();
-        }      
-    }
-    
-    this.leaveCornerAction = function() {
-        if(this.isSnapped) {
-            this.snapWindow();
+        if(!this.isAtTop && this.getWindowY() <= 0) {
+            if(this.getWindowX() > 10 && ((this.getWindowX() + this.getWidth()) < (document.body.clientWidth-10))) {
+                this.isAtTop = true;
+                this.toggleWindowSnapVisualEffects("top");
+            }
         }
-        
-        if(this.snapEffectsToggled) {
-            this.toggleWindowSnapVisualEffects();
+        if(!this.isMaximized) {
+            if(!this.isAtLeft && this.getWindowX() < 10) {
+                this.isAtLeft = true;
+                this.toggleWindowSnapVisualEffects("left");
+            }
+            if(!this.isAtRight && (this.getWindowX() + this.getWidth()) > (document.body.clientWidth-10)) {
+                this.isAtRight = true;
+                this.toggleWindowSnapVisualEffects("right");
+            }
         }
     }
     
     this.checkForLeaveCorners = function() {
         if(this.isAtTop) {
-            if(this.getWindowY() >= 10) {
-                if(this.isAtLeft) {
-                    this.isAtTop = false;
-                    this.toggleWindowSnapVisualEffects();
-                    this.isAtLeft = false;
-                }
-                if(this.isAtRight) {
-                    this.isAtTop = false;
-                    this.toggleWindowSnapVisualEffects();
-                    this.isAtRight = false;
-                }
-                this.isAtTop = true;
-                this.leaveCornerAction();
+            if(this.getWindowY() >= 10 || this.getWindowX() < 10 || ((this.getWindowX() + this.getWidth()) > (document.body.clientWidth-10))) {
                 this.isAtTop = false;
+                this.leaveCornerAction("top");
             }
         }
         if(this.isAtLeft) {
-            if(this.getWindowX() >= 10) {
-                // if(this.isAtTop) {
-                //     this.isAtLeft = false;
-                //     this.toggleWindowSnapVisualEffects();
-                //     this.isAtTop = false;
-                // }
-                this.isAtLeft = true;
-                this.leaveCornerAction();
+            if(this.getWindowX() > 10) {
                 this.isAtLeft = false;
+                this.leaveCornerAction("left");
             }
         }
         if(this.isAtRight) {
-            if((this.getWindowX() + this.getWidth()) <= document.body.clientWidth - 10) {
-                // if(this.isAtTop) {
-                //     this.isAtRight = false;
-                //     this.toggleWindowSnapVisualEffects();
-                //     this.isAtTop = false;
-                // }
-                this.isAtRight = true;
-                this.leaveCornerAction();
+            if((this.getWindowX() + this.getWidth()) < (document.body.clientWidth-10)) {
                 this.isAtRight = false;
+                this.leaveCornerAction("right");
             }
         }
     }
+
+    this.leaveCornerAction = function(indicator) {
+        if(this.isSnapped) {
+            this.snapWindow();
+        }
+        
+        if(this.snapEffectsToggled) {
+            this.toggleWindowSnapVisualEffects(indicator);
+        }
+    }
     
-    this.toggleWindowSnapVisualEffects = function() {
+    this.toggleWindowSnapVisualEffects = function(indicator) {
         desktop = this.panelInstance.getDesktop().getDOMObject();
         visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
         visualEffectLeft = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
         visualEffectRight = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
 
-        if(this.isAtTop) {
+        if(indicator == "top") {
             visualEffectTop.classList.toggle("window-snap-indicator-fade-in");
         }
-        if(this.isAtLeft) {
+        if(indicator == "left") {
             visualEffectLeft.classList.toggle("window-snap-indicator-fade-in");
         }
-        if(this.isAtRight) {
+        if(indicator == "right") {
             visualEffectRight.classList.toggle("window-snap-indicator-fade-in");
         }
         
@@ -428,9 +376,11 @@ var Window = function(panelInstance, windowId) {
         if(!this.isSnapped) {
             if(this.isAtTop && !this.isMaximized) {
                 this.maximizeWindow();
+                this.isSnapped = true;
             } else if(this.isAtLeft) {
                 this.cachedWidth = this.getWidth();
                 this.cachedHeight = this.getHeight();
+                this.cachedXBeforeSnap = 0;
                 this.guiWindow.style.left = "0px";
                 this.guiWindow.style.top = "0px";
                 this.setWidth("50%");
@@ -438,6 +388,7 @@ var Window = function(panelInstance, windowId) {
             } else if(this.isAtRight) {
                 this.cachedWidth = this.getWidth();
                 this.cachedHeight = this.getHeight();
+                this.cachedXBeforeSnap = document.body.clientWidth-this.getWidth();
                 this.setWidth("50%");
                 this.setHeight("100%");
                 temp = (document.body.clientWidth - this.getWidth());
@@ -448,11 +399,12 @@ var Window = function(panelInstance, windowId) {
                 this.isSnapped = true;
             }
         } else {
-            if(this.isAtTop && this.isMaximized) {
+            if(!this.isAtTop && this.isMaximized) {
                 this.maximizeWindow();
-            } else if(this.isAtLeft || this.isAtRight) {
+            } else if(!this.isAtLeft || !this.isAtRight) {
                 this.setWidth(this.cachedWidth);
                 this.setHeight(this.cachedHeight);
+                this.setWindowX(this.cachedXBeforeSnap);
             }
             this.isSnapped = false;
         }
@@ -479,8 +431,6 @@ var Window = function(panelInstance, windowId) {
             this.setWidth("100%");
             this.setHeight("100%");
             this.isMaximized = true;
-            this.isSnapped = true;
-            this.isAtTop = true;
         }
     }
     
