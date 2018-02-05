@@ -72,6 +72,7 @@ var Window = function(panelInstance, windowId) {
         this.close = this.domObj.getElementsByClassName("window-btn-close")[0];
         this.min = this.domObj.getElementsByClassName("window-btn-minimize")[0];
         this.max = this.domObj.getElementsByClassName("window-btn-maximize")[0];
+        this.icon = this.domObj.querySelector(".gui-window__titlebar__icon");
         this.title = this.domObj.querySelector(".gui-window__titlebar__title");
         this.windowIcon = this.domObj.querySelector(".gui-window__titlebar__icon");
         this.windowContent = this.domObj.querySelector(".gui-window__content");
@@ -264,10 +265,10 @@ var Window = function(panelInstance, windowId) {
         document.addEventListener('mouseup', function(event) {
             if(this.isBeingDragged) {
                 this.isBeingDragged = false;
-                if(this.isAtTop || this.isAtLeft || this.isAtRight) {
+                if(!this.isMaximized && (this.isAtTop || this.isAtLeft || this.isAtRight)) {
                     this.toggleWindowSnapVisualEffects();
+                    this.snapWindow();
                 }
-                this.snapWindow();
                 this.guiWindow.classList.remove("window-effect-transparency");
             }
         }.bind(this));
@@ -294,26 +295,52 @@ var Window = function(panelInstance, windowId) {
         }.bind(this));
     }
     
+    // this.checkForEnterCorners = function(event) {
+    //     if(!this.isAtTop && event.clientY <= 0 && event.clientX > 10 && event.clientX < (document.body.clientWidth - 10)) {
+    //         if(this.isAtLeft || this.isAtRight) {
+    //             this.toggleWindowSnapVisualEffects();
+    //         }
+    //         this.isAtTop = true;
+    //         this.toggleWindowSnapVisualEffects();
+    //     } else if(!this.isAtLeft && event.clientX <= 10) {
+    //         if(this.isAtTop) {
+    //             this.toggleWindowSnapVisualEffects();
+    //         }
+    //         this.isAtLeft = true;
+    //         this.toggleWindowSnapVisualEffects();
+    //     } else if(!this.isAtRight && event.clientX >= (document.body.clientWidth-10)) {
+    //         if(this.isAtTop) {
+    //             this.toggleWindowSnapVisualEffects();
+    //         }
+    //         this.isAtRight = true;
+    //         this.toggleWindowSnapVisualEffects();
+    //     }
+    // }
+    
     this.checkForEnterCorners = function(event) {
-        if(!this.isAtTop && event.clientY <= 0 && event.clientX > 10 && event.clientX < (document.body.clientWidth - 10)) {
-            if(this.isAtLeft || this.isAtRight) {
-                this.toggleWindowSnapVisualEffects();
-            }
+        if(!this.isAtTop && this.getWindowY() <= 0 && this.getWindowX() > 10 && (this.getWindowX() + this.getWidth()) < (document.body.clientWidth - 10)) {
+            // if(this.isAtLeft || this.isAtRight) {
+            //     this.toggleWindowSnapVisualEffects();
+            //     this.isAtLeft = false;
+            //     this.isAtRight = false;
+            // }
             this.isAtTop = true;
             this.toggleWindowSnapVisualEffects();
-        } else if(!this.isAtLeft && event.clientX <= 10) {
-            if(this.isAtTop) {
-                this.toggleWindowSnapVisualEffects();
-            }
+        } else if(!this.isAtLeft && this.getWindowX() <= 10 && !this.isMaximized) {
+            // if(this.isAtTop) {
+            //     this.toggleWindowSnapVisualEffects();
+            //     this.isAtTop = false;
+            // }
             this.isAtLeft = true;
             this.toggleWindowSnapVisualEffects();
-        } else if(!this.isAtRight && event.clientX >= (document.body.clientWidth-10)) {
-            if(this.isAtTop) {
-                this.toggleWindowSnapVisualEffects();
-            }
+        } else if(!this.isAtRight && (this.getWindowX() + this.getWidth()) >= (document.body.clientWidth-10) && !this.isMaximized) {
+            // if(this.isAtTop) {
+            //     this.toggleWindowSnapVisualEffects();
+            //     this.isAtTop = false;
+            // }
             this.isAtRight = true;
             this.toggleWindowSnapVisualEffects();
-        }
+        }      
     }
     
     this.leaveCornerAction = function() {
@@ -329,31 +356,41 @@ var Window = function(panelInstance, windowId) {
     this.checkForLeaveCorners = function() {
         if(this.isAtTop) {
             if(this.getWindowY() >= 10) {
-                if(this.isAtLeft || this.isAtRight) {
+                if(this.isAtLeft) {
+                    this.isAtTop = false;
                     this.toggleWindowSnapVisualEffects();
                     this.isAtLeft = false;
+                }
+                if(this.isAtRight) {
+                    this.isAtTop = false;
+                    this.toggleWindowSnapVisualEffects();
                     this.isAtRight = false;
                 }
+                this.isAtTop = true;
                 this.leaveCornerAction();
                 this.isAtTop = false;
             }
         }
         if(this.isAtLeft) {
             if(this.getWindowX() >= 10) {
-                if(this.isAtTop) {
-                    this.toggleWindowSnapVisualEffects();
-                        this.isAtTop = false;
-                }
+                // if(this.isAtTop) {
+                //     this.isAtLeft = false;
+                //     this.toggleWindowSnapVisualEffects();
+                //     this.isAtTop = false;
+                // }
+                this.isAtLeft = true;
                 this.leaveCornerAction();
                 this.isAtLeft = false;
             }
         }
         if(this.isAtRight) {
             if((this.getWindowX() + this.getWidth()) <= document.body.clientWidth - 10) {
-                if(this.isAtTop) {
-                    this.toggleWindowSnapVisualEffects();
-                    this.isAtTop = false;
-                }
+                // if(this.isAtTop) {
+                //     this.isAtRight = false;
+                //     this.toggleWindowSnapVisualEffects();
+                //     this.isAtTop = false;
+                // }
+                this.isAtRight = true;
                 this.leaveCornerAction();
                 this.isAtRight = false;
             }
@@ -362,29 +399,25 @@ var Window = function(panelInstance, windowId) {
     
     this.toggleWindowSnapVisualEffects = function() {
         desktop = this.panelInstance.getDesktop().getDOMObject();
-        visualEffect = null;
-        
-        // visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
-        // visualEffect.classList.remove("window-snap-indicator-fade-in");
-        // visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
-        // visualEffect.classList.remove("window-snap-indicator-fade-in");
-        // visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
-        // visualEffect.classList.remove("window-snap-indicator-fade-in");
-        
+        visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
+        visualEffectLeft = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
+        visualEffectRight = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
+
         if(this.isAtTop) {
-            visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
-            visualEffect.classList.toggle("window-snap-indicator-fade-in");
+            visualEffectTop.classList.toggle("window-snap-indicator-fade-in");
         }
         if(this.isAtLeft) {
-            visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
-            visualEffect.classList.toggle("window-snap-indicator-fade-in");
+            visualEffectLeft.classList.toggle("window-snap-indicator-fade-in");
         }
         if(this.isAtRight) {
-            visualEffect = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
-            visualEffect.classList.toggle("window-snap-indicator-fade-in");
+            visualEffectRight.classList.toggle("window-snap-indicator-fade-in");
         }
         
-        if(visualEffect.classList.contains("window-snap-indicator-fade-in")) {
+        checkTop = visualEffectTop.classList.contains("window-snap-indicator-fade-in");
+        checkLeft = visualEffectLeft.classList.contains("window-snap-indicator-fade-in");
+        checkRight = visualEffectRight.classList.contains("window-snap-indicator-fade-in");
+
+        if(checkTop || checkLeft || checkRight) {
             this.snapEffectsToggled = true;
         } else {
             this.snapEffectsToggled = false;
@@ -430,13 +463,15 @@ var Window = function(panelInstance, windowId) {
             this.isMaximized = false;
             this.isSnapped = false;
             this.isAtTop = false;
-            this.guiWindow.style.left = this.cachedXBeforeMax;
-            // this.guiWindow.style.top = this.cachedYBeforeMax;
+            this.setWindowX(this.cachedXBeforeMax);
+            if(!this.isBeingDragged) {
+                this.setWindowY(this.cachedYBeforeMax);
+            }
             this.setWidth(this.cachedWidth);
             this.setHeight(this.cachedHeight);
         } else {
-            this.cachedXBeforeMax = this.guiWindow.style.left;
-            this.cachedYBeforeMax = this.guiWindow.style.top;
+            this.cachedXBeforeMax = this.getWindowX();
+            this.cachedYBeforeMax = this.getWindowY();
             this.cachedWidth = this.getWidth();
             this.cachedHeight = this.getHeight();
             this.guiWindow.style.left = "0";
@@ -482,7 +517,7 @@ var Window = function(panelInstance, windowId) {
             }
         }
     }
-
+    
     this.focusWindow = function() {
         this.unfocusAllWindows();
         this.guiWindow.classList.remove("window-effect-shade");
@@ -558,7 +593,7 @@ var Window = function(panelInstance, windowId) {
     this.setWindowY = function(y) {
         this.guiWindow.style.top = y+"px";
     }
-
+    
     this.getWindowX = function() {
         return Number(this.guiWindow.style.left.split("px")[0]);
     }

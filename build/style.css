@@ -176,30 +176,30 @@ a:focus {
         background-size: 21px 21px;
         background-position: center;
         background-repeat: no-repeat;
+        transition: ease-out .1s;
     }
 .window-btn-minimize {
         background-image: url('../themes/newtheme/assets/window/window_button_minimize.png');
         background-size: 21px 21px;
         background-position: center;
         background-repeat: no-repeat;
+        transition: ease-out .1s;
     }
 .window-btn-maximize {
         background-image: url('../themes/newtheme/assets/window/window_button_maximize.png');
         background-size: 18px 18px;
         background-position: center;
         background-repeat: no-repeat;
+        transition: ease-out .1s;
     }
 .window-effect-shade .window-btn-close {
-        transition: ease-out .1s;
-        filter: brightness(300%);
+        filter: brightness(250%);
     }
 .window-effect-shade .window-btn-minimize {
-        transition: ease-out .1s;
-        filter: brightness(300%);
+        filter: brightness(250%);
     }
 .window-effect-shade .window-btn-maximize {
-        transition: ease-out .1s;
-        filter: brightness(300%);
+        filter: brightness(250%);
     }
 .window-btn:hover {
     transition: ease-out 0.2s;

@@ -179,6 +179,7 @@ a:focus {
         background-size: 21px 21px;
         background-position: center;
         background-repeat: no-repeat;
+        transition: ease-out .1s;
     }
 
     &-minimize {
@@ -186,6 +187,7 @@ a:focus {
         background-size: 21px 21px;
         background-position: center;
         background-repeat: no-repeat;
+        transition: ease-out .1s;
     }
 
     &-maximize {
@@ -193,21 +195,19 @@ a:focus {
         background-size: 18px 18px;
         background-position: center;
         background-repeat: no-repeat;
+        transition: ease-out .1s;
     }
 
     .window-effect-shade &-close {
-        transition: ease-out .1s;
-        filter: brightness(300%);
+        filter: brightness(250%);
     }
 
     .window-effect-shade &-minimize {
-        transition: ease-out .1s;
-        filter: brightness(300%);
+        filter: brightness(250%);
     }
 
     .window-effect-shade &-maximize {
-        transition: ease-out .1s;
-        filter: brightness(300%);
+        filter: brightness(250%);
     }
 }
 
