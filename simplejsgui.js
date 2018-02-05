@@ -1,5 +1,5 @@
 /*
-    SimpleJSGui v0.0.2(alpha)
+    SimpleJSGui v0.0.3(alpha)
 */
 
 var myPanel = new Panel();
