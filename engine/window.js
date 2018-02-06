@@ -429,7 +429,7 @@ var Window = function(panelInstance, windowId) {
             this.guiWindow.style.left = "0";
             this.guiWindow.style.top = "0";
             this.setWidth("100%");
-            this.setHeight("100%");
+            this.setHeight(this.panelInstance.getDesktop().getDOMObject().clientHeight);
             this.isMaximized = true;
         }
     }
