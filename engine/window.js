@@ -384,13 +384,13 @@ var Window = function(panelInstance, windowId) {
                 this.guiWindow.style.left = "0px";
                 this.guiWindow.style.top = "0px";
                 this.setWidth("50%");
-                this.setHeight("100%");
+                this.setHeight(this.panelInstance.getDesktop().getDOMObject().clientHeight);
             } else if(this.isAtRight) {
                 this.cachedWidth = this.getWidth();
                 this.cachedHeight = this.getHeight();
                 this.cachedXBeforeSnap = document.body.clientWidth-this.getWidth();
                 this.setWidth("50%");
-                this.setHeight("100%");
+                this.setHeight(this.panelInstance.getDesktop().getDOMObject().clientHeight);
                 temp = (document.body.clientWidth - this.getWidth());
                 this.guiWindow.style.left = temp + "px";
                 this.guiWindow.style.top = "0px";
@@ -533,7 +533,9 @@ var Window = function(panelInstance, windowId) {
     }
     
     this.setContent = function(content) {
-        this.windowContent.innerHTML = content;
+        this.content = content;
+        this.windowContent.appendChild(this.content);
+        content.remove();
     }
     
     this.setWindowX = function(x) {
@@ -577,7 +579,7 @@ var Window = function(panelInstance, windowId) {
     }
     
     this.getContent = function() {
-        return this.windowContent.textContent;
+        return this.content;
     }
     
     this.isWindowPinnable = function() {
