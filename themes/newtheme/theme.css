@@ -286,34 +286,6 @@ a:focus {
         overflow: hidden;
     }
 
-    #nw-resize-wrapper {
-        position: absolute;
-        z-index: 2;
-        top: 0;
-        left: 0;
-    }
-
-    #ne-resize-wrapper {
-        position: absolute;
-        z-index: 2;
-        top: 0;
-        right: 0;
-    }
-
-    #sw-resize-wrapper {
-        position: absolute;
-        z-index: 2;
-        bottom: 0;
-        left: 0;
-    }
-
-    #se-resize-wrapper {
-        position: absolute;
-        z-index: 2;
-        bottom: 0;
-        right: 0;
-    }
-
     #nw-resize {
         position: absolute;
         z-index: 2;
@@ -352,5 +324,45 @@ a:focus {
         width: 10px;
         height: 10px;
         cursor: se-resize;
+    }
+
+    #n-resize {
+        position: absolute;
+        z-index: 2;
+        top: -5px;
+        left: 5px;
+        right: 5px;
+        height: 10px;
+        cursor: n-resize;
+    }
+
+    #s-resize {
+        position: absolute;
+        z-index: 2;
+        bottom: -5px;
+        left: 5px;
+        right: 5px;
+        height: 10px;
+        cursor: s-resize;
+    }
+
+    #w-resize {
+        position: absolute;
+        z-index: 2;
+        top: 5px;
+        bottom: 5px;
+        left: -5px;
+        width: 10px;
+        cursor: w-resize;
+    }
+
+    #e-resize {
+        position: absolute;
+        z-index: 2;
+        top: 5px;
+        bottom: 5px;
+        right: -5px;
+        width: 10px;
+        cursor: e-resize;
     }
 }

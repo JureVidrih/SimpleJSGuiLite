@@ -272,30 +272,6 @@ a:focus {
         background-color: white;
         overflow: hidden;
     }
-.gui-window #nw-resize-wrapper {
-        position: absolute;
-        z-index: 2;
-        top: 0;
-        left: 0;
-    }
-.gui-window #ne-resize-wrapper {
-        position: absolute;
-        z-index: 2;
-        top: 0;
-        right: 0;
-    }
-.gui-window #sw-resize-wrapper {
-        position: absolute;
-        z-index: 2;
-        bottom: 0;
-        left: 0;
-    }
-.gui-window #se-resize-wrapper {
-        position: absolute;
-        z-index: 2;
-        bottom: 0;
-        right: 0;
-    }
 .gui-window #nw-resize {
         position: absolute;
         z-index: 2;
@@ -331,6 +307,42 @@ a:focus {
         width: 10px;
         height: 10px;
         cursor: se-resize;
+    }
+.gui-window #n-resize {
+        position: absolute;
+        z-index: 2;
+        top: -5px;
+        left: 5px;
+        right: 5px;
+        height: 10px;
+        cursor: n-resize;
+    }
+.gui-window #s-resize {
+        position: absolute;
+        z-index: 2;
+        bottom: -5px;
+        left: 5px;
+        right: 5px;
+        height: 10px;
+        cursor: s-resize;
+    }
+.gui-window #w-resize {
+        position: absolute;
+        z-index: 2;
+        top: 5px;
+        bottom: 5px;
+        left: -5px;
+        width: 10px;
+        cursor: w-resize;
+    }
+.gui-window #e-resize {
+        position: absolute;
+        z-index: 2;
+        top: 5px;
+        bottom: 5px;
+        right: -5px;
+        width: 10px;
+        cursor: e-resize;
     }
 * {
     box-sizing: border-box;

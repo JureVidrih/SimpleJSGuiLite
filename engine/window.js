@@ -27,8 +27,20 @@ var Window = function(panelInstance, windowId) {
     this.isResizingNE = false;
     this.isResizingSW = false;
     this.isResizingSE = false;
+    this.isResizingN = false;
+    this.isResizingS = false;
+    this.isResizingW = false;
+    this.isResizingE = false;
     this.cachedResizeX = 0;
     this.cachedResizeY = 0;
+    this.resizeListenerFullHD;
+    this.resizeListenerHD;
+    this.resizeListenerVGA;
+    this.resizeListenerQVGA;
+    this.wasListenerFullHDCalled = false;
+    this.wasListenerHDCalled = false;
+    this.wasListenerVGACalled = false;
+    this.wasListenerQVGACalled = false;
     
     this.isMaximized = false;
     this.cachedXBeforeMax;
@@ -58,7 +70,7 @@ var Window = function(panelInstance, windowId) {
         this.domObj = document.createElement("div");
         this.domObj.id = this.id;
         this.domObj.innerHTML =  '<div class="gui-window">'
-        +'<div id="nw-resize-wrapper"><div id="nw-resize"></div></div>'+'<div id="ne-resize-wrapper"><div id="ne-resize"></div></div>'+'<div id="sw-resize-wrapper"><div id="sw-resize"></div></div>'+'<div id="se-resize-wrapper"><div id="se-resize"></div></div>'
+        +'<div id="nw-resize"></div>'+'<div id="ne-resize"></div>'+'<div id="sw-resize"></div>'+'<div id="se-resize"></div>'+'<div id="n-resize"></div>'+'<div id="s-resize"></div>'+'<div id="w-resize"></div>'+'<div id="e-resize"></div>'
         +'<div class="gui-window__titlebar">'
         +'<div class="gui-window__titlebar__buttons"><a class="window-btn window-btn-close" href="#"></a><a class="window-btn window-btn-minimize" href="#"></a><a class="window-btn window-btn-maximize" href="#"></a></div><div class="gui-window__titlebar__title">Window Title</div><img class="gui-window__titlebar__icon"></img>'
         +'</div>'
@@ -69,6 +81,10 @@ var Window = function(panelInstance, windowId) {
         this.neResize = this.domObj.querySelector("#ne-resize");
         this.swResize = this.domObj.querySelector("#sw-resize");
         this.seResize = this.domObj.querySelector("#se-resize");
+        this.nResize = this.domObj.querySelector("#n-resize");
+        this.sResize = this.domObj.querySelector("#s-resize");
+        this.wResize = this.domObj.querySelector("#w-resize");
+        this.eResize = this.domObj.querySelector("#e-resize");
         this.titleBar = this.domObj.querySelector(".gui-window__titlebar");
         this.close = this.domObj.getElementsByClassName("window-btn-close")[0];
         this.min = this.domObj.getElementsByClassName("window-btn-minimize")[0];
@@ -125,6 +141,34 @@ var Window = function(panelInstance, windowId) {
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
+
+        this.nResize.addEventListener('mousedown', function(event) {
+            this.isBeingResized = true;
+            this.isResizingN = true;
+            this.cachedResizeX = event.clientX;
+            this.cachedResizeY = event.clientY;
+        }.bind(this));
+        
+        this.sResize.addEventListener('mousedown', function(event) {
+            this.isBeingResized = true;
+            this.isResizingS = true;
+            this.cachedResizeX = event.clientX;
+            this.cachedResizeY = event.clientY;
+        }.bind(this));
+        
+        this.wResize.addEventListener('mousedown', function(event) {
+            this.isBeingResized = true;
+            this.isResizingW = true;
+            this.cachedResizeX = event.clientX;
+            this.cachedResizeY = event.clientY;
+        }.bind(this));
+        
+        this.eResize.addEventListener('mousedown', function(event) {
+            this.isBeingResized = true;
+            this.isResizingE = true;
+            this.cachedResizeX = event.clientX;
+            this.cachedResizeY = event.clientY;
+        }.bind(this));
         
         document.addEventListener('mouseup', function(event) {
             if(this.isBeingResized) {
@@ -133,6 +177,10 @@ var Window = function(panelInstance, windowId) {
                 this.isResizingNE = false;
                 this.isResizingSW = false;
                 this.isResizingSE = false;
+                this.isResizingN = false;
+                this.isResizingS = false;
+                this.isResizingW = false;
+                this.isResizingE = false;
             }
         }.bind(this));
         
@@ -242,6 +290,62 @@ var Window = function(panelInstance, windowId) {
                     
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
+                } else if(this.isResizingN) {
+                    change = this.cachedResizeY-event.clientY;
+                    changeToApply = this.getWindowY() - change;
+                    if(this.getHeight() > this.minHeight) {
+                        this.guiWindow.style.top = changeToApply+"px";
+                        this.setHeight(this.getHeight()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.top = changeToApply+"px";
+                            this.setHeight(this.getHeight()+change);
+                        }
+                    }
+
+                    this.cachedResizeY = event.clientY;
+                } else if(this.isResizingS) {
+                    change = event.clientY-this.cachedResizeY;
+                    changeToApply = this.getWindowY() - change;
+                    if(this.getHeight() > this.minHeight) {
+                        this.guiWindow.style.bottom = changeToApply+"px";
+                        this.setHeight(this.getHeight()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.bottom = changeToApply+"px";
+                            this.setHeight(this.getHeight()+change);
+                        }
+                    }
+
+                    this.cachedResizeY = event.clientY;
+                } else if(this.isResizingW) {
+                    change = this.cachedResizeX-event.clientX;
+                    changeToApply = this.getWindowX() - change;
+                    if(this.getWidth() > this.minWidth) {
+                        this.guiWindow.style.left = changeToApply+"px";
+                        this.setWidth(this.getWidth()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.left = changeToApply+"px";
+                            this.setWidth(this.getWidth()+change);
+                        }
+                    }
+
+                    this.cachedResizeX = event.clientX;
+                } else if(this.isResizingE) {
+                    change = event.clientX-this.cachedResizeX;
+                    changeToApply = this.getWindowX() - change;
+                    if(this.getWidth() > this.minWidth) {
+                        this.guiWindow.style.right = changeToApply+"px";
+                        this.setWidth(this.getWidth()+change);
+                    } else {
+                        if(change > 0) {
+                            this.guiWindow.style.right = changeToApply+"px";
+                            this.setWidth(this.getWidth()+change);
+                        }
+                    }
+
+                    this.cachedResizeX = event.clientX;
                 }
                 
                 this.calculateNewTitleLimits();
@@ -433,6 +537,22 @@ var Window = function(panelInstance, windowId) {
             this.isMaximized = true;
         }
     }
+
+    this.setResizeListenerFullHD = function(newListener) {
+        this.resizeListenerFullHD = newListener;
+    }
+
+    this.setResizeListenerHD = function(newListener) {
+        this.resizeListenerHD = newListener;
+    }
+
+    this.setResizeListenerVGA = function(newListener) {
+        this.resizeListenerVGA = newListener;
+    }
+
+    this.setResizeListenerQVGA = function(newListener) {
+        this.resizeListenerQVGA = newListener;
+    }
     
     this.removeDimensionFlags = function() {
         this.guiWindow.classList.remove("gui-window--size-fullhd");
@@ -448,12 +568,40 @@ var Window = function(panelInstance, windowId) {
         }
         this.removeDimensionFlags();
         if(width >= 1920) {
+            if(this.resizeListenerFullHD && !this.wasListenerFullHDCalled) {
+                this.resizeListenerFullHD();
+                this.wasListenerFullHDCalled = true;
+                this.wasListenerHDCalled = false;
+                this.wasListenerVGACalled = false;
+                this.wasListenerQVGACalled = false;
+            }
             this.guiWindow.classList.add("gui-window--size-fullhd");
         } else if(width >= 1280) {
+            if(this.resizeListenerHD && !this.wasListenerHDCalled) {
+                this.resizeListenerHD();
+                this.wasListenerHDCalled = true;
+                this.wasListenerFullHDCalled = false;
+                this.wasListenerVGACalled = false;
+                this.wasListenerQVGACalled = false;
+            }
             this.guiWindow.classList.add("gui-window--size-hd");
         } else if(width >= 640) {
+            if(this.resizeListenerVGA && !this.wasListenerVGACalled) {
+                this.resizeListenerVGA();
+                this.wasListenerVGACalled = true;
+                this.wasListenerFullHDCalled = false;
+                this.wasListenerHDCalled = false;
+                this.wasListenerQVGACalled = false;
+            }
             this.guiWindow.classList.add("gui-window--size-vga");
         } else if(width >= 320) {
+            if(this.resizeListenerQVGA && !this.wasListenerQVGACalled) {
+                this.resizeListenerQVGA();
+                this.wasListenerQVGACalled = true;
+                this.wasListenerFullHDCalled = false;
+                this.wasListenerHDCalled = false;
+                this.wasListenerVGACalled = false;
+            }
             this.guiWindow.classList.add("gui-window--size-qvga");
         }
     }
@@ -533,9 +681,14 @@ var Window = function(panelInstance, windowId) {
     }
     
     this.setContent = function(content) {
-        this.content = content;
-        this.windowContent.appendChild(this.content);
-        content.remove();
+        if(content instanceof Object) {
+            this.content = content;
+            this.windowContent.appendChild(this.content);
+            content.remove();
+        } else if (!(content instanceof Object)) {
+            this.content = content;
+            this.windowContent.innerHTML = this.content;
+        }
     }
     
     this.setWindowX = function(x) {
