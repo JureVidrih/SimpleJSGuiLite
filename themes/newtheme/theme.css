@@ -471,7 +471,7 @@ a:focus {
 
 .gui-window {
     position: fixed;
-    z-index: 1;
+    z-index: 3;
     min-width: 350px;
     min-height: 400px;
     width: 350px;

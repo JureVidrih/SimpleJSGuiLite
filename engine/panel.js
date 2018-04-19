@@ -52,9 +52,18 @@
             nodeElem.classList.add("gui-panel__task-bar__item--active");
             nodeElem.addEventListener('click', function(event) {
                 var status = this.windowsStatus.get(newWindow.getId());
-                this.windowAction("minimize", newWindow.getId());
-                if(contextMenu.style.display == "inline-block") {
-                    contextMenu.style.display = "none";
+                if(status == "active") {
+                    this.windowAction("minimize", newWindow.getId());
+                    contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+                    if(contextMenu.style.display == "inline-block") {
+                        contextMenu.style.display = "none";
+                    }
+                } else if(status == "unactive") {
+                    this.windowAction("maximize", newWindow.getId());
+                    contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+                    if(contextMenu.style.display == "inline-block") {
+                        contextMenu.style.display = "none";
+                    }
                 }
             }.bind(this));
             nodeElem.addEventListener('contextmenu', function(event) {
@@ -117,6 +126,7 @@
                 var node = document.getElementsByClassName("gui-panel__task-bar__item")[windowId];
                 this.windowsStatus.set(id, "active");
                 node.classList.add("gui-panel__task-bar__item--active");
+                this.windows[windowId].focusWindow();
                 document.getElementById(this.windows[windowId].getId()).style.display = "block";
             } else if(actionToDo == "close") {
                 var windowId = this.getWindowOrderNumberById(id);
