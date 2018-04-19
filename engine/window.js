@@ -2,9 +2,9 @@ var Window = function(panelInstance, windowId) {
     this.maxTitleLength = 3000;
     this.titleText;
     this.remInPixels;
-    this.domObj;
+    this.DOMObj;
     this.getDOMObject = function() {
-        return this.domObj;
+        return this.DOMObj;
     }
     this.panelInstance = panelInstance;
     this.isPinnable = true;
@@ -57,7 +57,7 @@ var Window = function(panelInstance, windowId) {
     this.initialize = function() {
         this.createDOMObject();
         this.setTitle("M");
-        this.remInPixels = parseInt(getComputedStyle(this.domObj).fontSize);
+        this.remInPixels = parseInt(getComputedStyle(this.DOMObj).fontSize);
         this.setTitle("Window Title");
         this.guiWindow.style.top = "50px";
         this.guiWindow.style.left = "300px";
@@ -67,32 +67,32 @@ var Window = function(panelInstance, windowId) {
     }
     
     this.createDOMObject = function() {
-        this.domObj = document.createElement("div");
-        this.domObj.id = this.id;
-        this.domObj.innerHTML =  '<div class="gui-window">'
+        this.DOMObj = document.createElement("div");
+        this.DOMObj.id = this.id;
+        this.DOMObj.innerHTML =  '<div class="gui-window">'
         +'<div id="nw-resize"></div>'+'<div id="ne-resize"></div>'+'<div id="sw-resize"></div>'+'<div id="se-resize"></div>'+'<div id="n-resize"></div>'+'<div id="s-resize"></div>'+'<div id="w-resize"></div>'+'<div id="e-resize"></div>'
         +'<div class="gui-window__titlebar">'
         +'<div class="gui-window__titlebar__buttons"><a class="window-btn window-btn-close" href="#"></a><a class="window-btn window-btn-minimize" href="#"></a><a class="window-btn window-btn-maximize" href="#"></a></div><div class="gui-window__titlebar__title">Window Title</div><img class="gui-window__titlebar__icon"></img>'
         +'</div>'
         +'<div class="gui-window__content">Window content.</div>'
         +'</div>';
-        this.guiWindow = this.domObj.querySelector(".gui-window");
-        this.nwResize = this.domObj.querySelector("#nw-resize");
-        this.neResize = this.domObj.querySelector("#ne-resize");
-        this.swResize = this.domObj.querySelector("#sw-resize");
-        this.seResize = this.domObj.querySelector("#se-resize");
-        this.nResize = this.domObj.querySelector("#n-resize");
-        this.sResize = this.domObj.querySelector("#s-resize");
-        this.wResize = this.domObj.querySelector("#w-resize");
-        this.eResize = this.domObj.querySelector("#e-resize");
-        this.titleBar = this.domObj.querySelector(".gui-window__titlebar");
-        this.close = this.domObj.getElementsByClassName("window-btn-close")[0];
-        this.min = this.domObj.getElementsByClassName("window-btn-minimize")[0];
-        this.max = this.domObj.getElementsByClassName("window-btn-maximize")[0];
-        this.icon = this.domObj.querySelector(".gui-window__titlebar__icon");
-        this.title = this.domObj.querySelector(".gui-window__titlebar__title");
-        this.windowIcon = this.domObj.querySelector(".gui-window__titlebar__icon");
-        this.windowContent = this.domObj.querySelector(".gui-window__content");
+        this.guiWindow = this.DOMObj.querySelector(".gui-window");
+        this.nwResize = this.DOMObj.querySelector("#nw-resize");
+        this.neResize = this.DOMObj.querySelector("#ne-resize");
+        this.swResize = this.DOMObj.querySelector("#sw-resize");
+        this.seResize = this.DOMObj.querySelector("#se-resize");
+        this.nResize = this.DOMObj.querySelector("#n-resize");
+        this.sResize = this.DOMObj.querySelector("#s-resize");
+        this.wResize = this.DOMObj.querySelector("#w-resize");
+        this.eResize = this.DOMObj.querySelector("#e-resize");
+        this.titleBar = this.DOMObj.querySelector(".gui-window__titlebar");
+        this.close = this.DOMObj.getElementsByClassName("window-btn-close")[0];
+        this.min = this.DOMObj.getElementsByClassName("window-btn-minimize")[0];
+        this.max = this.DOMObj.getElementsByClassName("window-btn-maximize")[0];
+        this.icon = this.DOMObj.querySelector(".gui-window__titlebar__icon");
+        this.title = this.DOMObj.querySelector(".gui-window__titlebar__title");
+        this.windowIcon = this.DOMObj.querySelector(".gui-window__titlebar__icon");
+        this.windowContent = this.DOMObj.querySelector(".gui-window__content");
     }
     
     this.registerEvents = function() {
@@ -594,7 +594,7 @@ var Window = function(panelInstance, windowId) {
                 this.wasListenerQVGACalled = false;
             }
             this.guiWindow.classList.add("gui-window--size-vga");
-        } else if(width >= 320) {
+        } else if(width < 640) {
             if(this.resizeListenerQVGA && !this.wasListenerQVGACalled) {
                 this.resizeListenerQVGA();
                 this.wasListenerQVGACalled = true;
@@ -660,8 +660,8 @@ var Window = function(panelInstance, windowId) {
     
     this.calculateNewTitleLimits = function() {
         width = this.getWidth();
-        leftLimit = this.domObj.querySelector(".window-btn-maximize").getBoundingClientRect().right - this.getWindowX();
-        rightLimit = this.getWidth() - (this.domObj.querySelector(".gui-window__titlebar__icon").getBoundingClientRect().left-this.getWindowX());
+        leftLimit = this.DOMObj.querySelector(".window-btn-maximize").getBoundingClientRect().right - this.getWindowX();
+        rightLimit = this.getWidth() - (this.DOMObj.querySelector(".gui-window__titlebar__icon").getBoundingClientRect().left-this.getWindowX());
         appliableWidth = width - (leftLimit + rightLimit);
         numOfChars = Math.floor(appliableWidth / this.remInPixels);
         if(this.titleText.length > numOfChars) {

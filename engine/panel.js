@@ -1,18 +1,28 @@
-    var Panel = function() {
+     var Panel = function() {
         this.windows = [];
         this.windowsStatus = new Map();
-        this.items = [];
-        this.panelClock = new PanelItemClock();
+        this.leftContainer = document.createElement("div");
+        this.leftContainer.classList.add("gui-panel__left-container");
+        this.rightContainer = document.createElement("div");
+        this.rightContainer.classList.add("gui-panel__right-container");
+        this.panelMenu = new PanelMenu();
+        this.panelMenu.addAnItem("Test #1", () => console.log("test 1")).addASeparator().addAnItem("Test #2", () => console.log("test 2"));
+        this.panelClock = new PanelItemClock(this);
         this.desktop = new Desktop();
     
         this.initialize = function() {
-            var domObj = document.createElement("div");
-            domObj.classList.add("gui-panel");
-            domObj.id = "panelInstance1";
-            this.panelInstance = domObj.id;
-            domObj.appendChild(this.panelClock.getTemplate());
+            this.DOMObj = document.createElement("div");
+            this.DOMObj.classList.add("gui-panel");
+            this.DOMObj.id = "panelInstance1";
+            this.panelInstance = this.DOMObj.id;
+            this.leftContainer.appendChild(this.panelMenu.getDOMObject());
+            this.rightContainer.appendChild(this.panelClock.getTemplate());
+            this.DOMObj.appendChild(this.leftContainer);
+            this.DOMObj.appendChild(this.rightContainer);
             this.panelClock.startTheClock();
-            document.body.appendChild(domObj);
+            document.body.appendChild(this.DOMObj);
+            this.taskBar = new TaskBar();
+            this.leftContainer.appendChild(this.taskBar.getDOMObject());
             document.body.appendChild(this.desktop.getDOMObject());
 
             document.addEventListener('mousedown', function(event) {
@@ -36,35 +46,37 @@
         this.addAWindow = function(newWindow) {
             this.windows.push(newWindow);
             this.windowsStatus.set(newWindow.getId(), "active");
-            this.items.push(new PanelItem(newWindow.getId(), newWindow.getTitle()));
-            var node = this.items[this.items.length-1].getTemplate();
-            var nodeItem = node.querySelector(".gui-panel__item");
-            nodeItem.classList.add("gui-panel__item--active");
-            nodeItem.addEventListener('click', function(event) {
+            this.taskBar.addAnItem(new PanelItem(newWindow.getId(), newWindow.getTitle()));
+            var node = this.taskBar.getItems()[this.taskBar.getItems().length-1];
+            var nodeElem = node.getDOMObject();
+            nodeElem.classList.add("gui-panel__task-bar__item--active");
+            nodeElem.addEventListener('click', function(event) {
                 var status = this.windowsStatus.get(newWindow.getId());
                 this.windowAction("minimize", newWindow.getId());
                 if(contextMenu.style.display == "inline-block") {
                     contextMenu.style.display = "none";
                 }
             }.bind(this));
-            nodeItem.addEventListener('contextmenu', function(event) {
+            nodeElem.addEventListener('contextmenu', function(event) {
                 event.preventDefault();
-                contextMenu = node.querySelector(".gui-panel__item__context-menu");
-                for(i = 0; i < this.items.length; i++) {
-                    if(this.items[i].getId() != newWindow.getId()) {
-                        anItem = this.items[i].getDOMObject().querySelector(".gui-panel__item__context-menu");
+                contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+                items = this.taskBar.getItems();
+                for(i = 0; i < items.length; i++) {
+                    if(items[i].getId() != newWindow.getId()) {
+                        anItem = items[i].getDOMObject().querySelector(".gui-panel__task-bar__item__context-menu");
                         if(anItem.classList.contains("context-menu-fadein")) {
                             anItem.classList.remove("context-menu-fadein");
                         }
                     }
                 }
+                this.panelMenu.close();
                 // if(contextMenu.style.display == "none") {
                 //     contextMenu.style.display = "block";
                 //     contextMenu.classList.add("context-menu-fadein");
                 // } else {
                 //     contextMenu.classList.remove("context-menu-fadein");
                 //     contextMenu.style.display = "none";
-                // }
+                node.getContextMenu().setBottomY((window.innerHeight-this.DOMObj.getBoundingClientRect().top));
                 contextMenu.classList.toggle("context-menu-fadein");
                 var status = this.windowsStatus.get(newWindow.getId());
                 if(status == "unactive") {
@@ -73,10 +85,10 @@
                 return false;
             }.bind(this), false);
             if(newWindow.isWindowPinnable()) {
-                this.items[this.items.length-1].getContextMenu().addAnItem("Pin this app", function() {}).addASeparator();
+                var items = this.taskBar.getItems();
+                items[items.length-1].getContextMenu().addAnItem("Pin this app", function() {}).addASeparator();
             }
             document.body.appendChild(newWindow.getDOMObject());
-            document.getElementById(this.panelInstance).appendChild(node);
             newWindow.focusWindow();
         }
         this.panelInstance = null;
@@ -89,32 +101,32 @@
                 var status = this.windowsStatus.get(id);
                 if(status == "active") {
                     var windowId = this.getWindowOrderNumberById(id);
-                    var node = document.getElementsByClassName("gui-panel__item")[windowId];
+                    var node = document.getElementsByClassName("gui-panel__task-bar__item")[windowId];
                     this.windowsStatus.set(id, "unactive");
-                    node.classList.remove("gui-panel__item--active");
+                    node.classList.remove("gui-panel__task-bar__item--active");
                     document.getElementById(this.windows[windowId].getId()).style.display = "none";
                 } else if(status == "unactive") {
                     var windowId = this.getWindowOrderNumberById(id);
-                    var node = document.getElementsByClassName("gui-panel__item")[windowId];
+                    var node = document.getElementsByClassName("gui-panel__task-bar__item")[windowId];
                     this.windowsStatus.set(id, "active");
-                    node.classList.add("gui-panel__item--active");
+                    node.classList.add("gui-panel__task-bar__item--active");
                     document.getElementById(this.windows[windowId].getId()).style.display = "block";
                 }
             } else if(actionToDo == "maximize") {
                 var windowId = this.getWindowOrderNumberById(id);
-                var node = document.getElementsByClassName("gui-panel__item")[windowId];
+                var node = document.getElementsByClassName("gui-panel__task-bar__item")[windowId];
                 this.windowsStatus.set(id, "active");
-                node.classList.add("gui-panel__item--active");
+                node.classList.add("gui-panel__task-bar__item--active");
                 document.getElementById(this.windows[windowId].getId()).style.display = "block";
             } else if(actionToDo == "close") {
                 var windowId = this.getWindowOrderNumberById(id);
                 var windownode = document.getElementsByClassName("gui-window")[windowId];
-                var itemnode = document.getElementsByClassName("gui-panel__item-wrapper")[windowId];
+                var itemnode = document.getElementsByClassName("gui-panel__task-bar__item")[windowId];
                 windownode.remove();
                 itemnode.remove();
                 this.windows.splice(windowId, 1);
-                this.windowsStatus.splice(windowId, 1);
-                this.items.splice(windowId, 1);
+                this.windowsStatus.delete(windowId);
+                this.taskBar.getItems().splice(windowId, 1);
             }
         }
     
@@ -135,9 +147,10 @@
         }
     
         this.getPanelItem = function(windowId) {
-            for(i = 0; i < this.items.length; i++) {
-                if(this.items[i].getId() == windowId) {
-                    return this.items[i];
+            var items = this.taskBar.getItems();
+            for(i = 0; i < items.length; i++) {
+                if(items[i].getId() == windowId) {
+                    return items[i];
                 }
             }
             return null;

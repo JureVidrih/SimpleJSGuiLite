@@ -19,3 +19,15 @@ html .context-menu-fadein {
     opacity: 1.0;
     transform: translateY(0%);
 }
+
+html .menu-fadein {
+    visibility: visible;
+    opacity: 1.0;
+    transform: translateY(0%);
+}
+
+html .clock-widget-fadein {
+    visibility: visible;
+    opacity: 1.0;
+    transform: translateY(0%);
+}
