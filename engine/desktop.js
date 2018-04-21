@@ -24,5 +24,14 @@ var Desktop = function() {
         return this.DOMObj;
     }
 
+    this.changeBackgroundColor = function(newColor) {
+        this.DOMObj.style.backgroundColor = newColor;
+    }
+
+    this.changeBackgroundImage = function(imageUrl) {
+        this.DOMObj.style.backgroundImage = "url('" + imageUrl + "')";
+        this.DOMObj.style.backgroundSize = "cover";
+    }
+
     this.createDOMObject();
 }

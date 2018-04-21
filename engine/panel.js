@@ -8,7 +8,7 @@
         this.panelMenu = new PanelMenu();
         this.panelMenu.addAnItem("Test #1", () => console.log("test 1")).addASeparator().addAnItem("Test #2", () => console.log("test 2"));
         this.panelClock = new PanelItemClock(this);
-        this.desktop = new Desktop();
+        this.desktop = SimpleJSGui.getDesktop();
     
         this.initialize = function() {
             this.DOMObj = document.createElement("div");

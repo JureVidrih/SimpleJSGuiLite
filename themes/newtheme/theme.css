@@ -2,7 +2,6 @@
 @import 'https://fonts.googleapis.com/css?family=Montserrat';
 
 body {
-    background-color: #00ff44;
     font-family: 'Montserrat';
 }
 
@@ -101,6 +100,9 @@ a:focus {
             width: 100%;
             height: 100%;
             background-image: url('../themes/newtheme/assets/icons/menu.png');
+            background-size: 30px 30px;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
         &__content {
