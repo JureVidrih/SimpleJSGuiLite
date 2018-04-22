@@ -1,7 +1,3 @@
-/*
-    SimpleJSGui v0.0.9(alpha)
-*/
-
 SimpleJSGui.getDesktop().changeBackgroundColor("#00ff44");
 SimpleJSGui.getDesktop().changeBackgroundImage("backgrounds/pablo-acevedo-359265-unsplash.jpg");
 
