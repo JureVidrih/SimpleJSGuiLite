@@ -1,0 +1,44 @@
+.gui-desktop {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    bottom: 35px;
+    left: 0;
+    right: 0;
+
+    &__window-snap-indicator-top {
+        visibility: hidden;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        border: 3px solid white;
+        background-color: #fabc00;
+        transition: ease-out .15s;
+    }
+
+    &__window-snap-indicator-left {
+        visibility: hidden;
+        opacity: 0;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 50%;
+        border: 3px solid white;
+        background-color: #fabc00;
+        transition: ease-out .15s;
+    }
+
+    &__window-snap-indicator-right {
+        visibility: hidden;
+        opacity: 0;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        right: 0;
+        border: 3px solid white;
+        background-color: #fabc00;
+        transition: ease-out .15s;
+    }
+}

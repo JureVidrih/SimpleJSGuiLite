@@ -22,12 +22,6 @@
     visibility: visible;
     opacity: 1.0;
     transform: translateY(0%);
-}body {
-    font-family: 'Montserrat';
-}a {
-
-}a:focus {
-    outline: none;
 }.gui-desktop {
     position: fixed;
     z-index: 1;
@@ -337,43 +331,7 @@
                         border-right: 0;
                     }.gui-panel__clock__clock-widget table tbody {
 
-                }.window-btn {
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    margin-left: 1px;
-    filter: brightness(90%);
-
-    /* .window-effect-shade &-close {
-        filter: brightness(250%);
-    }
-
-    .window-effect-shade &-minimize {
-        filter: brightness(250%);
-    }
-
-    .window-effect-shade &-maximize {
-        filter: brightness(250%);
-    } */
-}.window-btn-close {
-        background-image: url('../themes/newtheme/assets/window/window_button_close.png');
-        background-size: 16px 16px;
-        background-position: center;
-        background-repeat: no-repeat;
-    }.window-btn-minimize {
-        background-image: url('../themes/newtheme/assets/window/window_button_minimize.png');
-        background-size: 16px 16px;
-        background-position: center;
-        background-repeat: no-repeat;
-    }.window-btn-maximize {
-        background-image: url('../themes/newtheme/assets/window/window_button_maximize.png');
-        background-size: 16px 16px;
-        background-position: center;
-        background-repeat: no-repeat;
-    }.window-btn:hover {
-    transition: ease-out 0.2s;
-    filter: brightness(110%);
-}.gui-window {
+                }.gui-window {
     position: fixed;
     z-index: 3;
     min-width: 350px;
@@ -498,7 +456,49 @@
         right: -5px;
         width: 10px;
         cursor: e-resize;
-    }* {
+    }.window-btn {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin-left: 1px;
+    filter: brightness(90%);
+
+    /* .window-effect-shade &-close {
+        filter: brightness(250%);
+    }
+
+    .window-effect-shade &-minimize {
+        filter: brightness(250%);
+    }
+
+    .window-effect-shade &-maximize {
+        filter: brightness(250%);
+    } */
+}.window-btn-close {
+        background-image: url('../themes/newtheme/assets/window/window_button_close.png');
+        background-size: 16px 16px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }.window-btn-minimize {
+        background-image: url('../themes/newtheme/assets/window/window_button_minimize.png');
+        background-size: 16px 16px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }.window-btn-maximize {
+        background-image: url('../themes/newtheme/assets/window/window_button_maximize.png');
+        background-size: 16px 16px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }.window-btn:hover {
+    transition: ease-out 0.2s;
+    filter: brightness(110%);
+}body {
+    font-family: 'Montserrat';
+}a {
+
+}a:focus {
+    outline: none;
+}* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;

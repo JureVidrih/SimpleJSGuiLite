@@ -1,0 +1,150 @@
+.gui-window {
+    position: fixed;
+    z-index: 3;
+    min-width: 350px;
+    min-height: 400px;
+    width: 350px;
+    height: 400px;
+    opacity: 1.0;
+    border: 1px solid transparent;
+    border-radius: 5px 5px 5px 5px;
+    -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+    &__titlebar {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 30px;
+        padding-top: 2px;
+        background: #00d4ff; /*#fabc00;*/
+        border-radius: 5px 5px 0 0;
+        color: white;
+        font-weight: bold;
+        &__buttons {
+            position: relative;
+            z-index: 2;
+            display: block;
+            float: left;
+            width: 78px;
+            height: 24px;
+            padding: 0;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        &__title {
+            position: absolute;
+            z-index: 1;
+            padding-top: 2px;
+            left: 0%;
+            width: 100%;
+            height: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        &__icon {
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            width: 22px;
+            height: 22px;
+        }
+    }
+
+    &__content {
+        position: absolute;
+        border: 1px solid white;
+        border-radius: 0 0 5px 5px;
+        width: 100%;
+        top: 30px;
+        bottom: 0;
+        padding: 8px;
+        background-color: white;
+        overflow: auto;
+    }
+
+    #nw-resize {
+        position: absolute;
+        z-index: 2;
+        top: -5px;
+        left: -5px;
+        width: 10px;
+        height: 10px;
+        cursor: nw-resize;
+    }
+
+    #ne-resize {
+        position: absolute;
+        z-index: 2;
+        top: -5px;
+        right: -5px;
+        width: 10px;
+        height: 10px;
+        cursor: ne-resize;
+    }
+
+    #sw-resize {
+        position: absolute;
+        z-index: 2;
+        bottom: -5px;
+        left: -5px;
+        width: 10px;
+        height: 10px;
+        cursor: sw-resize;
+    }
+
+    #se-resize {
+        position: absolute;
+        z-index: 2;
+        bottom: -5px;
+        right: -5px;
+        width: 10px;
+        height: 10px;
+        cursor: se-resize;
+    }
+
+    #n-resize {
+        position: absolute;
+        z-index: 2;
+        top: -5px;
+        left: 5px;
+        right: 5px;
+        height: 10px;
+        cursor: n-resize;
+    }
+
+    #s-resize {
+        position: absolute;
+        z-index: 2;
+        bottom: -5px;
+        left: 5px;
+        right: 5px;
+        height: 10px;
+        cursor: s-resize;
+    }
+
+    #w-resize {
+        position: absolute;
+        z-index: 2;
+        top: 5px;
+        bottom: 5px;
+        left: -5px;
+        width: 10px;
+        cursor: w-resize;
+    }
+
+    #e-resize {
+        position: absolute;
+        z-index: 2;
+        top: 5px;
+        bottom: 5px;
+        right: -5px;
+        width: 10px;
+        cursor: e-resize;
+    }
+}
