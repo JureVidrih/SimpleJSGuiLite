@@ -32,6 +32,21 @@ var Desktop = function() {
         this.DOMObj.style.backgroundImage = "url('" + imageUrl + "')";
         this.DOMObj.style.backgroundSize = "cover";
     }
+    
+    this.setBackgroundSize = function(value) {
+        this.DOMObj.style.backgroundSize = value;
+    }
+
+    this.setBackgroundRepeat = function(value) {
+        this.DOMObj.style.backgroundRepeat = value;
+    }
+
+    this.setBackgroundPosition = function(a, b) {
+        this.DOMObj.style.backgroundPosition = a;
+        if(b) {
+            this.DOMObj.style.backgroundPosition += " " + b;
+        }
+    }
 
     this.createDOMObject();
 }
