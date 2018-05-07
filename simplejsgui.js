@@ -1,3 +1,6 @@
+SimpleJSGui.init();
+
+SimpleJSGui.getDesktop().shouldBackgroundCoverWholeViewport(true);
 SimpleJSGui.getDesktop().changeBackgroundColor("#00ff44");
 SimpleJSGui.getDesktop().changeBackgroundImage("backgrounds/pablo-acevedo-359265-unsplash.jpg");
 

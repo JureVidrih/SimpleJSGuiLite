@@ -1,10 +1,10 @@
 .gui-panel {
     position: fixed;
-    z-index: 2;
+    z-index: 3;
     bottom: 0;
     width: 100vw;
     height: 35px;
-    background: #5b5b5b;
+    background: rgba(77, 87, 94, 0.50);
 
     -webkit-touch-callout: none;
         -webkit-user-select: none;

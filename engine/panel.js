@@ -23,7 +23,6 @@
             document.body.appendChild(this.DOMObj);
             this.taskBar = new TaskBar();
             this.leftContainer.appendChild(this.taskBar.getDOMObject());
-            document.body.appendChild(this.desktop.getDOMObject());
 
             document.addEventListener('mousedown', function(event) {
                 if(event.button == 0 && this.windows.length > 0) {
@@ -138,10 +137,6 @@
                 this.windowsStatus.delete(windowId);
                 this.taskBar.getItems().splice(windowId, 1);
             }
-        }
-    
-        this.getDesktop = function() {
-            return this.desktop;
         }
 
         this.getWindows = function() {

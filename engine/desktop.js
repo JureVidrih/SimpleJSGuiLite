@@ -1,5 +1,7 @@
 var Desktop = function() {
+    this.wholeScreenObj;
     this.DOMObj;
+    this.currentBgrDOM;
     this.snapIndicatorTop;
     this.snapIndicatorLeft;
     this.snapIndicatorRight;
@@ -7,8 +9,11 @@ var Desktop = function() {
     this.height;
 
     this.createDOMObject = function() {
+        this.wholeScreenObj = document.createElement("div");
+        this.wholeScreenObj.classList.add("gui-desktop");
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-desktop");
+        this.DOMObj.classList.add("gui-desktop--only-desktop");
         this.snapIndicatorTop = document.createElement("div");    
         this.snapIndicatorLeft = document.createElement("div");
         this.snapIndicatorRight = document.createElement("div");
@@ -18,33 +23,47 @@ var Desktop = function() {
         this.DOMObj.appendChild(this.snapIndicatorTop);
         this.DOMObj.appendChild(this.snapIndicatorLeft);
         this.DOMObj.appendChild(this.snapIndicatorRight);
+        this.wholeScreenObj.appendChild(this.DOMObj);
+        this.currentBgrDOM = this.DOMObj;
     }
 
     this.getDOMObject = function() {
+        return this.wholeScreenObj;
+    }
+
+    this.getDesktopDOMObject = function() {
         return this.DOMObj;
     }
 
+    this.shouldBackgroundCoverWholeViewport = function shouldBackgroundCoverWholeViewport(option) {
+        if(option == true) {
+            this.currentBgrDOM = this.wholeScreenObj;
+        } else {
+            this.currentBgrDOM = this.DOMObj;
+        }
+    }
+
     this.changeBackgroundColor = function(newColor) {
-        this.DOMObj.style.backgroundColor = newColor;
+        this.currentBgrDOM.style.backgroundColor = newColor;
     }
 
     this.changeBackgroundImage = function(imageUrl) {
-        this.DOMObj.style.backgroundImage = "url('" + imageUrl + "')";
-        this.DOMObj.style.backgroundSize = "cover";
+        this.currentBgrDOM.style.backgroundImage = "url('" + imageUrl + "')";
+        this.currentBgrDOM.style.backgroundSize = "cover";
     }
     
     this.setBackgroundSize = function(value) {
-        this.DOMObj.style.backgroundSize = value;
+        this.currentBgrDOM.style.backgroundSize = value;
     }
 
     this.setBackgroundRepeat = function(value) {
-        this.DOMObj.style.backgroundRepeat = value;
+        this.currentBgrDOM.style.backgroundRepeat = value;
     }
 
     this.setBackgroundPosition = function(a, b) {
-        this.DOMObj.style.backgroundPosition = a;
+        this.currentBgrDOM.style.backgroundPosition = a;
         if(b) {
-            this.DOMObj.style.backgroundPosition += " " + b;
+            this.currentBgrDOM.style.backgroundPosition += " " + b;
         }
     }
 

@@ -12,7 +12,7 @@ html .window-effect-shade {
     filter: grayscale(.3) brightness(.95);
     border: 1px solid rgb(235, 235, 235);
     border-radius: 5px 5px 5px 5px;
-    z-index: 2;
+    z-index: 1;
 }
 
 html .context-menu-fadein {

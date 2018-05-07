@@ -1,6 +1,6 @@
 .gui-window {
     position: fixed;
-    z-index: 3;
+    z-index: 2;
     min-width: 350px;
     min-height: 400px;
     width: 350px;
@@ -21,7 +21,7 @@
         width: 100%;
         height: 30px;
         padding-top: 2px;
-        background: #00d4ff; /*#fabc00;*/
+        background: #4d575e; /*#fabc00;*/
         border-radius: 5px 5px 0 0;
         color: white;
         font-weight: bold;
