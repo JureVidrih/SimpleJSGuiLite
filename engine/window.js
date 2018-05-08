@@ -488,13 +488,13 @@ var Window = function(panelInstance, windowId) {
                 this.guiWindow.style.left = "0px";
                 this.guiWindow.style.top = "0px";
                 this.setWidth("50%");
-                this.setHeight(this.panelInstance.getDesktop().getDOMObject().clientHeight);
+                this.setHeight(SimpleJSGui.getDesktop().getDesktopDOMObject().clientHeight);
             } else if(this.isAtRight) {
                 this.cachedWidth = this.getWidth();
                 this.cachedHeight = this.getHeight();
                 this.cachedXBeforeSnap = document.body.clientWidth-this.getWidth();
                 this.setWidth("50%");
-                this.setHeight(this.panelInstance.getDesktop().getDOMObject().clientHeight);
+                this.setHeight(SimpleJSGui.getDesktop().getDesktopDOMObject().clientHeight);
                 temp = (document.body.clientWidth - this.getWidth());
                 this.guiWindow.style.left = temp + "px";
                 this.guiWindow.style.top = "0px";
@@ -533,7 +533,7 @@ var Window = function(panelInstance, windowId) {
             this.guiWindow.style.left = "0";
             this.guiWindow.style.top = "0";
             this.setWidth("100%");
-            this.setHeight(this.panelInstance.getDesktop().getDOMObject().clientHeight);
+            this.setHeight(SimpleJSGui.getDesktop().getDesktopDOMObject().clientHeight);
             this.isMaximized = true;
         }
     }
