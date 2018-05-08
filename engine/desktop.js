@@ -38,8 +38,13 @@ var Desktop = function() {
     this.shouldBackgroundCoverWholeViewport = function shouldBackgroundCoverWholeViewport(option) {
         if(option == true) {
             this.currentBgrDOM = this.wholeScreenObj;
+            var bottomValue = document.body.clientHeight-this.DOMObj.clientHeight;
+            this.snapIndicatorLeft.style.bottom = bottomValue+"px";
+            this.snapIndicatorRight.style.bottom = bottomValue+"px";
         } else {
             this.currentBgrDOM = this.DOMObj;
+            this.snapIndicatorLeft.style.bottom = 0;
+            this.snapIndicatorRight.style.bottom = 0;
         }
     }
 

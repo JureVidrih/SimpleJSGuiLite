@@ -450,7 +450,7 @@ var Window = function(panelInstance, windowId) {
     }
     
     this.toggleWindowSnapVisualEffects = function(indicator) {
-        desktop = this.panelInstance.getDesktop().getDOMObject();
+        desktop = SimpleJSGui.getDesktop().getDOMObject();
         visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
         visualEffectLeft = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
         visualEffectRight = desktop.querySelector(".gui-desktop__window-snap-indicator-right");

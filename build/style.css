@@ -104,7 +104,7 @@
             position: absolute;
             visibility: hidden;
             bottom: 35px;
-            background-color: #5b5b5b;
+            background-color: rgba(77, 87, 94, 0.95);
             border: 2px solid rgb(245, 245, 245);
             margin: 0;
             width: 315px;
@@ -268,7 +268,7 @@
             height: 450px;
             bottom: 35px;
             right: 0px;
-            background-color: #5b5b5b;
+            background-color: rgba(77, 87, 94, 0.95);
             border: 1px solid #afafaf;
             transform: translateY(5%);
             transition: all .1s ease-out;
