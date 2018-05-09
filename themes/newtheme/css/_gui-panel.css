@@ -50,7 +50,7 @@
             visibility: hidden;
             bottom: 35px;
             background-color: rgba(77, 87, 94, 0.95);
-            border: 2px solid rgb(245, 245, 245);
+            border: 1px solid rgb(109, 109, 109);
             margin: 0;
             width: 315px;
             height: 400px;
@@ -60,11 +60,11 @@
             transform: translateY(5%);
 
             h1 {
-                padding: 10px 0 10px 15px;
+                padding: 10px 0 10px 10px;
                 font-size: 1.3rem;
                 text-align: left;
                 color: white;
-                border-bottom: 1px solid rgb(200, 200, 200);
+                border-bottom: 1px solid rgba(200, 200, 200, 0.75);
             }
 
             &__menu-item {

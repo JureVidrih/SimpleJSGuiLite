@@ -10,9 +10,12 @@ html .window-effect-transparency {
 html .window-effect-shade {
     transition: filter ease-out .1s;
     filter: grayscale(.3) brightness(.95);
-    border: 1px solid rgb(235, 235, 235);
-    border-radius: 5px 5px 5px 5px;
     z-index: 1;
+}
+
+html .window-effect-shade .gui-window__content {
+    border: 1px solid rgb(235, 235, 235);
+    border-radius: 0 0 5px 5px;
 }
 
 html .context-menu-fadein {

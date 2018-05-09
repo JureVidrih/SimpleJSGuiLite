@@ -7,9 +7,10 @@
 }html .window-effect-shade {
     transition: filter ease-out .1s;
     filter: grayscale(.3) brightness(.95);
-    border: 1px solid rgb(235, 235, 235);
-    border-radius: 5px 5px 5px 5px;
     z-index: 1;
+}html .window-effect-shade .gui-window__content {
+    border: 1px solid rgb(235, 235, 235);
+    border-radius: 0 0 5px 5px;
 }html .context-menu-fadein {
     visibility: visible;
     opacity: 1.0;
@@ -105,7 +106,7 @@
             visibility: hidden;
             bottom: 35px;
             background-color: rgba(77, 87, 94, 0.95);
-            border: 2px solid rgb(245, 245, 245);
+            border: 1px solid rgb(109, 109, 109);
             margin: 0;
             width: 315px;
             height: 400px;
@@ -114,11 +115,11 @@
             opacity: 0.0;
             transform: translateY(5%);
         }.gui-panel__menu__content h1 {
-                padding: 10px 0 10px 15px;
+                padding: 10px 0 10px 10px;
                 font-size: 1.3rem;
                 text-align: left;
                 color: white;
-                border-bottom: 1px solid rgb(200, 200, 200);
+                border-bottom: 1px solid rgba(200, 200, 200, 0.75);
             }.gui-panel__menu__content__menu-item {
                 padding: 5px 0 5px 10px;
                 font-size: 1.2rem;
