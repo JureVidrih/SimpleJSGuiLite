@@ -3,7 +3,7 @@ var PanelItem = function(id, itemName) {
     this.itemWidth = 0;
     this.id = id;
     this.maxTitleLength = 25;
-    this.withText = false;
+    this.withText = true;
     this.itemName = itemName;
     this.nameObj;
     this.contextMenu = new PanelItemContextMenu(this);
