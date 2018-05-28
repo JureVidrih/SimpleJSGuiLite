@@ -62,6 +62,20 @@
         border: 1px solid rgb(99, 99, 99);
         background-color: white;
         transition: ease-out .15s;
+    }.gui-overlay {
+    position: fixed;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    z-index: 4;
+    background-color: rgb(77, 87, 94);
+}.gui-overlay p {
+        position: absolute;
+        color: white;
+        font-size: 2rem;
+        text-align: center;
+        top: 50%;
+        transform: translateY(-50%);
     }.gui-panel {
     position: fixed;
     z-index: 3;

@@ -1,0 +1,17 @@
+.gui-overlay {
+    position: fixed;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    z-index: 4;
+    background-color: rgb(77, 87, 94);
+
+    p {
+        position: absolute;
+        color: white;
+        font-size: 2rem;
+        text-align: center;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}

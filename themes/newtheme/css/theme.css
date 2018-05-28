@@ -1,6 +1,7 @@
 @import '_effects';
 @import 'https://fonts.googleapis.com/css?family=Montserrat';
 @import '_gui-desktop';
+@import '_gui-overlay';
 @import '_gui-panel';
 @import '_gui-window';
 @import '_window-btn';

@@ -23,6 +23,7 @@
             document.body.appendChild(this.DOMObj);
             this.taskBar = new TaskBar();
             this.leftContainer.appendChild(this.taskBar.getDOMObject());
+            SimpleJSGui.registerPanel(this);
 
             document.addEventListener('mousedown', function(event) {
                 if(event.button == 0 && this.windows.length > 0) {
@@ -159,6 +160,11 @@
                 }
             }
             return null;
+        }
+
+        this.calculateMinimalWidth = function() {
+            var dummyPanelItem = new PanelItem("DUMMY_ID", "DummyText");
+            return this.panelMenu.getDOMObject().clientWidth+2 + dummyPanelItem.getItemDefaultWidth() + this.taskBar.getLineSwitcher().getDOMObject().clientWidth + this.rightContainer.clientWidth;
         }
 
         this.initialize();
