@@ -8,6 +8,7 @@
     opacity: 1.0;
     border: 1px solid transparent;
     border-radius: 5px 5px 5px 5px;
+    transition: opacity .075s ease-out;
     -webkit-touch-callout: none;
         -webkit-user-select: none;
         -khtml-user-select: none;
