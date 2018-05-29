@@ -2,7 +2,7 @@ SimpleJSGui.init();
 
 SimpleJSGui.getDesktop().shouldBackgroundCoverWholeViewport(true);
 SimpleJSGui.getDesktop().changeBackgroundColor("#ffffff");
-SimpleJSGui.getDesktop().changeBackgroundImage("backgrounds/pablo-acevedo-359265-unsplash.png");
+SimpleJSGui.getDesktop().changeBackgroundImage("backgrounds/markus-spiske-507983-unsplash.jpg");
 
 var myPanel = new Panel();
 
@@ -46,14 +46,14 @@ myWindow2.setWindowX(50);
 myWindow2.setTitle("My second window.");
 myWindow2.setWindowIcon("themes/newtheme/assets/icons/default.png");
 
-myWindow.getPanelItem().getContextMenu().addAnItem("Spremeni ozadje", function() {
+myWindow.getPanelItem().getContextMenu().addAnItem("Option 1", function() {
     document.body.style.backgroundColor = "pink";
-}).addAnItem("Spremeni ozadje v rumeno barvo", function() {
+}).addAnItem("Option 2", function() {
     document.body.style.backgroundColor = "yellow";
 });
 
-myWindow2.getPanelItem().getContextMenu().addAnItem("Spremeni ozadje", function() {
+myWindow2.getPanelItem().getContextMenu().addAnItem("Option 1", function() {
     document.body.style.backgroundColor = "pink";
-}).addAnItem("Spremeni ozadje v rumeno barvo", function() {
+}).addAnItem("Option 2", function() {
     document.body.style.backgroundColor = "yellow";
 });
