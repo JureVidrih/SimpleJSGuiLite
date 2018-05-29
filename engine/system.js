@@ -6,7 +6,7 @@ var System = function() {
         document.body.appendChild(this.desktop.getDOMObject());
         document.body.appendChild(this.overLay.getDOMObject());
         var overLayMessage = document.createElement("p");
-        overLayMessage.textContent = "The browser window is too small to fit the neccessary SimpleJSGui components.";
+        overLayMessage.textContent = "The browser window is too small to fit the necessary SimpleJSGui components.";
         this.overLay.getDOMObject().appendChild(overLayMessage);
 
         window.addEventListener('resize', function(event) {
