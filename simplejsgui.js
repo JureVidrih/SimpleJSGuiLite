@@ -2,7 +2,7 @@ SimpleJSGui.init();
 
 SimpleJSGui.getDesktop().shouldBackgroundCoverWholeViewport(true);
 SimpleJSGui.getDesktop().changeBackgroundColor("#ffffff");
-SimpleJSGui.getDesktop().changeBackgroundImage("backgrounds/markus-spiske-507983-unsplash.jpg");
+SimpleJSGui.getDesktop().changeBackgroundImage("backgrounds/pablo-acevedo-359265-unsplash.png");
 
 var myPanel = new Panel();
 
