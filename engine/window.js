@@ -366,7 +366,11 @@ var Window = function(panelInstance, windowId) {
                 this.guiWindow.classList.add("window-effect-transparency");
             }
         }.bind(this));
-        
+
+        this.titleBar.addEventListener('dblclick', function(event) {
+            this.maximizeWindow();
+        }.bind(this));
+
         document.addEventListener('mouseup', function(event) {
             if(this.isBeingDragged) {
                 this.isBeingDragged = false;
