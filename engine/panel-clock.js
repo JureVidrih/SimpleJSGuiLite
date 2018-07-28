@@ -1,11 +1,9 @@
-var PanelItemClock = function(panelInstance) {
-    this.panelInstance = panelInstance;
-    this.time;
-    this.displayedTime = "00:00";
-    this.DOMObj;
-    this.clockIntervalID;
-
-    this.getTemplate = function() {
+class PanelItemClock {
+    constructor(panelInstance) {
+        this.panelInstance = panelInstance;
+        this.time;
+        this.displayedTime = "00:00";
+        this.clockIntervalID;
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-panel__clock");
         this.DOMObj.innerHTML = "<p>"+this.displayedTime+"</p><div class='gui-panel__clock__clock-widget'></div>";
@@ -29,7 +27,7 @@ var PanelItemClock = function(panelInstance) {
         return this.DOMObj;
     }
 
-    this.isAClockWidget = function(evt_target) {
+    isAClockWidget(evt_target) {
         while(evt_target != document.body) {
             if(evt_target == this.clockWidget) {
                 return true;
@@ -41,7 +39,7 @@ var PanelItemClock = function(panelInstance) {
         return false;
     }
 
-    this.startTheClock = function() {
+    startTheClock() {
         this.clockIntervalID = setInterval(function() {
             this.time = new Date();
             hours = this.time.getHours();
@@ -60,7 +58,7 @@ var PanelItemClock = function(panelInstance) {
         }.bind(this), 25);
     }
 
-    this.createTheClockWidget = function() {
+    createTheClockWidget() {
         tableTop = document.createElement("div");
         tableTop.classList.add("gui-panel__clock__clock-widget__table-top");
 
@@ -104,7 +102,7 @@ var PanelItemClock = function(panelInstance) {
         return this.clockContent;
     }
 
-    this.renderMonth = function(year, month) {
+    renderMonth(year, month) {
         var currDate = new Date();
         var isCurrentMonth = (month == currDate.getMonth()) && (year == currDate.getFullYear());
         if(!isCurrentMonth) {
@@ -185,7 +183,7 @@ var PanelItemClock = function(panelInstance) {
         }
     }
 
-    this.daysInTheMonth = function(year, month) {
+    daysInTheMonth(year, month) {
         var num = 0;
 
         if(month < 0) {
