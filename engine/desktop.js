@@ -1,14 +1,5 @@
-var Desktop = function() {
-    this.wholeScreenObj;
-    this.DOMObj;
-    this.currentBgrDOM;
-    this.snapIndicatorTop;
-    this.snapIndicatorLeft;
-    this.snapIndicatorRight;
-    this.width;
-    this.height;
-
-    this.createDOMObject = function() {
+class Desktop {
+    constructor() {
         this.wholeScreenObj = document.createElement("div");
         this.wholeScreenObj.classList.add("gui-desktop");
         this.DOMObj = document.createElement("div");
@@ -25,17 +16,19 @@ var Desktop = function() {
         this.DOMObj.appendChild(this.snapIndicatorRight);
         this.wholeScreenObj.appendChild(this.DOMObj);
         this.currentBgrDOM = this.DOMObj;
+        this.width;
+        this.height;
     }
 
-    this.getDOMObject = function() {
+    getDOMObject() {
         return this.wholeScreenObj;
     }
 
-    this.getDesktopDOMObject = function() {
+    getDesktopDOMObject() {
         return this.DOMObj;
     }
 
-    this.shouldBackgroundCoverWholeViewport = function shouldBackgroundCoverWholeViewport(option) {
+    shouldBackgroundCoverWholeViewport(option) {
         if(option == true) {
             this.currentBgrDOM = this.wholeScreenObj;
             var bottomValue = document.body.clientHeight-this.DOMObj.clientHeight;
@@ -48,29 +41,27 @@ var Desktop = function() {
         }
     }
 
-    this.changeBackgroundColor = function(newColor) {
+    changeBackgroundColor(newColor) {
         this.currentBgrDOM.style.backgroundColor = newColor;
     }
 
-    this.changeBackgroundImage = function(imageUrl) {
+    changeBackgroundImage(imageUrl) {
         this.currentBgrDOM.style.backgroundImage = "url('" + imageUrl + "')";
         this.currentBgrDOM.style.backgroundSize = "cover";
     }
     
-    this.setBackgroundSize = function(value) {
+    setBackgroundSize(value) {
         this.currentBgrDOM.style.backgroundSize = value;
     }
 
-    this.setBackgroundRepeat = function(value) {
+    setBackgroundRepeat(value) {
         this.currentBgrDOM.style.backgroundRepeat = value;
     }
 
-    this.setBackgroundPosition = function(a, b) {
+    setBackgroundPosition(a, b) {
         this.currentBgrDOM.style.backgroundPosition = a;
         if(b) {
             this.currentBgrDOM.style.backgroundPosition += " " + b;
         }
     }
-
-    this.createDOMObject();
 }

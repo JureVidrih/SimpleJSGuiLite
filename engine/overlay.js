@@ -1,12 +1,10 @@
-this.OverLay = function OverLay() {
-    this.initialize = function initialize() {
+class Overlay {
+    constructor() {
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-overlay");
     }
 
-    this.getDOMObject = function getDOMObject() {
+    getDOMObject() {
         return this.DOMObj;
     }
-    
-    this.initialize();
 }
