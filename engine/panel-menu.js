@@ -1,8 +1,5 @@
-var PanelMenu = function() {
-    this.DOMObj = "";
-    this.menuContent = "";
-
-    this.createAnEmptyMenu = function() {
+class PanelMenu {
+    constructor() {
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-panel__menu");
         this.DOMObj.innerHTML = '<div class="gui-panel__menu__icon"></div><div class="gui-panel__menu__content"><h1>Menu</h1></div>';
@@ -22,15 +19,15 @@ var PanelMenu = function() {
         }.bind(this));
     }
 
-    this.getDOMObject = function() {
+    getDOMObject() {
         return this.DOMObj;
     }
 
-    this.close = function() {
+    close() {
         this.menuContent.classList.remove("menu-fadein");
     }
 
-    this.addAnItem = function(itemName, elementListener) {
+    addAnItem(itemName, elementListener) {
         newElement = document.createElement("p");
         newElement.classList.add("gui-panel__menu__content__menu-item");
         newElement.textContent = itemName;
@@ -43,7 +40,7 @@ var PanelMenu = function() {
         return this;
     }
 
-    this.addASeparator = function() {
+    addASeparator() {
         newElement = document.createElement("div");
         newElement.classList.add("gui-panel__menu__content__item-separator");
         if(this.menuContent.length == 0) {
@@ -54,6 +51,4 @@ var PanelMenu = function() {
 
         return this;
     }
-
-    this.createAnEmptyMenu();
 }
