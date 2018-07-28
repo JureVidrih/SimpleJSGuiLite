@@ -1,29 +1,11 @@
-var PanelItem = function(id, itemName) {
-    this.item;
-    this.itemWidth = 0;
-    this.id = id;
-    this.maxTitleLength = 25;
-    this.withText = true;
-    this.itemName = itemName;
-    this.nameObj;
-    this.contextMenu = new PanelItemContextMenu(this);
-    this.getName = function() {
-        return this.itemName;
-    }
-    this.getId = function() {
-        return this.id;
-    }
-    this.getItem = function() {
-        return this.item;
-    }
-    this.getItemDefaultWidth = function() {
-        var width = window.getComputedStyle(this.item).getPropertyValue("width");
-        var value = width;
-        value = value.substring(0, value.indexOf("px"));
-
-        return Number(value);
-    }
-    this.initialize = function() {
+class PanelItem {
+    constructor(id, itemName) {
+        this.itemWidth = 0;
+        this.id = id;
+        this.maxTitleLength = 25;
+        this.withText = true;
+        this.itemName = itemName;
+        this.contextMenu = new PanelItemContextMenu(this);
         this.item = document.createElement("div");
         this.item.classList.add("gui-panel__task-bar__item");
         this.nameObj = document.createElement("p");
@@ -40,19 +22,36 @@ var PanelItem = function(id, itemName) {
         return this.item;
     }
 
-    this.getDOMObject = function() {
+    getName() {
+        return this.itemName;
+    }
+    getId() {
+        return this.id;
+    }
+    getItem() {
+        return this.item;
+    }
+    getItemDefaultWidth() {
+        var width = window.getComputedStyle(this.item).getPropertyValue("width");
+        var value = width;
+        value = value.substring(0, value.indexOf("px"));
+
+        return Number(value);
+    }
+
+    getDOMObject() {
         return this.item;
     }
 
-    this.getContextMenu = function() {
+    getContextMenu() {
         return this.contextMenu;
     }
 
-    this.getTitleObj = function() {
+    getTitleObj() {
         return this.nameObj;
     }
 
-    this.setTitle = function(newtitle) {
+    setTitle(newtitle) {
         this.itemName = newtitle;
         if(this.itemName.length > this.maxTitleLength) {
             this.itemName = this.itemName.substring(0, (this.maxTitleLength-3)) + "...";
@@ -60,12 +59,12 @@ var PanelItem = function(id, itemName) {
         this.nameObj.textContent = this.itemName;
     }
 
-    this.setIcon = function(path) {
+    setIcon(path) {
         this.itemIcon.setAttribute("src", path);
         // console.log("actual width: " +  this.itemIcon.clientWidth);
     }
 
-    this.changeMode = function() {
+    changeMode() {
         if(!this.withText) {
             this.nameObj.style.display = "none";
             this.item.classList.add("gui-panel__task-bar__item--without-text")
@@ -80,6 +79,4 @@ var PanelItem = function(id, itemName) {
             // this.item.style.width = totalWidth+"px";
         }
     }
-
-    this.initialize();
 }
