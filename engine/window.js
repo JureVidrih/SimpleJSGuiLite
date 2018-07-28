@@ -1,60 +1,53 @@
-var Window = function(panelInstance, windowId) {
-    this.maxTitleLength = 3000;
-    this.titleText;
-    this.remInPixels;
-    this.DOMObj;
-    this.getDOMObject = function() {
-        return this.DOMObj;
-    }
-    this.panelInstance = panelInstance;
-    this.isPinnable = true;
-    this.id = windowId;
-    this.getId = function() {
-        return this.id;
-    }
-    this.panelItem = this.panelInstance.getPanelItem(this.id);
-    this.getPanelItem = function() {
-        return this.panelInstance.getPanelItem(this.id);
-    }
-    this.isBeingDragged = false;
-    this.cachedX = 0;
-    this.cachedY = 0;
-    
-    this.isBeingResized = false;
-    this.minWidth = 350;
-    this.minHeight = 400;
-    this.isResizingNW = false;
-    this.isResizingNE = false;
-    this.isResizingSW = false;
-    this.isResizingSE = false;
-    this.isResizingN = false;
-    this.isResizingS = false;
-    this.isResizingW = false;
-    this.isResizingE = false;
-    this.cachedResizeX = 0;
-    this.cachedResizeY = 0;
-    this.resizeListenerFullHD;
-    this.resizeListenerHD;
-    this.resizeListenerVGA;
-    this.resizeListenerQVGA;
-    this.wasListenerFullHDCalled = false;
-    this.wasListenerHDCalled = false;
-    this.wasListenerVGACalled = false;
-    this.wasListenerQVGACalled = false;
-    
-    this.isMaximized = false;
-    this.cachedXBeforeMax;
-    this.cachedYBeforeMax;
-    this.cachedWidth = 0;
-    this.cachedHeight = 0;
-    this.isSnapped = false;
-    this.snapEffectsToggled = false;
-    this.cachedXBeforeSnap;
-    this.isAtTop;
-    this.isAtLeft;
-    this.isAtRight;
-    
-    this.initialize = function() {
+class Window {
+    constructor(panelInstance, windowId) {
+        this.maxTitleLength = 3000;
+        this.titleText;
+        this.remInPixels;
+        this.DOMObj;
+
+        this.panelInstance = panelInstance;
+        this.isPinnable = true;
+        this.id = windowId;
+
+        this.panelItem = this.panelInstance.getPanelItem(this.id);
+
+        this.isBeingDragged = false;
+        this.cachedX = 0;
+        this.cachedY = 0;
+        
+        this.isBeingResized = false;
+        this.minWidth = 350;
+        this.minHeight = 400;
+        this.isResizingNW = false;
+        this.isResizingNE = false;
+        this.isResizingSW = false;
+        this.isResizingSE = false;
+        this.isResizingN = false;
+        this.isResizingS = false;
+        this.isResizingW = false;
+        this.isResizingE = false;
+        this.cachedResizeX = 0;
+        this.cachedResizeY = 0;
+        this.resizeListenerFullHD;
+        this.resizeListenerHD;
+        this.resizeListenerVGA;
+        this.resizeListenerQVGA;
+        this.wasListenerFullHDCalled = false;
+        this.wasListenerHDCalled = false;
+        this.wasListenerVGACalled = false;
+        this.wasListenerQVGACalled = false;
+        
+        this.isMaximized = false;
+        this.cachedXBeforeMax;
+        this.cachedYBeforeMax;
+        this.cachedWidth = 0;
+        this.cachedHeight = 0;
+        this.isSnapped = false;
+        this.snapEffectsToggled = false;
+        this.cachedXBeforeSnap;
+        this.isAtTop;
+        this.isAtLeft;
+        this.isAtRight;
         this.createDOMObject();
         this.setTitle("M");
         this.remInPixels = parseInt(getComputedStyle(this.DOMObj).fontSize);
@@ -65,8 +58,18 @@ var Window = function(panelInstance, windowId) {
         this.setHeight(400);
         this.registerEvents();
     }
+
+    getDOMObject() {
+        return this.DOMObj;
+    }
+    getId() {
+        return this.id;
+    }
+    getPanelItem() {
+        return this.panelInstance.getPanelItem(this.id);
+    }
     
-    this.createDOMObject = function() {
+    createDOMObject() {
         this.DOMObj = document.createElement("div");
         this.DOMObj.id = this.id;
         this.DOMObj.innerHTML =  '<div class="gui-window">'
@@ -95,7 +98,7 @@ var Window = function(panelInstance, windowId) {
         this.windowContent = this.DOMObj.querySelector(".gui-window__content");
     }
     
-    this.registerEvents = function() {
+    registerEvents() {
         this.close.addEventListener('click', function() {
             this.panelInstance.windowAction("close", this.id);
         }.bind(this));
@@ -403,7 +406,7 @@ var Window = function(panelInstance, windowId) {
         }.bind(this));
     }
     
-    this.checkForEnterCorners = function(event) {
+    checkForEnterCorners(event) {
         if(!this.isAtTop && this.getWindowY() <= 0) {
             if(this.getWindowX() > 10 && ((this.getWindowX() + this.getWidth()) < (document.body.clientWidth-10))) {
                 this.isAtTop = true;
@@ -422,7 +425,7 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.checkForLeaveCorners = function() {
+    checkForLeaveCorners() {
         if(this.isAtTop) {
             if(this.getWindowY() >= 10 || this.getWindowX() < 10 || ((this.getWindowX() + this.getWidth()) > (document.body.clientWidth-10))) {
                 this.isAtTop = false;
@@ -443,7 +446,7 @@ var Window = function(panelInstance, windowId) {
         }
     }
 
-    this.leaveCornerAction = function(indicator) {
+    leaveCornerAction(indicator) {
         if(this.isSnapped) {
             this.snapWindow();
         }
@@ -453,7 +456,7 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.toggleWindowSnapVisualEffects = function(indicator) {
+    toggleWindowSnapVisualEffects(indicator) {
         desktop = SimpleJSGui.getDesktop().getDOMObject();
         visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
         visualEffectLeft = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
@@ -480,7 +483,7 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.snapWindow = function() {
+    snapWindow() {
         if(!this.isSnapped) {
             if(this.isAtTop && !this.isMaximized) {
                 this.maximizeWindow();
@@ -518,7 +521,7 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.maximizeWindow = function() {
+    maximizeWindow() {
         if(this.isMaximized) {
             this.isMaximized = false;
             this.isSnapped = false;
@@ -542,30 +545,30 @@ var Window = function(panelInstance, windowId) {
         }
     }
 
-    this.setResizeListenerFullHD = function(newListener) {
+    setResizeListenerFullHD(newListener) {
         this.resizeListenerFullHD = newListener;
     }
 
-    this.setResizeListenerHD = function(newListener) {
+    setResizeListenerHD(newListener) {
         this.resizeListenerHD = newListener;
     }
 
-    this.setResizeListenerVGA = function(newListener) {
+    setResizeListenerVGA(newListener) {
         this.resizeListenerVGA = newListener;
     }
 
-    this.setResizeListenerQVGA = function(newListener) {
+    setResizeListenerQVGA(newListener) {
         this.resizeListenerQVGA = newListener;
     }
     
-    this.removeDimensionFlags = function() {
+    removeDimensionFlags() {
         this.guiWindow.classList.remove("gui-window--size-fullhd");
         this.guiWindow.classList.remove("gui-window--size-hd");
         this.guiWindow.classList.remove("gui-window--size-vga");
         this.guiWindow.classList.remove("gui-window--size-qvga");
     }
     
-    this.applyNewDimensionFlags = function(width) {
+    applyNewDimensionFlags(width) {
         if(width.indexOf("%") != -1) {
             width = width.substring(0, width.length-1);
             width = window.innerWidth * (width/100);
@@ -610,7 +613,7 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.unfocusAllWindows = function() {
+    unfocusAllWindows() {
         allWindows = panelInstance.getWindows();
         for(i = 0; i < allWindows.length; i++) {
             aWindow = allWindows[i].getDOMObject().querySelector(".gui-window");
@@ -620,12 +623,12 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.focusWindow = function() {
+    focusWindow() {
         this.unfocusAllWindows();
         this.guiWindow.classList.remove("window-effect-shade");
     }
     
-    this.setWidth = function(width) {
+    setWidth(width) {
         width = width + "";
         this.applyNewDimensionFlags(width);
         if(width.indexOf('%') != -1) {
@@ -636,7 +639,7 @@ var Window = function(panelInstance, windowId) {
         this.calculateNewTitleLimits();
     }
     
-    this.setHeight = function(height) {
+    setHeight(height) {
         height = height + "";
         if(height.indexOf('%') != -1) {
             this.guiWindow.style.height = height;
@@ -646,11 +649,11 @@ var Window = function(panelInstance, windowId) {
         this.calculateNewTitleLimits();
     }
     
-    this.setBackgroundColor = function(bgrcolor) {
+    setBackgroundColor(bgrcolor) {
         this.guiWindow.querySelector(".gui-window__content").style.background = bgrcolor;
     }
     
-    this.setTitle = function(title) {
+    setTitle(title) {
         this.titleText = title;
         if(title.length > this.maxTitleLength) {
             title = title.substring(0, (this.maxTitleLength-3)) + "...";
@@ -662,7 +665,7 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.calculateNewTitleLimits = function() {
+    calculateNewTitleLimits() {
         width = this.getWidth();
         leftLimit = this.DOMObj.querySelector(".window-btn-maximize").getBoundingClientRect().right - this.getWindowX();
         rightLimit = this.getWidth() - (this.DOMObj.querySelector(".gui-window__titlebar__icon").getBoundingClientRect().left-this.getWindowX());
@@ -679,12 +682,12 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.setWindowIcon = function(path) {
+    setWindowIcon(path) {
         this.windowIcon.setAttribute("src", path);
         this.panelInstance.getPanelItem(this.id).setIcon(path);
     }
     
-    this.setContent = function(content) {
+    setContent(content) {
         if(content instanceof Object) {
             this.content = content;
             this.windowContent.appendChild(this.content);
@@ -695,23 +698,23 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.setWindowX = function(x) {
+    setWindowX(x) {
         this.guiWindow.style.left = x+"px";
     }
     
-    this.setWindowY = function(y) {
+    setWindowY(y) {
         this.guiWindow.style.top = y+"px";
     }
     
-    this.getWindowX = function() {
+    getWindowX() {
         return Number(this.guiWindow.style.left.split("px")[0]);
     }
     
-    this.getWindowY = function() {
+    getWindowY() {
         return Number(this.guiWindow.style.top.split("px")[0]);
     }
     
-    this.getWidth = function() {
+    getWidth() {
         if(this.guiWindow.style.width.indexOf("%") != -1) {
             return document.body.clientWidth * (Number(this.guiWindow.style.width.split("%")[0])/100);
         } else {
@@ -719,7 +722,7 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.getHeight = function() {
+    getHeight() {
         if(this.guiWindow.style.height.indexOf("%") != -1) {
             return document.body.clientHeight * (Number(this.guiWindow.style.height.split("%")[0])/100);
         } else {
@@ -727,19 +730,19 @@ var Window = function(panelInstance, windowId) {
         }
     }
     
-    this.getBackgroundColor = function() {
+    getBackgroundColor() {
         return this.guiWindow.querySelector(".gui-window__content").style.background;
     }
     
-    this.getTitle = function() {
+    getTitle() {
         return this.title.textContent;
     }
     
-    this.getContent = function() {
+    getContent() {
         return this.content;
     }
     
-    this.isWindowPinnable = function() {
+    isWindowPinnable() {
         return this.isPinnable;
     }
 }
