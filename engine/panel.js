@@ -1,16 +1,15 @@
-     var Panel = function() {
-        this.windows = [];
-        this.windowsStatus = new Map();
-        this.leftContainer = document.createElement("div");
-        this.leftContainer.classList.add("gui-panel__left-container");
-        this.rightContainer = document.createElement("div");
-        this.rightContainer.classList.add("gui-panel__right-container");
-        this.panelMenu = new PanelMenu();
-        this.panelMenu.addAnItem("Test #1", () => console.log("test 1")).addASeparator().addAnItem("Test #2", () => console.log("test 2"));
-        this.panelClock = new PanelItemClock(this);
-        this.desktop = SimpleJSGui.getDesktop();
-    
-        this.initialize = function() {
+     class Panel {
+            constructor() {
+            this.windows = [];
+            this.windowsStatus = new Map();
+            this.leftContainer = document.createElement("div");
+            this.leftContainer.classList.add("gui-panel__left-container");
+            this.rightContainer = document.createElement("div");
+            this.rightContainer.classList.add("gui-panel__right-container");
+            this.panelMenu = new PanelMenu();
+            this.panelMenu.addAnItem("Test #1", () => console.log("test 1")).addASeparator().addAnItem("Test #2", () => console.log("test 2"));
+            this.panelClock = new PanelItemClock(this);
+            this.desktop = SimpleJSGui.getDesktop();
             this.DOMObj = document.createElement("div");
             this.DOMObj.classList.add("gui-panel");
             this.DOMObj.id = "panelInstance1";
@@ -43,7 +42,7 @@
             }.bind(this));
         }
 
-        this.addAWindow = function(newWindow) {
+        addAWindow(newWindow) {
             this.windows.push(newWindow);
             this.windowsStatus.set(newWindow.getId(), "active");
             this.taskBar.addAnItem(new PanelItem(newWindow.getId(), newWindow.getTitle()));
@@ -100,12 +99,11 @@
             document.body.appendChild(newWindow.getDOMObject());
             newWindow.focusWindow();
         }
-        this.panelInstance = null;
-        this.selectInstance = function(instanceId) {
+        selectInstance(instanceId) {
             this.panelInstance = instanceId;
         }
     
-        this.windowAction = function(actionToDo, id) {
+        windowAction(actionToDo, id) {
             if(actionToDo == "minimize") {
                 var status = this.windowsStatus.get(id);
                 if(status == "active") {
@@ -140,11 +138,11 @@
             }
         }
 
-        this.getWindows = function() {
+        getWindows = function() {
             return this.windows;
         }
 
-        this.getWindowOrderNumberById = function(id) {
+        getWindowOrderNumberById(id) {
             for(i = 0; i < this.windows.length; i++) {
                 if(this.windows[i].getId() == id) {
                     return i;
@@ -152,7 +150,7 @@
             }
         }
     
-        this.getPanelItem = function(windowId) {
+        getPanelItem(windowId) {
             var items = this.taskBar.getItems();
             for(i = 0; i < items.length; i++) {
                 if(items[i].getId() == windowId) {
@@ -162,10 +160,8 @@
             return null;
         }
 
-        this.calculateMinimalWidth = function() {
+        calculateMinimalWidth() {
             var dummyPanelItem = new PanelItem("DUMMY_ID", "DummyText");
             return this.panelMenu.getDOMObject().clientWidth+2 + dummyPanelItem.getItemDefaultWidth() + this.taskBar.getLineSwitcher().getDOMObject().clientWidth + this.rightContainer.clientWidth;
         }
-
-        this.initialize();
     }

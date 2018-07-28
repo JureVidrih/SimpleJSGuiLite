@@ -1,8 +1,7 @@
-var System = function() {
-    this.desktop = new Desktop();
-    this.overLay = new OverLay();
-
-    this.init = function init() {
+class System {
+    constructor() {
+        this.desktop = new Desktop();
+        this.overLay = new OverLay();
         document.body.appendChild(this.desktop.getDOMObject());
         document.body.appendChild(this.overLay.getDOMObject());
         var overLayMessage = document.createElement("p");
@@ -21,11 +20,11 @@ var System = function() {
         }.bind(this));
     }
 
-    this.getDesktop = function() {
+    getDesktop() {
         return this.desktop;
     }
 
-    this.registerPanel = function registerPanel(newPanel) {
+    registerPanel(newPanel) {
         this.panel = newPanel;
     }
 }

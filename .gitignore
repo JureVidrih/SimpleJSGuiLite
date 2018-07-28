@@ -61,5 +61,5 @@ typings/
 .eslintrc.js
 .eslintrc.json
 
-#VSCode specific files
+#VSCode files
 .vscode/
