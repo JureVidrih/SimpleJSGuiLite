@@ -1,22 +1,19 @@
-var FreeSpaceWidget = function(taskBar) {
-    this.DOMObj;
-    this.taskBar = taskBar;
-    
-    this.initialize = function() {
+class FreeSpaceWidget {
+    constructor(taskBar) {
+        this.taskBar = taskBar;
         this.DOMObj = document.createElement("div");
-        
         this.DOMObj.classList.add("gui-panel__task-bar__free-space");
     }
     
-    this.getDOMObject = function() {
+    getDOMObject() {
         return this.DOMObj;
     }
     
-    this.getWidth = function() {
+    getWidth() {
         return this.DOMObj.clientWidth;
     }
     
-    this.calculateWidth = function(panel, leftContainer, rightContainer) {
+    calculateWidth(panel, leftContainer, rightContainer) {
         var panelWidth = panel.clientWidth;
         var leftContainerWidth = leftContainer.clientWidth;
         var rightContainerWidth = rightContainer.clientWidth;
@@ -38,14 +35,11 @@ var FreeSpaceWidget = function(taskBar) {
             this.taskBar.getLineContainer().getDOMObject().style.width = width+"px";
         }
     }
-    
-    this.initialize();
 }
 
-var LineSwitcher = function(taskBar) {
-    this.taskBar = taskBar;
-    
-    this.initialize = function() {
+class LineSwitcher {
+    constructor(taskBar) {
+        this.taskBar = taskBar;
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-panel__task-bar__line-switcher");
         
@@ -82,23 +76,20 @@ var LineSwitcher = function(taskBar) {
         this.DOMObj.appendChild(this.moveUp);
     }
     
-    this.getDOMObject = function() {
+    getDOMObject() {
         return this.DOMObj;
     }
     
-    this.setCurrentLineText = function(text) {
+    setCurrentLineText(text) {
         this.currentLevel.textContent = text;
     }
-    
-    this.initialize();
 }
 
-var LineContainer = function(taskBar) {
-    this.taskBar = taskBar;
-    this.lines = [];
-    this.currentLine = 0;
-    
-    this.initialize = function() {
+class LineContainer {
+    constructor(taskBar) {
+        this.taskBar = taskBar;
+        this.lines = [];
+        this.currentLine = 0;
         this.wrapper = document.createElement("div");
         this.wrapper.classList.add("gui-panel__task-bar__wrapper");
         
@@ -108,12 +99,12 @@ var LineContainer = function(taskBar) {
         this.wrapper.appendChild(this.DOMObj);
     }
     
-    this.addALine = function(line) {
+    addALine(line) {
         this.lines.push(line);
         this.DOMObj.appendChild(line.getDOMObject());
     }
     
-    this.empty = function() {
+    empty() {
         for(i = 0; i < this.lines.length; i++) {
             this.DOMObj.removeChild(this.DOMObj.firstChild);
         }
@@ -121,15 +112,15 @@ var LineContainer = function(taskBar) {
         this.lines = [];
     }
     
-    this.getLines = function() {
+    getLines() {
         return this.lines;
     }
     
-    this.getCurrentLine = function() {
+    getCurrentLine() {
         return this.currentLine;
     }
     
-    this.switchLine = function(newLine) {
+    switchLine(newLine) {
         this.currentLine = newLine;
         // console.log("currentLine is now: " + newLine);
         // console.log("Line height of first line is: " + this.lines[0].getLineHeight());
@@ -138,59 +129,52 @@ var LineContainer = function(taskBar) {
         this.DOMObj.style.top = -(newLine)*this.lines[0].getLineHeight()+"px";
     }
     
-    this.getWrapperDOM = function() {
+    getWrapperDOM() {
         return this.wrapper;
     }
     
-    this.getDOMObject = function() {
+    getDOMObject() {
         return this.DOMObj;
     }
-    
-    this.initialize();
 }
 
-var Line = function(taskBar) {
-    this.taskBar = taskBar;
-    this.items = [];
-    this.height = 0;
-    
-    this.initialize = function() {
+class Line {
+    constructor(taskBar) {
+        this.taskBar = taskBar;
+        this.items = [];
+        this.height = 0;
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-panel__task-bar__wrapper__line-container__line");
         height = window.getComputedStyle(this.DOMObj).getPropertyValue("height");
         this.height = Number(height.substring(0, height.indexOf("px")));
     }
     
-    this.putAnItem = function(item) {
+    putAnItem(item) {
         this.items.push(item);
         this.DOMObj.appendChild(item.getItem());
     }
     
-    this.getDOMObject = function() {
+    getDOMObject() {
         return this.DOMObj;
     }
     
-    this.getLineHeight = function() {
+    getLineHeight() {
         return this.height;
     }
-    
-    this.initialize();
 }
 
-var TaskBar = function() {
-    this.DOMObj;
-    this.mode = "icons text";
-    this.items = [];
-    this.panel = document.querySelector(".gui-panel");
-    this.leftContainer = document.querySelector(".gui-panel__left-container");
-    this.rightContainer = document.querySelector(".gui-panel__right-container");
-    
-    this.lineContainer = new LineContainer(this);
-    this.lineContainer.addALine(new Line(this));
-    
-    this.lineSwitcher = new LineSwitcher(this);
-    
-    this.initialize = function() {
+class TaskBar {
+    constructor() {
+        this.mode = "icons text";
+        this.items = [];
+        this.panel = document.querySelector(".gui-panel");
+        this.leftContainer = document.querySelector(".gui-panel__left-container");
+        this.rightContainer = document.querySelector(".gui-panel__right-container");
+        
+        this.lineContainer = new LineContainer(this);
+        this.lineContainer.addALine(new Line(this));
+        
+        this.lineSwitcher = new LineSwitcher(this);
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-panel__task-bar");
         this.DOMObj.appendChild(this.lineContainer.getWrapperDOM());
@@ -204,30 +188,30 @@ var TaskBar = function() {
         }.bind(this));
     }
     
-    this.getDOMObject = function() {
+    getDOMObject() {
         return this.DOMObj;
     }
     
-    this.getLineContainer = function() {
+    getLineContainer() {
         return this.lineContainer;
     }
     
-    this.getLineSwitcher = function() {
+    getLineSwitcher() {
         return this.lineSwitcher;
     }
     
-    this.addAnItem = function(newItem) {
+    addAnItem(newItem) {
         this.items.push(newItem);
         this.lineContainer.getLines()[0].putAnItem(newItem);
         this.freeSpaceWidget.getDOMObject().style.width = "0px";
         this.calculateFreeSpace();
     }
     
-    this.getItems = function() {
+    getItems() {
         return this.items;
     }
     
-    this.rearrangeItems = function() {
+    rearrangeItems() {
         if(this.items.length > 0) {
             // console.log("Rearranging items...");
             var itemsInALine = Math.floor((this.DOMObj.clientWidth-this.lineSwitcher.getDOMObject().clientWidth) / this.items[0].getItemDefaultWidth());
@@ -311,13 +295,11 @@ var TaskBar = function() {
         }
     }
     
-    this.calculateFreeSpace = function() {
+    calculateFreeSpace() {
         this.freeSpaceWidget.calculateWidth(this.panel, this.leftContainer, this.rightContainer);
         this.rearrangeItems();
         // if(this.freeSpaceWidget.getWidth() <= 0) {
         //     this.rearrangeItems();
         // }
     }
-    
-    this.initialize();
 }
