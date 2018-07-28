@@ -20,7 +20,7 @@ myWindow.setHeight(768);
 myWindow.setWindowX(500);
 myWindow.setTitle("My first window's title!");
 myWindow.setWindowIcon("themes/newtheme/assets/icons/default.png");
-myWindow.setContent("<p>It works!</p>");
+myWindow.setContent("<p>This is a paragraph.</p>");
 
 // myWindow.getDOMObject().addEventListener("click", function() {
 //     document.documentElement.mozRequestFullScreen();
