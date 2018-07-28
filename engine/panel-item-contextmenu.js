@@ -1,9 +1,6 @@
-var PanelItemContextMenu = function(panelItem) {
-    this.panelITem = panelItem;
-    this.DOMObj = "";
-    this.menuContent = "";
-
-    this.createAnEmptyContextMenu = function() {
+class PanelItemContextMenu {
+    constructor(panelItem) {
+        this.panelITem = panelItem;
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-panel__task-bar__item__context-menu");
         this.DOMObj.innerHTML = '<div class="gui-panel__task-bar__item__context-menu__content"></div>';
@@ -18,16 +15,16 @@ var PanelItemContextMenu = function(panelItem) {
         }.bind(this));
     }
 
-    this.getDOMObject = function() {
+    getDOMObject() {
         return this.DOMObj;
     }
 
-    this.setBottomY = function(newY) {
+    setBottomY(newY) {
         console.log(newY);
         this.DOMObj.style.bottom = newY+"px";
     }
 
-    this.addAnItem = function(itemName, elementListener) {
+    addAnItem(itemName, elementListener) {
         newElement = document.createElement("p");
         newElement.classList.add("gui-panel__task-bar__item__context-menu__content__menu-item");
         newElement.textContent = itemName;
@@ -44,7 +41,7 @@ var PanelItemContextMenu = function(panelItem) {
         return this;
     }
 
-    this.addASeparator = function() {
+    addASeparator() {
         newElement = document.createElement("div");
         newElement.classList.add("gui-panel__task-bar__item__context-menu__content__item-separator");
         if(this.menuContent.length == 0) {
@@ -55,6 +52,4 @@ var PanelItemContextMenu = function(panelItem) {
 
         return this;
     }
-
-    this.createAnEmptyContextMenu();
 }
