@@ -65,3 +65,5 @@ class Desktop {
         }
     }
 }
+
+export default Desktop;

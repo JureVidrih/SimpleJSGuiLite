@@ -303,3 +303,5 @@ class TaskBar {
         // }
     }
 }
+
+export default TaskBar;

@@ -53,3 +53,5 @@ class PanelItemContextMenu {
         return this;
     }
 }
+
+export default PanelItemContextMenu;

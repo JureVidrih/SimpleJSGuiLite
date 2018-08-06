@@ -1,7 +1,10 @@
+import Desktop from './desktop';
+import Overlay from './overlay';
+
 class System {
     constructor() {
         this.desktop = new Desktop();
-        this.overLay = new OverLay();
+        this.overLay = new Overlay();
         document.body.appendChild(this.desktop.getDOMObject());
         document.body.appendChild(this.overLay.getDOMObject());
         var overLayMessage = document.createElement("p");
@@ -29,4 +32,4 @@ class System {
     }
 }
 
-var SimpleJSGui = new System();
+export default System;

@@ -138,7 +138,7 @@
             }
         }
 
-        getWindows = function() {
+        getWindows() {
             return this.windows;
         }
 
@@ -165,3 +165,5 @@
             return this.panelMenu.getDOMObject().clientWidth+2 + dummyPanelItem.getItemDefaultWidth() + this.taskBar.getLineSwitcher().getDOMObject().clientWidth + this.rightContainer.clientWidth;
         }
     }
+
+    export default Panel;

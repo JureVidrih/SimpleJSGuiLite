@@ -80,3 +80,5 @@ class PanelItem {
         }
     }
 }
+
+export default PanelItem;

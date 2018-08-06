@@ -8,3 +8,5 @@ class Overlay {
         return this.DOMObj;
     }
 }
+
+export default Overlay;

@@ -207,3 +207,5 @@ class PanelItemClock {
         return num;
     }
 }
+
+export default PanelItemClock;

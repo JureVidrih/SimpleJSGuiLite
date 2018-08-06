@@ -52,3 +52,5 @@ class PanelMenu {
         return this;
     }
 }
+
+export default PanelMenu;

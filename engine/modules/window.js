@@ -746,3 +746,5 @@ class Window {
         return this.isPinnable;
     }
 }
+
+export default Window;
