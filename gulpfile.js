@@ -23,7 +23,7 @@ gulp.task('styles', function() {
         .pipe(gulp.dest("build/"));
 });
 
-gulp.task('webpack', function(callback) {
+gulp.task('bundle', function(callback) {
   webpack(require('./webpack.config.js'), function(err, stats) {
     if (err) {
       console.log(err.toString());

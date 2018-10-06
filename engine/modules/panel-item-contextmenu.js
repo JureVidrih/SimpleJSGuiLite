@@ -20,12 +20,11 @@ class PanelItemContextMenu {
     }
 
     setBottomY(newY) {
-        console.log(newY);
         this.DOMObj.style.bottom = newY+"px";
     }
 
     addAnItem(itemName, elementListener) {
-        newElement = document.createElement("p");
+        let newElement = document.createElement("p");
         newElement.classList.add("gui-panel__task-bar__item__context-menu__content__menu-item");
         newElement.textContent = itemName;
         newElement.addEventListener('mousedown', function() {
@@ -42,7 +41,7 @@ class PanelItemContextMenu {
     }
 
     addASeparator() {
-        newElement = document.createElement("div");
+        let newElement = document.createElement("div");
         newElement.classList.add("gui-panel__task-bar__item__context-menu__content__item-separator");
         if(this.menuContent.length == 0) {
             console.log("Didn't append the separator because the content of the menu is empty.");

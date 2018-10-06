@@ -9,4 +9,14 @@ import PanelItem from './modules/panel-item';
 import Panel from './modules/panel';
 import Window from './modules/window';
 
-let SimpleJSGui = new System();
+window.SimpleJSGui = new System();
+
+window.Desktop =  Desktop;
+window.Overlay =  Overlay;
+window.TaskBar =  TaskBar;
+window.PanelMenu =  PanelMenu;
+window.PanelClock =  PanelClock;
+window.PanelItemContextMenu =  PanelItemContextMenu;
+window.PanelItem =  PanelItem;
+window.Panel =  Panel;
+window.Window =  Window;

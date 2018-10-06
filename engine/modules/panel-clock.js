@@ -23,7 +23,9 @@ class PanelItemClock {
                 }
             }
         }.bind(this));
+    }
 
+    getDOMObject() {
         return this.DOMObj;
     }
 
@@ -42,8 +44,8 @@ class PanelItemClock {
     startTheClock() {
         this.clockIntervalID = setInterval(function() {
             this.time = new Date();
-            hours = this.time.getHours();
-            minutes = this.time.getMinutes();
+            let hours = this.time.getHours();
+            let minutes = this.time.getMinutes();
             if(hours < 10) {
                 hours = "0" + hours;
             }
@@ -59,15 +61,15 @@ class PanelItemClock {
     }
 
     createTheClockWidget() {
-        tableTop = document.createElement("div");
+        let tableTop = document.createElement("div");
         tableTop.classList.add("gui-panel__clock__clock-widget__table-top");
 
-        testDate = new Date();
-        currYear = testDate.getFullYear();
-        currMonth = testDate.getMonth();
-        currDay = testDate.getDate();
+        let testDate = new Date();
+        let currYear = testDate.getFullYear();
+        let currMonth = testDate.getMonth();
+        let currDay = testDate.getDate();
 
-        prevMonth = document.createElement("img");
+        let prevMonth = document.createElement("img");
         prevMonth.classList.add("gui-panel__clock__clock-widget__table-top__prevMonth");
         prevMonth.addEventListener('mousedown', function() {
             currYear = this.clockWidgetDate.getFullYear();
@@ -75,7 +77,7 @@ class PanelItemClock {
             this.renderMonth(currYear, currMonth-1);
         }.bind(this));
 
-        nextMonth = document.createElement("img");
+        let nextMonth = document.createElement("img");
         nextMonth.classList.add("gui-panel__clock__clock-widget__table-top__nextMonth");
         nextMonth.addEventListener('mousedown', function() {
             currYear = this.clockWidgetDate.getFullYear();
@@ -103,25 +105,26 @@ class PanelItemClock {
     }
 
     renderMonth(year, month) {
-        var currDate = new Date();
-        var isCurrentMonth = (month == currDate.getMonth()) && (year == currDate.getFullYear());
+        let currDate = new Date();
+        let isCurrentMonth = (month == currDate.getMonth()) && (year == currDate.getFullYear());
         if(!isCurrentMonth) {
             currDate = new Date(year, month);
         }
 
         this.clockWidgetDate = currDate;
 
-        var currYear = currDate.getFullYear();
-        var currMonth = currDate.getMonth();
+        let currYear = currDate.getFullYear();
+        let currMonth = currDate.getMonth();
+        let currDay, currDayOfWeek;
         if(isCurrentMonth) {
-            var currDay = currDate.getDate();
-            var currDayOfWeek = currDate.getDay();
+            currDay = currDate.getDate();
+            currDayOfWeek = currDate.getDay();
         }
-        var dayOfWeekOfTheFirstDay = (new Date(year, month, 0).getDay())+1;
-        var daysInTheMonth = this.daysInTheMonth(year, month);
-        var daysInThePreviousMonth = this.daysInTheMonth(year, (month-1));
+        let dayOfWeekOfTheFirstDay = (new Date(year, month, 0).getDay())+1;
+        let daysInTheMonth = this.daysInTheMonth(year, month);
+        let daysInThePreviousMonth = this.daysInTheMonth(year, (month-1));
 
-        var monthInText = "";
+        let monthInText = "";
 
         switch(currMonth+1) {
             case 1: monthInText = "January"; break;
@@ -142,10 +145,10 @@ class PanelItemClock {
 
         this.table.innerHTML = "<thead><tr><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td><td>Sun</td></tr></thead>";
         
-        data = "";
+        let data = "";
 
-        var isInPreviousMonth = true;
-        var dayValue;
+        let isInPreviousMonth = true;
+        let dayValue;
         if(dayOfWeekOfTheFirstDay == 1) {
             dayValue = 1;
             isInPreviousMonth = false;
@@ -153,10 +156,10 @@ class PanelItemClock {
             dayValue = daysInThePreviousMonth-(dayOfWeekOfTheFirstDay-2);
         }
 
-        for(i = 0, index = 0, isInNextMonth = false; i < 6; i++) {
-            row = document.createElement("tr");
-            for(j = 0; j < 7; j++, index++) {
-                data = document.createElement("td");
+        for(let i = 0, index = 0, isInNextMonth = false; i < 6; i++) {
+            let row = document.createElement("tr");
+            for(let j = 0; j < 7; j++, index++) {
+                let data = document.createElement("td");
                 data.classList.add("table-data" + index);
                 data.textContent = dayValue;
                 if(isCurrentMonth && (dayValue == currDay) && (!isInPreviousMonth && !isInNextMonth)) {
@@ -184,18 +187,18 @@ class PanelItemClock {
     }
 
     daysInTheMonth(year, month) {
-        var num = 0;
+        let num = 0;
 
         if(month < 0) {
             year--;
-            month = 11;
+            let month = 11;
         } else if(month > 11) {
             year++;
-            month = 0;
+            let month = 0;
         }
 
         while(true) {
-            testDate = new Date(year, month, (num+1));
+            let testDate = new Date(year, month, (num+1));
 
             if(testDate.getMonth() != month) {
                 break;

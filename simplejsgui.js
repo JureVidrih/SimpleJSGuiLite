@@ -7,9 +7,6 @@ var myPanel = new Panel();
 var myWindow = new Window(myPanel, "MyWindowNo1");
 var myWindow2 = new Window(myPanel, "MyWindowNo2");
 
-myWindow.initialize();
-myWindow2.initialize();
-
 myPanel.addAWindow(myWindow);
 myPanel.addAWindow(myWindow2);
 

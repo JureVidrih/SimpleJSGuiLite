@@ -9,7 +9,7 @@ class Window {
         this.isPinnable = true;
         this.id = windowId;
 
-        this.panelItem = this.panelInstance.getPanelItem(this.id);
+        this.panelItem = panelInstance.getPanelItem(this.id);
 
         this.isBeingDragged = false;
         this.cachedX = 0;
@@ -108,7 +108,7 @@ class Window {
         }.bind(this));
         
         this.max.addEventListener('click', function() {
-            // var content = this.guiWindow.getElementsByClassName("gui-window__content")[0];
+            // let content = this.guiWindow.getElementsByClassName("gui-window__content")[0];
             // if(content.style.display == "none") {
             //     content.style.display = "block";
             // } else {
@@ -190,8 +190,8 @@ class Window {
         document.addEventListener('mousemove', function(event) {
             if(this.isBeingResized) {
                 if(this.isResizingNW) {
-                    change = this.cachedResizeX-event.clientX;
-                    changeToApply = this.getWindowX() - change;
+                    let change = this.cachedResizeX-event.clientX;
+                    let changeToApply = this.getWindowX() - change;
                     if(this.getWidth() > this.minWidth) {
                         this.guiWindow.style.left = changeToApply+"px";
                         this.setWidth(this.getWidth()+change);
@@ -216,8 +216,8 @@ class Window {
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingNE) {
-                    change = event.clientX-this.cachedResizeX;
-                    changeToApply = this.getWindowX() - change;
+                    let change = event.clientX-this.cachedResizeX;
+                    let changeToApply = this.getWindowX() - change;
                     if(this.getWidth() > this.minWidth) {
                         this.guiWindow.style.right = changeToApply+"px";
                         this.setWidth(this.getWidth()+change);
@@ -242,8 +242,8 @@ class Window {
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingSW) {
-                    change = this.cachedResizeX-event.clientX;
-                    changeToApply = this.getWindowX() - change;
+                    let change = this.cachedResizeX-event.clientX;
+                    let changeToApply = this.getWindowX() - change;
                     if(this.getWidth() > this.minWidth) {
                         this.guiWindow.style.left = changeToApply+"px";
                         this.setWidth(this.getWidth()+change);
@@ -268,8 +268,8 @@ class Window {
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingSE) {
-                    change = event.clientX-this.cachedResizeX;
-                    changeToApply = this.getWindowX() - change;
+                    let change = event.clientX-this.cachedResizeX;
+                    let changeToApply = this.getWindowX() - change;
                     if(this.getWidth() > this.minWidth) {
                         this.guiWindow.style.right = changeToApply+"px";
                         this.setWidth(this.getWidth()+change);
@@ -294,8 +294,8 @@ class Window {
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingN) {
-                    change = this.cachedResizeY-event.clientY;
-                    changeToApply = this.getWindowY() - change;
+                    let change = this.cachedResizeY-event.clientY;
+                    let changeToApply = this.getWindowY() - change;
                     if(this.getHeight() > this.minHeight) {
                         this.guiWindow.style.top = changeToApply+"px";
                         this.setHeight(this.getHeight()+change);
@@ -308,8 +308,8 @@ class Window {
 
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingS) {
-                    change = event.clientY-this.cachedResizeY;
-                    changeToApply = this.getWindowY() - change;
+                    let change = event.clientY-this.cachedResizeY;
+                    let changeToApply = this.getWindowY() - change;
                     if(this.getHeight() > this.minHeight) {
                         this.guiWindow.style.bottom = changeToApply+"px";
                         this.setHeight(this.getHeight()+change);
@@ -322,8 +322,8 @@ class Window {
 
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingW) {
-                    change = this.cachedResizeX-event.clientX;
-                    changeToApply = this.getWindowX() - change;
+                    let change = this.cachedResizeX-event.clientX;
+                    let changeToApply = this.getWindowX() - change;
                     if(this.getWidth() > this.minWidth) {
                         this.guiWindow.style.left = changeToApply+"px";
                         this.setWidth(this.getWidth()+change);
@@ -336,8 +336,8 @@ class Window {
 
                     this.cachedResizeX = event.clientX;
                 } else if(this.isResizingE) {
-                    change = event.clientX-this.cachedResizeX;
-                    changeToApply = this.getWindowX() - change;
+                    let change = event.clientX-this.cachedResizeX;
+                    let changeToApply = this.getWindowX() - change;
                     if(this.getWidth() > this.minWidth) {
                         this.guiWindow.style.right = changeToApply+"px";
                         this.setWidth(this.getWidth()+change);
@@ -386,9 +386,9 @@ class Window {
         
         document.addEventListener('mousemove', function(event) {
             if(this.isBeingDragged) {
-                coord = this.guiWindow.getBoundingClientRect();
-                resizeChangeHorizontal = (((event.clientX)-this.cachedX)+coord.left);
-                resizeChangeVertical = (((event.clientY)-this.cachedY)+coord.top);
+                let coord = this.guiWindow.getBoundingClientRect();
+                let resizeChangeHorizontal = (((event.clientX)-this.cachedX)+coord.left);
+                let resizeChangeVertical = (((event.clientY)-this.cachedY)+coord.top);
                 this.guiWindow.style.left = resizeChangeHorizontal+"px";
                 this.guiWindow.style.top = resizeChangeVertical+"px";
                 coord = this.guiWindow.getBoundingClientRect();
@@ -457,10 +457,10 @@ class Window {
     }
     
     toggleWindowSnapVisualEffects(indicator) {
-        desktop = SimpleJSGui.getDesktop().getDOMObject();
-        visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
-        visualEffectLeft = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
-        visualEffectRight = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
+        let desktop = SimpleJSGui.getDesktop().getDOMObject();
+        let visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
+        let visualEffectLeft = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
+        let visualEffectRight = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
 
         if(indicator == "top") {
             visualEffectTop.classList.toggle("window-snap-indicator-fade-in");
@@ -472,9 +472,9 @@ class Window {
             visualEffectRight.classList.toggle("window-snap-indicator-fade-in");
         }
         
-        checkTop = visualEffectTop.classList.contains("window-snap-indicator-fade-in");
-        checkLeft = visualEffectLeft.classList.contains("window-snap-indicator-fade-in");
-        checkRight = visualEffectRight.classList.contains("window-snap-indicator-fade-in");
+        let checkTop = visualEffectTop.classList.contains("window-snap-indicator-fade-in");
+        let checkLeft = visualEffectLeft.classList.contains("window-snap-indicator-fade-in");
+        let checkRight = visualEffectRight.classList.contains("window-snap-indicator-fade-in");
 
         if(checkTop || checkLeft || checkRight) {
             this.snapEffectsToggled = true;
@@ -502,7 +502,7 @@ class Window {
                 this.cachedXBeforeSnap = document.body.clientWidth-this.getWidth();
                 this.setWidth("50%");
                 this.setHeight(SimpleJSGui.getDesktop().getDesktopDOMObject().clientHeight);
-                temp = (document.body.clientWidth - this.getWidth());
+                let temp = (document.body.clientWidth - this.getWidth());
                 this.guiWindow.style.left = temp + "px";
                 this.guiWindow.style.top = "0px";
             }
@@ -614,9 +614,9 @@ class Window {
     }
     
     unfocusAllWindows() {
-        allWindows = panelInstance.getWindows();
-        for(i = 0; i < allWindows.length; i++) {
-            aWindow = allWindows[i].getDOMObject().querySelector(".gui-window");
+        let allWindows = this.panelInstance.getWindows();
+        for(let i = 0; i < allWindows.length; i++) {
+            let aWindow = allWindows[i].getDOMObject().querySelector(".gui-window");
             if(!aWindow.classList.contains("window-effect-shade")) {
                 aWindow.classList.add("window-effect-shade");
             }
@@ -660,17 +660,17 @@ class Window {
         }
         this.title.textContent = title;
         this.calculateNewTitleLimits();
-        if(panelInstance.getPanelItem(this.id) != null) {
-            panelInstance.getPanelItem(this.id).setTitle(title);
+        if(this.panelInstance.getPanelItem(this.id) != null) {
+            this.panelInstance.getPanelItem(this.id).setTitle(title);
         }
     }
     
     calculateNewTitleLimits() {
-        width = this.getWidth();
-        leftLimit = this.DOMObj.querySelector(".window-btn-maximize").getBoundingClientRect().right - this.getWindowX();
-        rightLimit = this.getWidth() - (this.DOMObj.querySelector(".gui-window__titlebar__icon").getBoundingClientRect().left-this.getWindowX());
-        appliableWidth = width - (leftLimit + rightLimit);
-        numOfChars = Math.floor(appliableWidth / this.remInPixels);
+        let width = this.getWidth();
+        let leftLimit = this.DOMObj.querySelector(".window-btn-maximize").getBoundingClientRect().right - this.getWindowX();
+        let rightLimit = this.getWidth() - (this.DOMObj.querySelector(".gui-window__titlebar__icon").getBoundingClientRect().left-this.getWindowX());
+        let appliableWidth = width - (leftLimit + rightLimit);
+        let numOfChars = Math.floor(appliableWidth / this.remInPixels);
         if(this.titleText.length > numOfChars) {
             if(this.titleText[numOfChars-4] == " ") {
                 this.title.textContent = this.titleText.substring(0, numOfChars-4)+"...";

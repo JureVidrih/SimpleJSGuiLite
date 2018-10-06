@@ -14,17 +14,17 @@ class FreeSpaceWidget {
     }
     
     calculateWidth(panel, leftContainer, rightContainer) {
-        var panelWidth = panel.clientWidth;
-        var leftContainerWidth = leftContainer.clientWidth;
-        var rightContainerWidth = rightContainer.clientWidth;
+        let panelWidth = panel.clientWidth;
+        let leftContainerWidth = leftContainer.clientWidth;
+        let rightContainerWidth = rightContainer.clientWidth;
         // console.log("panel " + panelWidth);
         // console.log("left " + leftContainerWidth);
         // console.log("right " + rightContainerWidth);
-        switcherWidth = 0;
+        let switcherWidth = 0;
         if(this.taskBar && this.taskBar.getLineContainer() && this.taskBar.getLineSwitcher()) {
             switcherWidth = this.taskBar.getLineSwitcher().getDOMObject().clientWidth;
         }
-        var width = panelWidth-((leftContainerWidth-this.DOMObj.clientWidth)+rightContainerWidth);
+        let width = panelWidth-((leftContainerWidth-this.DOMObj.clientWidth)+rightContainerWidth);
         // console.log("width is at: " + width + "px");
         if(width > 0) {
             this.DOMObj.style.width = width+"px";
@@ -105,7 +105,7 @@ class LineContainer {
     }
     
     empty() {
-        for(i = 0; i < this.lines.length; i++) {
+        for(let i = 0; i < this.lines.length; i++) {
             this.DOMObj.removeChild(this.DOMObj.firstChild);
         }
         
@@ -145,7 +145,7 @@ class Line {
         this.height = 0;
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-panel__task-bar__wrapper__line-container__line");
-        height = window.getComputedStyle(this.DOMObj).getPropertyValue("height");
+        let height = window.getComputedStyle(this.DOMObj).getPropertyValue("height");
         this.height = Number(height.substring(0, height.indexOf("px")));
     }
     
@@ -214,12 +214,12 @@ class TaskBar {
     rearrangeItems() {
         if(this.items.length > 0) {
             // console.log("Rearranging items...");
-            var itemsInALine = Math.floor((this.DOMObj.clientWidth-this.lineSwitcher.getDOMObject().clientWidth) / this.items[0].getItemDefaultWidth());
+            let itemsInALine = Math.floor((this.DOMObj.clientWidth-this.lineSwitcher.getDOMObject().clientWidth) / this.items[0].getItemDefaultWidth());
             if(itemsInALine == 0) {
                 itemsInALine = 1;
             }
-            numOfItems = itemsInALine;
-            shouldEmptyLineContainer = false;
+            let numOfItems = itemsInALine;
+            let shouldEmptyLineContainer = false;
             if(this.cachedNumOfItems != numOfItems) {
                 shouldEmptyLineContainer = true;
             }
@@ -228,9 +228,9 @@ class TaskBar {
                 numOfItems = this.items.length;
             }
             // console.log("items: " + numOfItems);
-            amount = (numOfItems*this.items[0].getItemDefaultWidth());
+            let amount = (numOfItems*this.items[0].getItemDefaultWidth());
             this.lineContainer.getDOMObject().style.width = amount + "px";
-            reduce = this.freeSpaceWidget.getDOMObject().clientWidth - amount;
+            let reduce = this.freeSpaceWidget.getDOMObject().clientWidth - amount;
             this.freeSpaceWidget.getDOMObject().style.width = 0 + "px";
             this.freeSpaceWidget.calculateWidth(this.panel, this.leftContainer, this.rightContainer);
             // if(this.freeSpaceWidget.getWidth() <= 0) {
@@ -238,7 +238,7 @@ class TaskBar {
             // }
             // console.log("width is at: " + this.DOMObj.clientWidth);
             // console.log("panel is at: " + this.panel.clientWidth + ", and right is at: " + this.rightContainer.clientWidth);
-            var numOfLines = Math.floor(this.items.length / itemsInALine);
+            let numOfLines = Math.floor(this.items.length / itemsInALine);
             if(this.items.length % itemsInALine != 0) {
                 numOfLines++;
             }
@@ -268,14 +268,14 @@ class TaskBar {
                 
                 // console.log(this.lines.length);
                 
-                for(i = 0; i < numOfLines; i++) {
+                for(let i = 0; i < numOfLines; i++) {
                     this.lineContainer.addALine(new Line(this));
-                    newLine = this.lines[this.lines.length-1];
+                    // newLine = this.lines[this.lines.length-1];
                 }
                 
                 // console.log(this.lines.length);
                 
-                for(i = 0, j = 0, ij = 0; i < this.items.length; i++, ij++) {
+                for(let i = 0, j = 0, ij = 0; i < this.items.length; i++, ij++) {
                     if(ij >= itemsInALine) {
                         j++;
                         ij = 0;

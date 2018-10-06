@@ -1,3 +1,5 @@
+import PanelItemContextMenu from './panel-item-contextmenu';
+
 class PanelItem {
     constructor(id, itemName) {
         this.itemWidth = 0;
@@ -19,9 +21,11 @@ class PanelItem {
         this.item.appendChild(this.nameObj);
         this.item.appendChild(this.contextMenu.getDOMObject());
         this.changeMode();
-        return this.item;
     }
 
+    getItem() {
+        return this.item;
+    }
     getName() {
         return this.itemName;
     }
