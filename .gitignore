@@ -62,4 +62,4 @@ typings/
 .eslintrc.json
 
 #VSCode files
-.vscode/
+#.vscode/
