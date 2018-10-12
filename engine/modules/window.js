@@ -545,6 +545,8 @@ class Window {
             this.setWidth("100%");
             this.setHeight(SimpleJSGui.getDesktop().getDesktopDOMObject().clientHeight);
             this.isMaximized = true;
+            this.isSnapped = true;
+            this.isAtTop = true;
         }
     }
 
