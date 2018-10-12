@@ -3,32 +3,56 @@ import Overlay from './overlay';
 
 class System {
     constructor() {
+        this.started = false;
+        this.minimumLoadingTime = 250;
         this.desktop = new Desktop();
-        this.overLay = new Overlay();
+        this.smallScreenMsg = new Overlay();
+        this.loadingOverlay = new Overlay();
         document.body.appendChild(this.desktop.getDOMObject());
-        document.body.appendChild(this.overLay.getDOMObject());
+        document.body.appendChild(this.smallScreenMsg.getDOMObject());
         var overLayMessage = document.createElement("p");
         overLayMessage.textContent = "The browser window is too small to fit the necessary SimpleJSGui components.";
-        this.overLay.getDOMObject().appendChild(overLayMessage);
-
+        this.smallScreenMsg.getDOMObject().appendChild(overLayMessage);
+        document.body.appendChild(this.loadingOverlay.getDOMObject());
+        var loadingMsg = document.createElement("p");
+        loadingMsg.textContent = "Loading...";
+        loadingMsg.style.left = "50%";
+        loadingMsg.style.transform = "translate(-50%, -50%)";
+        this.loadingOverlay.getDOMObject().appendChild(loadingMsg);
+        this.loadingOverlay.getDOMObject().style.display = "block";
+        
         window.addEventListener('resize', function(event) {
             if(this.panel) {
                 this.minimalWidth = this.panel.calculateMinimalWidth();
                 if(window.innerWidth < this.minimalWidth) {
-                    this.overLay.getDOMObject().style.display = "block";
+                    this.smallScreenMsg.getDOMObject().style.display = "block";
                 } else {
-                    this.overLay.getDOMObject().style.display = "none";
+                    this.smallScreenMsg.getDOMObject().style.display = "none";
                 }
             }
         }.bind(this));
     }
-
+    
     getDesktop() {
         return this.desktop;
     }
-
+    
     registerPanel(newPanel) {
         this.panel = newPanel;
+    }
+    
+    start() {
+        if(!this.started) {
+            window.setTimeout(function() {
+                var intervalId = window.setInterval(function() {
+                    if(document.readyState === "complete") {
+                        this.started = true;
+                        this.loadingOverlay.getDOMObject().style.display = "none";
+                    }
+                    window.cancelInterval(intervalId);
+                }.bind(this), 100);
+            }.bind(this), this.minimumLoadingTime);
+        }
     }
 }
 

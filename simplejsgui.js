@@ -52,3 +52,5 @@ myWindow2.getPanelItem().getContextMenu().addAnItem("Option 1", function() {
 }).addAnItem("Option 2", function() {
     document.body.style.backgroundColor = "yellow";
 });
+
+SimpleJSGui.start();
