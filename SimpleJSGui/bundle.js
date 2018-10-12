@@ -2011,6 +2011,7 @@ function () {
       if (!this.isSnapped) {
         if (this.isAtTop && !this.isMaximized) {
           this.maximizeWindow();
+          this.toggleWindowSnapVisualEffects("top");
           this.isSnapped = true;
         } else if (this.isAtLeft) {
           this.cachedWidth = this.getWidth();
@@ -2020,6 +2021,7 @@ function () {
           this.guiWindow.style.top = "0px";
           this.setWidth("50%");
           this.setHeight(SimpleJSGui.getDesktop().getDesktopDOMObject().clientHeight);
+          this.toggleWindowSnapVisualEffects("left");
         } else if (this.isAtRight) {
           this.cachedWidth = this.getWidth();
           this.cachedHeight = this.getHeight();
@@ -2029,6 +2031,7 @@ function () {
           var temp = document.body.clientWidth - this.getWidth();
           this.guiWindow.style.left = temp + "px";
           this.guiWindow.style.top = "0px";
+          this.toggleWindowSnapVisualEffects("right");
         }
 
         if (this.isAtTop && !this.isMaximized || this.isAtLeft || this.isAtRight) {
