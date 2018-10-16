@@ -4,11 +4,11 @@ SimpleJSGui.getDesktop().changeBackgroundImage("backgrounds/pablo-acevedo-359265
 
 var myPanel = new Panel();
 
-var myWindow = new Window(myPanel, "MyWindowNo1");
-var myWindow2 = new Window(myPanel, "MyWindowNo2");
+var myWindow = new Window();
+var myWindow2 = new Window();
 
-myPanel.addAWindow(myWindow);
-myPanel.addAWindow(myWindow2);
+SimpleJSGui.addAWindow(myWindow);
+SimpleJSGui.addAWindow(myWindow2);
 
 myWindow.setWidth(1024);
 myWindow.setHeight(768);

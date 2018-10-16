@@ -93,13 +93,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_desktop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _modules_overlay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var _modules_system__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var _modules_task_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
-/* harmony import */ var _modules_panel_menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
-/* harmony import */ var _modules_panel_clock__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
-/* harmony import */ var _modules_panel_item_contextmenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
-/* harmony import */ var _modules_panel_item__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
-/* harmony import */ var _modules_panel__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(9);
-/* harmony import */ var _modules_window__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(10);
+/* harmony import */ var _modules_task_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+/* harmony import */ var _modules_panel_menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+/* harmony import */ var _modules_panel_clock__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
+/* harmony import */ var _modules_panel_item_contextmenu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(8);
+/* harmony import */ var _modules_panel_item__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(9);
+/* harmony import */ var _modules_panel__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(10);
+/* harmony import */ var _modules_window__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(11);
 
 
 
@@ -262,11 +262,13 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _desktop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _overlay__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony import */ var _windowmanager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -282,6 +284,7 @@ function () {
     this.desktop = new _desktop__WEBPACK_IMPORTED_MODULE_0__["default"]();
     this.smallScreenMsg = new _overlay__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.loadingOverlay = new _overlay__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.windowManager = new _windowmanager__WEBPACK_IMPORTED_MODULE_2__["default"]();
     document.body.appendChild(this.desktop.getDOMObject());
     document.body.appendChild(this.smallScreenMsg.getDOMObject());
     var overLayMessage = document.createElement("p");
@@ -313,6 +316,16 @@ function () {
       return this.desktop;
     }
   }, {
+    key: "getWindowManager",
+    value: function getWindowManager() {
+      return this.windowManager;
+    }
+  }, {
+    key: "addAWindow",
+    value: function addAWindow(newWindow) {
+      this.windowManager.addAWindow(newWindow);
+    }
+  }, {
     key: "registerPanel",
     value: function registerPanel(newPanel) {
       this.panel = newPanel;
@@ -342,6 +355,69 @@ function () {
 
 /***/ }),
 /* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var WindowManager =
+/*#__PURE__*/
+function () {
+  function WindowManager() {
+    _classCallCheck(this, WindowManager);
+
+    this.windows = [];
+    this.windowIDS = [];
+    this.lastWindowID = 0;
+  }
+
+  _createClass(WindowManager, [{
+    key: "generateANewWindowID",
+    value: function generateANewWindowID() {
+      var newID = ++this.lastWindowID;
+      this.windowIDS.push(newID);
+    }
+  }, {
+    key: "addAWindow",
+    value: function addAWindow(newWindow) {
+      newWindow.setID(this.generateANewWindowID());
+      this.windows.push(newWindow);
+    }
+  }, {
+    key: "sortWindowsByZIndex",
+    value: function sortWindowsByZIndex(newTopWindowIndex) {
+      var currentWindow = this.windows[newTopWindowIndex];
+      var currentIndex = currentWindow.style.zIndex;
+      this.windows[newTopWindowIndex].style.zIndex = 0;
+
+      for (var i = 0; i < this.windows.length; i++) {
+        var zIndex = this.windows[i].getDOMObject().style.zIndex;
+
+        if (!(zIndex < currentIndex)) {
+          zIndex = Number(zIndex) - 1;
+          this.windows[i].getDOMObject().style.zIndex = zIndex;
+        }
+      }
+    }
+  }, {
+    key: "getWindows",
+    value: function getWindows() {
+      return this.windows;
+    }
+  }]);
+
+  return WindowManager;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (WindowManager);
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -713,7 +789,7 @@ function () {
 /* harmony default export */ __webpack_exports__["default"] = (TaskBar);
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -792,7 +868,7 @@ function () {
 /* harmony default export */ __webpack_exports__["default"] = (PanelMenu);
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1069,7 +1145,7 @@ function () {
 /* harmony default export */ __webpack_exports__["default"] = (PanelItemClock);
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1151,12 +1227,12 @@ function () {
 /* harmony default export */ __webpack_exports__["default"] = (PanelItemContextMenu);
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _panel_item_contextmenu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+/* harmony import */ var _panel_item_contextmenu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1277,14 +1353,14 @@ function () {
 /* harmony default export */ __webpack_exports__["default"] = (PanelItem);
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _panel_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-/* harmony import */ var _panel_clock__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
-/* harmony import */ var _task_bar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4);
+/* harmony import */ var _panel_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
+/* harmony import */ var _panel_clock__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
+/* harmony import */ var _task_bar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1514,7 +1590,7 @@ function () {
 /* harmony default export */ __webpack_exports__["default"] = (Panel);
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1537,7 +1613,6 @@ function () {
     this.DOMObj;
     this.panelInstance = panelInstance;
     this.isPinnable = true;
-    this.id = windowId;
     this.panelItem = panelInstance.getPanelItem(this.id);
     this.isBeingDragged = false;
     this.cachedX = 0;
@@ -1591,8 +1666,13 @@ function () {
       return this.DOMObj;
     }
   }, {
-    key: "getId",
-    value: function getId() {
+    key: "setID",
+    value: function setID(newID) {
+      this.id = newID;
+    }
+  }, {
+    key: "getID",
+    value: function getID() {
       return this.id;
     }
   }, {

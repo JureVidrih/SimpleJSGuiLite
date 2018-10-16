@@ -7,7 +7,6 @@ class Window {
 
         this.panelInstance = panelInstance;
         this.isPinnable = true;
-        this.id = windowId;
 
         this.panelItem = panelInstance.getPanelItem(this.id);
 
@@ -62,9 +61,15 @@ class Window {
     getDOMObject() {
         return this.DOMObj;
     }
-    getId() {
+
+    setID(newID) {
+        this.id = newID;
+    }
+
+    getID() {
         return this.id;
     }
+    
     getPanelItem() {
         return this.panelInstance.getPanelItem(this.id);
     }

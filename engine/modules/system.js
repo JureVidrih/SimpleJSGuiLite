@@ -1,5 +1,6 @@
 import Desktop from './desktop';
 import Overlay from './overlay';
+import WindowManager from './windowmanager';
 
 class System {
     constructor() {
@@ -8,6 +9,7 @@ class System {
         this.desktop = new Desktop();
         this.smallScreenMsg = new Overlay();
         this.loadingOverlay = new Overlay();
+        this.windowManager = new WindowManager();
         document.body.appendChild(this.desktop.getDOMObject());
         document.body.appendChild(this.smallScreenMsg.getDOMObject());
         var overLayMessage = document.createElement("p");
@@ -35,6 +37,14 @@ class System {
     
     getDesktop() {
         return this.desktop;
+    }
+
+    getWindowManager() {
+        return this.windowManager;
+    }
+
+    addAWindow(newWindow) {
+        this.windowManager.addAWindow(newWindow);
     }
     
     registerPanel(newPanel) {
