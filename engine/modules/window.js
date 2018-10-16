@@ -1,5 +1,5 @@
 class Window {
-    constructor(panelInstance, windowId) {
+    constructor() {
         this.maxTitleLength = 3000;
         this.titleText;
         this.remInPixels;

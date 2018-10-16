@@ -3,6 +3,11 @@ class WindowManager {
         this.windows = [];
         this.windowIDS = [];
         this.lastWindowID = 0;
+        this.windowListDisplays = [];
+    }
+
+    registerWindowListDisplay(newDisplay) {
+        this.windowListDisplays.push(newDisplay);
     }
 
     generateANewWindowID() {
@@ -13,6 +18,9 @@ class WindowManager {
     addAWindow(newWindow) {
         newWindow.setID(this.generateANewWindowID());
         this.windows.push(newWindow);
+        this.windowListDisplays.forEach(function(list) {
+            list.notifyListChanged();
+        });
     }
 
     sortWindowsByZIndex(newTopWindowIndex) {

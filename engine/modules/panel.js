@@ -26,7 +26,7 @@ import TaskBar from './task-bar';
             document.body.appendChild(this.DOMObj);
             this.taskBar = new TaskBar();
             this.leftContainer.appendChild(this.taskBar.getDOMObject());
-            SimpleJSGui.registerPanel(this);
+            SimpleJSGui.getWindowManager().registerWindowListDisplay(this);
 
             document.addEventListener('mousedown', function(event) {
                 if(event.button == 0 && this.windows.length > 0) {
@@ -44,6 +44,10 @@ import TaskBar from './task-bar';
                     }
                 }
             }.bind(this));
+        }
+
+        notifyListChanged() {
+            this.windows = SimpleJSGui.getWindowManager().getWindows();
         }
 
         addAWindow(newWindow) {

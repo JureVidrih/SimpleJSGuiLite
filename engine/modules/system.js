@@ -47,6 +47,7 @@ class System {
         this.windowManager.addAWindow(newWindow);
     }
     
+    // NOT NEEDED AT THIS TIME, REMOVE IF OBSOLETE IN THE FUTURE
     registerPanel(newPanel) {
         this.panel = newPanel;
     }

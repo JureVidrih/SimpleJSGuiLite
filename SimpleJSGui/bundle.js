@@ -324,7 +324,8 @@ function () {
     key: "addAWindow",
     value: function addAWindow(newWindow) {
       this.windowManager.addAWindow(newWindow);
-    }
+    } // NOT NEEDED AT THIS TIME, REMOVE IF OBSOLETE IN THE FUTURE
+
   }, {
     key: "registerPanel",
     value: function registerPanel(newPanel) {
@@ -374,9 +375,15 @@ function () {
     this.windows = [];
     this.windowIDS = [];
     this.lastWindowID = 0;
+    this.windowListDisplays = [];
   }
 
   _createClass(WindowManager, [{
+    key: "registerWindowListDisplay",
+    value: function registerWindowListDisplay(newDisplay) {
+      this.windowListDisplays.push(newDisplay);
+    }
+  }, {
     key: "generateANewWindowID",
     value: function generateANewWindowID() {
       var newID = ++this.lastWindowID;
@@ -387,6 +394,9 @@ function () {
     value: function addAWindow(newWindow) {
       newWindow.setID(this.generateANewWindowID());
       this.windows.push(newWindow);
+      this.windowListDisplays.forEach(function (list) {
+        list.notifyListChanged();
+      });
     }
   }, {
     key: "sortWindowsByZIndex",
@@ -1403,7 +1413,7 @@ function () {
     document.body.appendChild(this.DOMObj);
     this.taskBar = new _task_bar__WEBPACK_IMPORTED_MODULE_2__["default"]();
     this.leftContainer.appendChild(this.taskBar.getDOMObject());
-    SimpleJSGui.registerPanel(this);
+    SimpleJSGui.getWindowManager().registerWindowListDisplay(this);
     document.addEventListener('mousedown', function (event) {
       if (event.button == 0 && this.windows.length > 0) {
         var element = event.target;
@@ -1426,6 +1436,11 @@ function () {
   }
 
   _createClass(Panel, [{
+    key: "notifyListChanged",
+    value: function notifyListChanged() {
+      this.windows = SimpleJSGui.getWindowManager().getWindows();
+    }
+  }, {
     key: "addAWindow",
     value: function addAWindow(newWindow) {
       this.windows.push(newWindow);
@@ -1604,7 +1619,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Window =
 /*#__PURE__*/
 function () {
-  function Window(panelInstance, windowId) {
+  function Window() {
     _classCallCheck(this, Window);
 
     this.maxTitleLength = 3000;
@@ -1613,7 +1628,6 @@ function () {
     this.DOMObj;
     this.panelInstance = panelInstance;
     this.isPinnable = true;
-    this.panelItem = panelInstance.getPanelItem(this.id);
     this.isBeingDragged = false;
     this.cachedX = 0;
     this.cachedY = 0;
