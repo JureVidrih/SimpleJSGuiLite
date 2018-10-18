@@ -157,6 +157,27 @@ function () {
     this.currentBgrDOM = this.DOMObj;
     this.width;
     this.height;
+    document.addEventListener('mousedown', function (event) {
+      var windows = SimpleJSGui.getWindowManager().getWindows();
+
+      if (event.button == 0 && windows.length > 0) {
+        var element = event.target;
+        var isAChild = false;
+
+        do {
+          if (element.classList && element.classList.contains("gui-window")) {
+            isAChild = true;
+            break;
+          }
+
+          element = element.parentNode;
+        } while (element);
+
+        if (!isAChild) {
+          windows[0].unfocusAllWindows();
+        }
+      }
+    }.bind(this));
   }
 
   _createClass(Desktop, [{
@@ -342,7 +363,7 @@ function () {
               this.loadingOverlay.getDOMObject().style.display = "none";
             }
 
-            window.cancelInterval(intervalId);
+            window.clearInterval(intervalId);
           }.bind(this), 100);
         }.bind(this), this.minimumLoadingTime);
       }
@@ -390,27 +411,60 @@ function () {
       this.windowIDS.push(newID);
     }
   }, {
-    key: "addAWindow",
-    value: function addAWindow(newWindow) {
-      newWindow.setID(this.generateANewWindowID());
-      this.windows.push(newWindow);
+    key: "notifyListDisplays",
+    value: function notifyListDisplays() {
       this.windowListDisplays.forEach(function (list) {
         list.notifyListChanged();
       });
     }
   }, {
+    key: "addAWindow",
+    value: function addAWindow(newWindow) {
+      this.generateANewWindowID();
+      newWindow.setID(this.windowIDS[this.windowIDS.length - 1]);
+      newWindow.setZIndex(this.windows.length + 1);
+      document.body.appendChild(newWindow.getDOMObject());
+      newWindow.focusWindow();
+      this.windows.push(newWindow);
+      this.notifyListDisplays();
+    }
+  }, {
+    key: "windowAction",
+    value: function windowAction(actionToDo, newWindow) {
+      if (actionToDo == "minimize") {
+        var status = newWindow.getStatus();
+
+        if (status == "active") {
+          newWindow.status = "unactive";
+          newWindow.getDOMObject().style.display = "none";
+        } else if (status == "unactive") {
+          newWindow.status = "active";
+          newWindow.getDOMObject().style.display = "block";
+        }
+      } else if (actionToDo == "maximize") {
+        newWindow.status = "active";
+        newWindow.focusWindow();
+        newWindow.getDOMObject().style.display = "block";
+      } else if (actionToDo == "close") {
+        newWindow.getDOMObject().remove();
+        this.windows.splice(this.getWindowOrderNumber(newWindow), 1);
+        newWindow = null;
+      }
+
+      this.notifyListDisplays();
+    }
+  }, {
     key: "sortWindowsByZIndex",
     value: function sortWindowsByZIndex(newTopWindowIndex) {
       var currentWindow = this.windows[newTopWindowIndex];
-      var currentIndex = currentWindow.style.zIndex;
-      this.windows[newTopWindowIndex].style.zIndex = 0;
+      var currentIndex = currentWindow.getZIndex();
+      currentWindow.setZIndex(this.windows.length);
 
       for (var i = 0; i < this.windows.length; i++) {
-        var zIndex = this.windows[i].getDOMObject().style.zIndex;
+        var zIndex = Number(this.windows[i].getZIndex());
 
-        if (!(zIndex < currentIndex)) {
-          zIndex = Number(zIndex) - 1;
-          this.windows[i].getDOMObject().style.zIndex = zIndex;
+        if (zIndex > 1 && this.windows[i] != currentWindow) {
+          this.windows[i].setZIndex(zIndex - 1);
         }
       }
     }
@@ -418,6 +472,17 @@ function () {
     key: "getWindows",
     value: function getWindows() {
       return this.windows;
+    }
+  }, {
+    key: "getWindowOrderNumber",
+    value: function getWindowOrderNumber(window) {
+      var orderNumber = 0;
+      this.windows.forEach(function (elem, id) {
+        if (elem === window) {
+          orderNumber = id;
+        }
+      });
+      return orderNumber;
     }
   }]);
 
@@ -664,6 +729,7 @@ function () {
     this.freeSpaceWidget = new FreeSpaceWidget(this);
     this.DOMObj.appendChild(this.freeSpaceWidget.getDOMObject());
     this.calculateFreeSpace();
+    SimpleJSGui.getWindowManager().registerWindowListDisplay(this);
     window.addEventListener('resize', function () {
       this.calculateFreeSpace();
     }.bind(this));
@@ -685,10 +751,28 @@ function () {
       return this.lineSwitcher;
     }
   }, {
+    key: "attachToPanel",
+    value: function attachToPanel(panel) {
+      this.panelInstance = panel;
+    }
+  }, {
+    key: "notifyListChanged",
+    value: function notifyListChanged() {
+      this.windows = SimpleJSGui.getWindowManager().getWindows();
+      this.items.forEach(function (elem) {
+        elem.getDOMObject().remove();
+      });
+      this.items = [];
+      this.windows.forEach(function (elem) {
+        this.addAnItem(elem);
+      }.bind(this));
+    }
+  }, {
     key: "addAnItem",
-    value: function addAnItem(newItem) {
-      this.items.push(newItem);
-      this.lineContainer.getLines()[0].putAnItem(newItem);
+    value: function addAnItem(window) {
+      var node = new PanelItem(window, window.getID(), window.getTitle());
+      this.items.push(node);
+      this.lineContainer.getLines()[0].putAnItem(node);
       this.freeSpaceWidget.getDOMObject().style.width = "0px";
       this.calculateFreeSpace();
     }
@@ -1254,7 +1338,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var PanelItem =
 /*#__PURE__*/
 function () {
-  function PanelItem(id, itemName) {
+  function PanelItem(newWindow, id, itemName) {
     _classCallCheck(this, PanelItem);
 
     this.itemWidth = 0;
@@ -1265,6 +1349,11 @@ function () {
     this.contextMenu = new _panel_item_contextmenu__WEBPACK_IMPORTED_MODULE_0__["default"](this);
     this.item = document.createElement("div");
     this.item.classList.add("gui-panel__task-bar__item");
+
+    if (newWindow.getStatus() == "active") {
+      this.item.classList.add("gui-panel__task-bar__item--active");
+    }
+
     this.nameObj = document.createElement("p");
 
     if (this.itemName.length > this.maxTitleLength) {
@@ -1278,9 +1367,78 @@ function () {
     this.item.appendChild(this.nameObj);
     this.item.appendChild(this.contextMenu.getDOMObject());
     this.changeMode();
+    this.attachEvents(newWindow);
   }
 
   _createClass(PanelItem, [{
+    key: "attachToTaskBar",
+    value: function attachToTaskBar(taskBar) {
+      this.taskBar = taskBar;
+    }
+  }, {
+    key: "attachEvents",
+    value: function attachEvents(newWindow) {
+      var node = this;
+      var nodeElem = this.getDOMObject();
+      nodeElem.addEventListener('click', function (event) {
+        var status = newWindow.getStatus();
+        console.log("status: " + status);
+
+        if (status == "active") {
+          SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
+          console.log("MINIMIZING");
+          nodeElem.classList.remove(".gui-panel__task-bar__item--active");
+          var contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+
+          if (contextMenu.style.display == "inline-block") {
+            contextMenu.style.display = "none";
+          }
+        } else if (status == "unactive") {
+          SimpleJSGui.getWindowManager().windowAction("maximize", newWindow);
+          console.log("UNMINIMIZING");
+          nodeElem.classList.add(".gui-panel__task-bar__item--active");
+
+          var _contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+
+          if (_contextMenu.style.display == "inline-block") {
+            _contextMenu.style.display = "none";
+          }
+        }
+      }.bind(this));
+      nodeElem.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+        var contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+        var items = this.taskBar.getItems();
+
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].getId() != newWindow.getId()) {
+            var anItem = items[i].getDOMObject().querySelector(".gui-panel__task-bar__item__context-menu");
+
+            if (anItem.classList.contains("context-menu-fadein")) {
+              anItem.classList.remove("context-menu-fadein");
+            }
+          }
+        }
+
+        this.taskBar.panelInstance.close(); // if(contextMenu.style.display == "none") {
+        //     contextMenu.style.display = "block";
+        //     contextMenu.classList.add("context-menu-fadein");
+        // } else {
+        //     contextMenu.classList.remove("context-menu-fadein");
+        //     contextMenu.style.display = "none";
+
+        node.getContextMenu().setBottomY(window.innerHeight - this.DOMObj.getBoundingClientRect().top);
+        contextMenu.classList.toggle("context-menu-fadein");
+        var status = this.windowsStatus.get(newWindow.getId());
+
+        if (status == "unactive") {
+          SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
+        }
+
+        return false;
+      }.bind(this), false);
+    }
+  }, {
     key: "getItem",
     value: function getItem() {
       return this.item;
@@ -1368,14 +1526,16 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _panel_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var _panel_clock__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(7);
-/* harmony import */ var _task_bar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
+/* harmony import */ var _panel_item__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _panel_menu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+/* harmony import */ var _panel_clock__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+/* harmony import */ var _task_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -1393,13 +1553,13 @@ function () {
     this.leftContainer.classList.add("gui-panel__left-container");
     this.rightContainer = document.createElement("div");
     this.rightContainer.classList.add("gui-panel__right-container");
-    this.panelMenu = new _panel_menu__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    this.panelMenu = new _panel_menu__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.panelMenu.addAnItem("Test #1", function () {
       return console.log("test 1");
     }).addASeparator().addAnItem("Test #2", function () {
       return console.log("test 2");
     });
-    this.panelClock = new _panel_clock__WEBPACK_IMPORTED_MODULE_1__["default"](this);
+    this.panelClock = new _panel_clock__WEBPACK_IMPORTED_MODULE_2__["default"](this);
     this.desktop = SimpleJSGui.getDesktop();
     this.DOMObj = document.createElement("div");
     this.DOMObj.classList.add("gui-panel");
@@ -1411,158 +1571,15 @@ function () {
     this.DOMObj.appendChild(this.rightContainer);
     this.panelClock.startTheClock();
     document.body.appendChild(this.DOMObj);
-    this.taskBar = new _task_bar__WEBPACK_IMPORTED_MODULE_2__["default"]();
+    this.taskBar = new _task_bar__WEBPACK_IMPORTED_MODULE_3__["default"]();
+    this.taskBar.attachToPanel(this);
     this.leftContainer.appendChild(this.taskBar.getDOMObject());
-    SimpleJSGui.getWindowManager().registerWindowListDisplay(this);
-    document.addEventListener('mousedown', function (event) {
-      if (event.button == 0 && this.windows.length > 0) {
-        var element = event.target;
-        var isAChild = false;
-
-        do {
-          if (element.classList && element.classList.contains("gui-window")) {
-            isAChild = true;
-            break;
-          }
-
-          element = element.parentNode;
-        } while (element);
-
-        if (!isAChild) {
-          this.windows[0].unfocusAllWindows();
-        }
-      }
-    }.bind(this));
   }
 
   _createClass(Panel, [{
-    key: "notifyListChanged",
-    value: function notifyListChanged() {
-      this.windows = SimpleJSGui.getWindowManager().getWindows();
-    }
-  }, {
-    key: "addAWindow",
-    value: function addAWindow(newWindow) {
-      this.windows.push(newWindow);
-      this.windowsStatus.set(newWindow.getId(), "active");
-      this.taskBar.addAnItem(new PanelItem(newWindow.getId(), newWindow.getTitle()));
-      var node = this.taskBar.getItems()[this.taskBar.getItems().length - 1];
-      var nodeElem = node.getDOMObject();
-      nodeElem.classList.add("gui-panel__task-bar__item--active");
-      nodeElem.addEventListener('click', function (event) {
-        var status = this.windowsStatus.get(newWindow.getId());
-
-        if (status == "active") {
-          this.windowAction("minimize", newWindow.getId());
-          var contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
-
-          if (contextMenu.style.display == "inline-block") {
-            contextMenu.style.display = "none";
-          }
-        } else if (status == "unactive") {
-          this.windowAction("maximize", newWindow.getId());
-
-          var _contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
-
-          if (_contextMenu.style.display == "inline-block") {
-            _contextMenu.style.display = "none";
-          }
-        }
-      }.bind(this));
-      nodeElem.addEventListener('contextmenu', function (event) {
-        event.preventDefault();
-        var contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
-        var items = this.taskBar.getItems();
-
-        for (var i = 0; i < items.length; i++) {
-          if (items[i].getId() != newWindow.getId()) {
-            var anItem = items[i].getDOMObject().querySelector(".gui-panel__task-bar__item__context-menu");
-
-            if (anItem.classList.contains("context-menu-fadein")) {
-              anItem.classList.remove("context-menu-fadein");
-            }
-          }
-        }
-
-        this.panelMenu.close(); // if(contextMenu.style.display == "none") {
-        //     contextMenu.style.display = "block";
-        //     contextMenu.classList.add("context-menu-fadein");
-        // } else {
-        //     contextMenu.classList.remove("context-menu-fadein");
-        //     contextMenu.style.display = "none";
-
-        node.getContextMenu().setBottomY(window.innerHeight - this.DOMObj.getBoundingClientRect().top);
-        contextMenu.classList.toggle("context-menu-fadein");
-        var status = this.windowsStatus.get(newWindow.getId());
-
-        if (status == "unactive") {
-          this.windowAction("minimize", newWindow.getId());
-        }
-
-        return false;
-      }.bind(this), false);
-
-      if (newWindow.isWindowPinnable()) {
-        var items = this.taskBar.getItems();
-        items[items.length - 1].getContextMenu().addAnItem("Pin this app", function () {}).addASeparator();
-      }
-
-      document.body.appendChild(newWindow.getDOMObject());
-      newWindow.focusWindow();
-    }
-  }, {
     key: "selectInstance",
     value: function selectInstance(instanceId) {
       this.panelInstance = instanceId;
-    }
-  }, {
-    key: "windowAction",
-    value: function windowAction(actionToDo, id) {
-      if (actionToDo == "minimize") {
-        var status = this.windowsStatus.get(id);
-
-        if (status == "active") {
-          var windowId = this.getWindowOrderNumberById(id);
-          var node = document.getElementsByClassName("gui-panel__task-bar__item")[windowId];
-          this.windowsStatus.set(id, "unactive");
-          node.classList.remove("gui-panel__task-bar__item--active");
-          document.getElementById(this.windows[windowId].getId()).style.display = "none";
-        } else if (status == "unactive") {
-          var _windowId = this.getWindowOrderNumberById(id);
-
-          var _node = document.getElementsByClassName("gui-panel__task-bar__item")[_windowId];
-
-          this.windowsStatus.set(id, "active");
-
-          _node.classList.add("gui-panel__task-bar__item--active");
-
-          document.getElementById(this.windows[_windowId].getId()).style.display = "block";
-        }
-      } else if (actionToDo == "maximize") {
-        var _windowId2 = this.getWindowOrderNumberById(id);
-
-        var _node2 = document.getElementsByClassName("gui-panel__task-bar__item")[_windowId2];
-
-        this.windowsStatus.set(id, "active");
-
-        _node2.classList.add("gui-panel__task-bar__item--active");
-
-        this.windows[_windowId2].focusWindow();
-
-        document.getElementById(this.windows[_windowId2].getId()).style.display = "block";
-      } else if (actionToDo == "close") {
-        var _windowId3 = this.getWindowOrderNumberById(id);
-
-        var windownode = document.getElementsByClassName("gui-window")[_windowId3];
-
-        var itemnode = document.getElementsByClassName("gui-panel__task-bar__item")[_windowId3];
-
-        windownode.remove();
-        itemnode.remove();
-        this.windows.splice(_windowId3, 1);
-        this.windowsStatus.delete(_windowId3);
-        this.taskBar.getItems().splice(_windowId3, 1);
-      }
     }
   }, {
     key: "getWindows",
@@ -1594,7 +1611,7 @@ function () {
   }, {
     key: "calculateMinimalWidth",
     value: function calculateMinimalWidth() {
-      var dummyPanelItem = new PanelItem("DUMMY_ID", "DummyText");
+      var dummyPanelItem = new _panel_item__WEBPACK_IMPORTED_MODULE_0__["default"](null, "DUMMY_ID", "DummyText");
       return this.panelMenu.getDOMObject().clientWidth + 2 + dummyPanelItem.getItemDefaultWidth() + this.taskBar.getLineSwitcher().getDOMObject().clientWidth + this.rightContainer.clientWidth;
     }
   }]);
@@ -1622,11 +1639,12 @@ function () {
   function Window() {
     _classCallCheck(this, Window);
 
+    this.status = "active";
     this.maxTitleLength = 3000;
     this.titleText;
     this.remInPixels;
     this.DOMObj;
-    this.panelInstance = panelInstance;
+    this.zIndex = 1;
     this.isPinnable = true;
     this.isBeingDragged = false;
     this.cachedX = 0;
@@ -1680,6 +1698,11 @@ function () {
       return this.DOMObj;
     }
   }, {
+    key: "getStatus",
+    value: function getStatus() {
+      return this.status;
+    }
+  }, {
     key: "setID",
     value: function setID(newID) {
       this.id = newID;
@@ -1688,11 +1711,6 @@ function () {
     key: "getID",
     value: function getID() {
       return this.id;
-    }
-  }, {
-    key: "getPanelItem",
-    value: function getPanelItem() {
-      return this.panelInstance.getPanelItem(this.id);
     }
   }, {
     key: "createDOMObject",
@@ -1722,10 +1740,10 @@ function () {
     key: "registerEvents",
     value: function registerEvents() {
       this.close.addEventListener('click', function () {
-        this.panelInstance.windowAction("close", this.id);
+        SimpleJSGui.getWindowManager().windowAction("close", this);
       }.bind(this));
       this.min.addEventListener('click', function () {
-        this.panelInstance.windowAction("minimize", this.id);
+        SimpleJSGui.getWindowManager().windowAction("minimize", this);
       }.bind(this));
       this.max.addEventListener('click', function () {
         // let content = this.guiWindow.getElementsByClassName("gui-window__content")[0];
@@ -1990,6 +2008,8 @@ function () {
       this.guiWindow.addEventListener('mousedown', function (event) {
         if (event.button == 0) {
           this.focusWindow();
+          var presentWindow = SimpleJSGui.getWindowManager().getWindowOrderNumber(this);
+          SimpleJSGui.getWindowManager().sortWindowsByZIndex(presentWindow);
         }
       }.bind(this));
       this.titleBar.addEventListener('mousedown', function (event) {
@@ -2281,7 +2301,7 @@ function () {
   }, {
     key: "unfocusAllWindows",
     value: function unfocusAllWindows() {
-      var allWindows = this.panelInstance.getWindows();
+      var allWindows = SimpleJSGui.getWindowManager().getWindows();
 
       for (var i = 0; i < allWindows.length; i++) {
         var aWindow = allWindows[i].getDOMObject().querySelector(".gui-window");
@@ -2340,10 +2360,7 @@ function () {
 
       this.title.textContent = title;
       this.calculateNewTitleLimits();
-
-      if (this.panelInstance.getPanelItem(this.id) != null) {
-        this.panelInstance.getPanelItem(this.id).setTitle(title);
-      }
+      SimpleJSGui.getWindowManager().notifyListDisplays();
     }
   }, {
     key: "calculateNewTitleLimits",
@@ -2368,7 +2385,7 @@ function () {
     key: "setWindowIcon",
     value: function setWindowIcon(path) {
       this.windowIcon.setAttribute("src", path);
-      this.panelInstance.getPanelItem(this.id).setIcon(path);
+      SimpleJSGui.getWindowManager().notifyListDisplays();
     }
   }, {
     key: "setContent",
@@ -2381,6 +2398,17 @@ function () {
         this.content = content;
         this.windowContent.innerHTML = this.content;
       }
+    }
+  }, {
+    key: "setZIndex",
+    value: function setZIndex(z) {
+      this.zIndex = z;
+      this.guiWindow.style.zIndex = this.zIndex;
+    }
+  }, {
+    key: "getZIndex",
+    value: function getZIndex() {
+      return this.zIndex;
     }
   }, {
     key: "setWindowX",

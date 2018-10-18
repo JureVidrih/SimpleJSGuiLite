@@ -1,6 +1,5 @@
 .gui-window {
     position: fixed;
-    z-index: 2;
     min-width: 350px;
     min-height: 400px;
     width: 350px;

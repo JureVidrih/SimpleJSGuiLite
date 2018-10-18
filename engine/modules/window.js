@@ -1,14 +1,13 @@
 class Window {
     constructor() {
+        this.status = "active";
         this.maxTitleLength = 3000;
         this.titleText;
         this.remInPixels;
         this.DOMObj;
+        this.zIndex = 1;
 
-        this.panelInstance = panelInstance;
         this.isPinnable = true;
-
-        this.panelItem = panelInstance.getPanelItem(this.id);
 
         this.isBeingDragged = false;
         this.cachedX = 0;
@@ -62,16 +61,16 @@ class Window {
         return this.DOMObj;
     }
 
+    getStatus() {
+        return this.status;
+    }
+
     setID(newID) {
         this.id = newID;
     }
 
     getID() {
         return this.id;
-    }
-    
-    getPanelItem() {
-        return this.panelInstance.getPanelItem(this.id);
     }
     
     createDOMObject() {
@@ -105,11 +104,11 @@ class Window {
     
     registerEvents() {
         this.close.addEventListener('click', function() {
-            this.panelInstance.windowAction("close", this.id);
+            SimpleJSGui.getWindowManager().windowAction("close", this);
         }.bind(this));
         
         this.min.addEventListener('click', function() {
-            this.panelInstance.windowAction("minimize", this.id);
+            SimpleJSGui.getWindowManager().windowAction("minimize", this);
         }.bind(this));
         
         this.max.addEventListener('click', function() {
@@ -363,6 +362,8 @@ class Window {
         this.guiWindow.addEventListener('mousedown', function(event) {
             if(event.button == 0) {
                 this.focusWindow();
+                let presentWindow = SimpleJSGui.getWindowManager().getWindowOrderNumber(this);
+                SimpleJSGui.getWindowManager().sortWindowsByZIndex(presentWindow);
             }
         }.bind(this));
         
@@ -624,7 +625,7 @@ class Window {
     }
     
     unfocusAllWindows() {
-        let allWindows = this.panelInstance.getWindows();
+        let allWindows = SimpleJSGui.getWindowManager().getWindows();
         for(let i = 0; i < allWindows.length; i++) {
             let aWindow = allWindows[i].getDOMObject().querySelector(".gui-window");
             if(!aWindow.classList.contains("window-effect-shade")) {
@@ -670,9 +671,8 @@ class Window {
         }
         this.title.textContent = title;
         this.calculateNewTitleLimits();
-        if(this.panelInstance.getPanelItem(this.id) != null) {
-            this.panelInstance.getPanelItem(this.id).setTitle(title);
-        }
+
+        SimpleJSGui.getWindowManager().notifyListDisplays();
     }
     
     calculateNewTitleLimits() {
@@ -694,7 +694,7 @@ class Window {
     
     setWindowIcon(path) {
         this.windowIcon.setAttribute("src", path);
-        this.panelInstance.getPanelItem(this.id).setIcon(path);
+        SimpleJSGui.getWindowManager().notifyListDisplays();
     }
     
     setContent(content) {
@@ -708,6 +708,15 @@ class Window {
         }
     }
     
+    setZIndex(z) {
+        this.zIndex = z;
+        this.guiWindow.style.zIndex = this.zIndex;
+    }
+
+    getZIndex() {
+        return this.zIndex;
+    }
+
     setWindowX(x) {
         this.guiWindow.style.left = x+"px";
     }

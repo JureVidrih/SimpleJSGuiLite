@@ -60,7 +60,7 @@ class System {
                         this.started = true;
                         this.loadingOverlay.getDOMObject().style.display = "none";
                     }
-                    window.cancelInterval(intervalId);
+                    window.clearInterval(intervalId);
                 }.bind(this), 100);
             }.bind(this), this.minimumLoadingTime);
         }

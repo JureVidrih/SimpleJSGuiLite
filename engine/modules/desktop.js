@@ -18,6 +18,24 @@ class Desktop {
         this.currentBgrDOM = this.DOMObj;
         this.width;
         this.height;
+
+        document.addEventListener('mousedown', function(event) {
+            let windows = SimpleJSGui.getWindowManager().getWindows();
+            if(event.button == 0 && windows.length > 0) {
+                let element = event.target;
+                let isAChild = false;
+                do {
+                    if(element.classList && element.classList.contains("gui-window")) {
+                        isAChild = true;
+                        break;
+                    }
+                    element = element.parentNode;
+                } while(element);
+                if(!isAChild) {
+                    windows[0].unfocusAllWindows();
+                }
+            }
+        }.bind(this));
     }
 
     getDOMObject() {

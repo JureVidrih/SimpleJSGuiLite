@@ -182,6 +182,8 @@ class TaskBar {
         this.freeSpaceWidget = new FreeSpaceWidget(this);
         this.DOMObj.appendChild(this.freeSpaceWidget.getDOMObject());
         this.calculateFreeSpace();
+
+        SimpleJSGui.getWindowManager().registerWindowListDisplay(this);
         
         window.addEventListener('resize', function() {
             this.calculateFreeSpace();
@@ -199,10 +201,26 @@ class TaskBar {
     getLineSwitcher() {
         return this.lineSwitcher;
     }
+
+    attachToPanel(panel) {
+        this.panelInstance = panel;
+    }
+
+    notifyListChanged() {
+        this.windows = SimpleJSGui.getWindowManager().getWindows();
+        this.items.forEach(function(elem) {
+            elem.getDOMObject().remove();
+        });
+        this.items = [];
+        this.windows.forEach(function(elem) {
+            this.addAnItem(elem);
+        }.bind(this));
+    }
     
-    addAnItem(newItem) {
-        this.items.push(newItem);
-        this.lineContainer.getLines()[0].putAnItem(newItem);
+    addAnItem(window) {
+        let node = new PanelItem(window, window.getID(), window.getTitle());
+        this.items.push(node);
+        this.lineContainer.getLines()[0].putAnItem(node);
         this.freeSpaceWidget.getDOMObject().style.width = "0px";
         this.calculateFreeSpace();
     }

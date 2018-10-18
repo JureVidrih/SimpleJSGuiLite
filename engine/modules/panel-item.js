@@ -1,7 +1,7 @@
 import PanelItemContextMenu from './panel-item-contextmenu';
 
 class PanelItem {
-    constructor(id, itemName) {
+    constructor(newWindow, id, itemName) {
         this.itemWidth = 0;
         this.id = id;
         this.maxTitleLength = 25;
@@ -10,6 +10,9 @@ class PanelItem {
         this.contextMenu = new PanelItemContextMenu(this);
         this.item = document.createElement("div");
         this.item.classList.add("gui-panel__task-bar__item");
+        if(newWindow.getStatus() == "active") {
+            this.item.classList.add("gui-panel__task-bar__item--active");
+        }
         this.nameObj = document.createElement("p");
         if(this.itemName.length > this.maxTitleLength) {
             this.itemName = this.itemName.substring(0, (this.maxTitleLength-3)) + "...";
@@ -21,6 +24,64 @@ class PanelItem {
         this.item.appendChild(this.nameObj);
         this.item.appendChild(this.contextMenu.getDOMObject());
         this.changeMode();
+        this.attachEvents(newWindow);
+    }
+
+    attachToTaskBar(taskBar) {
+        this.taskBar = taskBar;
+    }
+
+    attachEvents(newWindow) {
+        let node = this;
+        let nodeElem = this.getDOMObject();
+        nodeElem.addEventListener('click', function(event) {
+            let status = newWindow.getStatus();
+            console.log("status: " + status);
+            if(status == "active") {
+                SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
+                console.log("MINIMIZING");
+                nodeElem.classList.remove(".gui-panel__task-bar__item--active");
+                let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+                if(contextMenu.style.display == "inline-block") {
+                    contextMenu.style.display = "none";
+                }
+            } else if(status == "unactive") {
+                SimpleJSGui.getWindowManager().windowAction("maximize", newWindow);
+                console.log("UNMINIMIZING");
+                nodeElem.classList.add(".gui-panel__task-bar__item--active");
+                let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+                if(contextMenu.style.display == "inline-block") {
+                    contextMenu.style.display = "none";
+                }
+            }
+        }.bind(this));
+        nodeElem.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+            let items = this.taskBar.getItems();
+            for(let i = 0; i < items.length; i++) {
+                if(items[i].getId() != newWindow.getId()) {
+                    let anItem = items[i].getDOMObject().querySelector(".gui-panel__task-bar__item__context-menu");
+                    if(anItem.classList.contains("context-menu-fadein")) {
+                        anItem.classList.remove("context-menu-fadein");
+                    }
+                }
+            }
+            this.taskBar.panelInstance.close();
+            // if(contextMenu.style.display == "none") {
+            //     contextMenu.style.display = "block";
+            //     contextMenu.classList.add("context-menu-fadein");
+            // } else {
+            //     contextMenu.classList.remove("context-menu-fadein");
+            //     contextMenu.style.display = "none";
+            node.getContextMenu().setBottomY((window.innerHeight-this.DOMObj.getBoundingClientRect().top));
+            contextMenu.classList.toggle("context-menu-fadein");
+            let status = this.windowsStatus.get(newWindow.getId());
+            if(status == "unactive") {
+                SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
+            }
+            return false;
+        }.bind(this), false);
     }
 
     getItem() {

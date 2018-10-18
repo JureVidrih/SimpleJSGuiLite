@@ -10,7 +10,6 @@ html .window-effect-transparency {
 html .window-effect-shade {
     transition: filter ease-out .1s;
     filter: grayscale(.3) brightness(.95);
-    z-index: 1;
 }
 
 html .window-effect-shade .gui-window__content {
