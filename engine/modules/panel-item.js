@@ -20,6 +20,7 @@ class PanelItem {
         this.nameObj.textContent = this.itemName;
         this.itemIcon = document.createElement("img");
         this.itemIcon.classList.add("gui-panel__task-bar__item__icon");
+        this.itemIcon.setAttribute("src", newWindow.windowIcon.getAttribute("src"));
         this.item.appendChild(this.itemIcon);
         this.item.appendChild(this.nameObj);
         this.item.appendChild(this.contextMenu.getDOMObject());
