@@ -219,6 +219,7 @@ class TaskBar {
     
     addAnItem(window) {
         let node = new PanelItem(window, window.getID(), window.getTitle());
+        node.attachToTaskBar(this);
         this.items.push(node);
         this.lineContainer.getLines()[0].putAnItem(node);
         this.freeSpaceWidget.getDOMObject().style.width = "0px";

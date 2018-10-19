@@ -60,23 +60,23 @@ class PanelItem {
             let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
             let items = this.taskBar.getItems();
             for(let i = 0; i < items.length; i++) {
-                if(items[i].getId() != newWindow.getId()) {
+                if(items[i].getID() != newWindow.getID()) {
                     let anItem = items[i].getDOMObject().querySelector(".gui-panel__task-bar__item__context-menu");
                     if(anItem.classList.contains("context-menu-fadein")) {
                         anItem.classList.remove("context-menu-fadein");
                     }
                 }
             }
-            this.taskBar.panelInstance.close();
+            this.taskBar.panelInstance.panelMenu.close();
             // if(contextMenu.style.display == "none") {
             //     contextMenu.style.display = "block";
             //     contextMenu.classList.add("context-menu-fadein");
             // } else {
             //     contextMenu.classList.remove("context-menu-fadein");
             //     contextMenu.style.display = "none";
-            node.getContextMenu().setBottomY((window.innerHeight-this.DOMObj.getBoundingClientRect().top));
+            node.getContextMenu().setBottomY((window.innerHeight-this.item.getBoundingClientRect().top));
             contextMenu.classList.toggle("context-menu-fadein");
-            let status = this.windowsStatus.get(newWindow.getId());
+            let status = newWindow.getStatus();
             if(status == "unactive") {
                 SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
             }
@@ -90,7 +90,7 @@ class PanelItem {
     getName() {
         return this.itemName;
     }
-    getId() {
+    getID() {
         return this.id;
     }
     getItem() {
