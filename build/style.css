@@ -518,6 +518,8 @@
 
 }a:focus {
     outline: none;
+}img {
+    border: none;
 }* {
     box-sizing: border-box;
     margin: 0;
