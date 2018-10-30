@@ -2,7 +2,7 @@ import PanelItem from './panel-item';
 import PanelMenu from './panel-menu';
 import PanelItemClock from './panel-clock';
 import TaskBar from './task-bar';
-     
+
      class Panel {
             constructor() {
             this.windows = [];
@@ -12,7 +12,7 @@ import TaskBar from './task-bar';
             this.rightContainer = document.createElement("div");
             this.rightContainer.classList.add("gui-panel__right-container");
             this.panelMenu = new PanelMenu();
-            this.panelMenu.addAnItem("Test #1", () => console.log("test 1")).addASeparator().addAnItem("Test #2", () => console.log("test 2"));
+            // this.panelMenu.addAnItem("Test #1", () => console.log("test 1")).addASeparator().addAnItem("Test #2", () => console.log("test 2"));
             this.panelClock = new PanelItemClock(this);
             this.desktop = SimpleJSGui.getDesktop();
             this.DOMObj = document.createElement("div");
@@ -33,7 +33,7 @@ import TaskBar from './task-bar';
         selectInstance(instanceId) {
             this.panelInstance = instanceId;
         }
-    
+
         getWindows() {
             return this.windows;
         }
@@ -45,7 +45,7 @@ import TaskBar from './task-bar';
                 }
             }
         }
-    
+
         getPanelItem(windowId) {
             let items = this.taskBar.getItems();
             for(let i = 0; i < items.length; i++) {
