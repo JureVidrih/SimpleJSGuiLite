@@ -283,7 +283,7 @@
                 &__prevMonth {
                     width: 16px;
                     height: 16px;
-                    border: none;
+                    border-style: none;
                     outline: none;
                     margin: 5px 10px 0 0;
                     background-color: transparent;
@@ -306,7 +306,7 @@
                 &__nextMonth {
                     width: 16px;
                     height: 16px;
-                    border: none;
+                    border-style: none;
                     outline: none;
                     margin-top: 5px;
                     background-size: 16px 16px;
@@ -341,6 +341,10 @@
 
                 td {
                     width: 14.28%;
+                }
+                
+                td:hover {
+                    background-color: rgba(255, 255, 255, 0.1);
                 }
 
                 td.today {
