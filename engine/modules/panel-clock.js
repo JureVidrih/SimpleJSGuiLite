@@ -72,6 +72,7 @@ class PanelItemClock {
 
         let prevMonth = document.createElement("img");
         prevMonth.classList.add("gui-panel__clock__clock-widget__table-top__prevMonth");
+        prevMonth.setAttribute("src", "engine/assets/clockWidget/empty_16x16.png");
         prevMonth.addEventListener('mousedown', function() {
             currYear = this.clockWidgetDate.getFullYear();
             currMonth = this.clockWidgetDate.getMonth();
@@ -80,6 +81,7 @@ class PanelItemClock {
 
         let nextMonth = document.createElement("img");
         nextMonth.classList.add("gui-panel__clock__clock-widget__table-top__nextMonth");
+        nextMonth.setAttribute("src", "engine/assets/clockWidget/empty_16x16.png");
         nextMonth.addEventListener('mousedown', function() {
             currYear = this.clockWidgetDate.getFullYear();
             currMonth = this.clockWidgetDate.getMonth();
