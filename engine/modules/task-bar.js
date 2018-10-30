@@ -15,8 +15,8 @@ class FreeSpaceWidget {
     
     calculateWidth(panel, leftContainer, rightContainer) {
         let panelWidth = panel.clientWidth;
-        let leftContainerWidth = leftContainer.clientWidth;
-        let rightContainerWidth = rightContainer.clientWidth;
+        let leftContainerWidth = leftContainer.offsetWidth;
+        let rightContainerWidth = rightContainer.offsetWidth;
         // console.log("panel " + panelWidth);
         // console.log("left " + leftContainerWidth);
         // console.log("right " + rightContainerWidth);

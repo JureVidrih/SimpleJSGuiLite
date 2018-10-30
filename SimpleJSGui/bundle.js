@@ -528,8 +528,8 @@ function () {
     key: "calculateWidth",
     value: function calculateWidth(panel, leftContainer, rightContainer) {
       var panelWidth = panel.clientWidth;
-      var leftContainerWidth = leftContainer.clientWidth;
-      var rightContainerWidth = rightContainer.clientWidth; // console.log("panel " + panelWidth);
+      var leftContainerWidth = leftContainer.offsetWidth;
+      var rightContainerWidth = rightContainer.offsetWidth; // console.log("panel " + panelWidth);
       // console.log("left " + leftContainerWidth);
       // console.log("right " + rightContainerWidth);
 
@@ -1038,8 +1038,8 @@ function () {
         }
 
         this.displayedTime = hours + ":" + minutes;
-        console.log(this.displayedTime);
-        this.clockValue.textContent = "02:44";
+        this.clockValue.textContent = this.displayedTime;
+        this.clockValue.style.width = Math.floor(this.clockValue.offsetWidth) + "px";
 
         if (this.panelInstance.taskBar) {
           this.panelInstance.taskBar.calculateFreeSpace();
