@@ -62,6 +62,7 @@
             &__titleArea {   
                 &__text {
                     h1 {
+                        margin-top: 5px;
                         padding: 10px 0 10px 10px;
                         font-size: 1.3rem;
                         text-align: left;
