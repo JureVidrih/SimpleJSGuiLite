@@ -36,17 +36,26 @@ class WindowManager {
     windowAction(actionToDo, newWindow) {
         if(actionToDo == "minimize") {
             let status = newWindow.getStatus();
-            if(status == "active") {
-                newWindow.status = "unactive";
-                newWindow.getDOMObject().style.display = "none";
-            } else if(status == "unactive") {
-                newWindow.status = "active";
+            if(status == "onscreen") {
+                if(newWindow.isFocused) {
+                    newWindow.status = "minimized";
+                    newWindow.isFocused = false;
+                    newWindow.getDOMObject().style.display = "none";
+                } else {
+                    newWindow.unfocusAllWindows();
+                    newWindow.isFocused = true;
+                }
+            } else if(status == "minimized") {
+                newWindow.unfocusAllWindows();
+                newWindow.status = "onscreen";
+                newWindow.isFocused = true;
                 newWindow.getDOMObject().style.display = "block";
             }
         } else if(actionToDo == "maximize") {
-            newWindow.status = "active";
+            newWindow.status = "onscreen";
             newWindow.focusWindow();
             newWindow.getDOMObject().style.display = "block";
+            newWindow.isFocused = true;
         } else if(actionToDo == "close") {
             newWindow.getDOMObject().remove()
             this.windows.splice(this.getWindowOrderNumber(newWindow), 1);

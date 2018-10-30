@@ -25,7 +25,7 @@ class Desktop {
                 let element = event.target;
                 let isAChild = false;
                 do {
-                    if(element.classList && element.classList.contains("gui-window")) {
+                    if(element.classList && (element.classList.contains("gui-window") || element.classList.contains("gui-panel"))) {
                         isAChild = true;
                         break;
                     }

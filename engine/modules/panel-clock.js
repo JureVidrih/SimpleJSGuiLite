@@ -30,7 +30,7 @@ class PanelItemClock {
     }
 
     isAClockWidget(evt_target) {
-        while(evt_target != document.body) {
+        while(evt_target != document.body && !evt_target.classList.contains("gui-panel__task-bar__item")) {
             if(evt_target == this.clockWidget) {
                 return true;
             }

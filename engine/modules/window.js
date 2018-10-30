@@ -1,6 +1,7 @@
 class Window {
     constructor() {
-        this.status = "active";
+        this.status = "onscreen";
+        this.isFocused = true;
         this.maxTitleLength = 3000;
         this.titleText;
         this.remInPixels;
@@ -12,7 +13,7 @@ class Window {
         this.isBeingDragged = false;
         this.cachedX = 0;
         this.cachedY = 0;
-        
+
         this.isBeingResized = false;
         this.minWidth = 350;
         this.minHeight = 400;
@@ -34,7 +35,7 @@ class Window {
         this.wasListenerHDCalled = false;
         this.wasListenerVGACalled = false;
         this.wasListenerQVGACalled = false;
-        
+
         this.isMaximized = false;
         this.cachedXBeforeMax;
         this.cachedYBeforeMax;
@@ -73,7 +74,7 @@ class Window {
     getID() {
         return this.id;
     }
-    
+
     createDOMObject() {
         this.DOMObj = document.createElement("div");
         this.DOMObj.id = this.id;
@@ -102,16 +103,16 @@ class Window {
         this.windowIcon = this.DOMObj.querySelector(".gui-window__titlebar__icon");
         this.windowContent = this.DOMObj.querySelector(".gui-window__content");
     }
-    
+
     registerEvents() {
         this.close.addEventListener('click', function() {
             SimpleJSGui.getWindowManager().windowAction("close", this);
         }.bind(this));
-        
+
         this.min.addEventListener('click', function() {
             SimpleJSGui.getWindowManager().windowAction("minimize", this);
         }.bind(this));
-        
+
         this.max.addEventListener('click', function() {
             // let content = this.guiWindow.getElementsByClassName("gui-window__content")[0];
             // if(content.style.display == "none") {
@@ -121,28 +122,28 @@ class Window {
             // }
             this.maximizeWindow();
         }.bind(this));
-        
+
         this.nwResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingNW = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-        
+
         this.neResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingNE = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-        
+
         this.swResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingSW = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-        
+
         this.seResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingSE = true;
@@ -156,28 +157,28 @@ class Window {
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-        
+
         this.sResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingS = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-        
+
         this.wResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingW = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-        
+
         this.eResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingE = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-        
+
         document.addEventListener('mouseup', function(event) {
             if(this.isBeingResized) {
                 this.isBeingResized = false;
@@ -191,7 +192,7 @@ class Window {
                 this.isResizingE = false;
             }
         }.bind(this));
-        
+
         document.addEventListener('mousemove', function(event) {
             if(this.isBeingResized) {
                 if(this.isResizingNW) {
@@ -217,7 +218,7 @@ class Window {
                             this.setHeight(this.getHeight()+change);
                         }
                     }
-                    
+
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingNE) {
@@ -243,7 +244,7 @@ class Window {
                             this.setHeight(this.getHeight()+change);
                         }
                     }
-                    
+
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingSW) {
@@ -269,7 +270,7 @@ class Window {
                             this.setHeight(this.getHeight()+change);
                         }
                     }
-                    
+
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingSE) {
@@ -295,7 +296,7 @@ class Window {
                             this.setHeight(this.getHeight()+change);
                         }
                     }
-                    
+
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingN) {
@@ -355,11 +356,11 @@ class Window {
 
                     this.cachedResizeX = event.clientX;
                 }
-                
+
                 this.calculateNewTitleLimits();
             }
         }.bind(this));
-        
+
         this.guiWindow.addEventListener('mousedown', function(event) {
             if(event.button == 0) {
                 this.focusWindow();
@@ -367,7 +368,7 @@ class Window {
                 SimpleJSGui.getWindowManager().sortWindowsByZIndex(presentWindow);
             }
         }.bind(this));
-        
+
         this.titleBar.addEventListener('mousedown', function(event) {
             this.isBeingDragged = true;
             this.cachedX = event.clientX;
@@ -390,7 +391,7 @@ class Window {
                 this.guiWindow.classList.remove("window-effect-transparency");
             }
         }.bind(this));
-        
+
         document.addEventListener('mousemove', function(event) {
             if(this.isBeingDragged) {
                 let coord = this.guiWindow.getBoundingClientRect();
@@ -412,7 +413,7 @@ class Window {
             }
         }.bind(this));
     }
-    
+
     checkForEnterCorners(event) {
         if(!this.isAtTop && this.getWindowY() <= 0) {
             if(this.getWindowX() > 10 && ((this.getWindowX() + this.getWidth()) < (document.body.clientWidth-10))) {
@@ -431,7 +432,7 @@ class Window {
             }
         }
     }
-    
+
     checkForLeaveCorners() {
         if(this.isAtTop) {
             if(this.getWindowY() >= 10 || this.getWindowX() < 10 || ((this.getWindowX() + this.getWidth()) > (document.body.clientWidth-10))) {
@@ -457,12 +458,12 @@ class Window {
         if(this.isSnapped) {
             this.snapWindow();
         }
-        
+
         if(this.snapEffectsToggled) {
             this.toggleWindowSnapVisualEffects(indicator);
         }
     }
-    
+
     toggleWindowSnapVisualEffects(indicator) {
         let desktop = SimpleJSGui.getDesktop().getDOMObject();
         let visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
@@ -478,7 +479,7 @@ class Window {
         if(indicator == "right") {
             visualEffectRight.classList.toggle("window-snap-indicator-fade-in");
         }
-        
+
         let checkTop = visualEffectTop.classList.contains("window-snap-indicator-fade-in");
         let checkLeft = visualEffectLeft.classList.contains("window-snap-indicator-fade-in");
         let checkRight = visualEffectRight.classList.contains("window-snap-indicator-fade-in");
@@ -489,7 +490,7 @@ class Window {
             this.snapEffectsToggled = false;
         }
     }
-    
+
     snapWindow() {
         if(!this.isSnapped) {
             if(this.isAtTop && !this.isMaximized) {
@@ -530,7 +531,7 @@ class Window {
             this.isSnapped = false;
         }
     }
-    
+
     maximizeWindow() {
         if(this.isMaximized) {
             this.isMaximized = false;
@@ -572,14 +573,14 @@ class Window {
     setResizeListenerQVGA(newListener) {
         this.resizeListenerQVGA = newListener;
     }
-    
+
     removeDimensionFlags() {
         this.guiWindow.classList.remove("gui-window--size-fullhd");
         this.guiWindow.classList.remove("gui-window--size-hd");
         this.guiWindow.classList.remove("gui-window--size-vga");
         this.guiWindow.classList.remove("gui-window--size-qvga");
     }
-    
+
     applyNewDimensionFlags(width) {
         if(width.indexOf("%") != -1) {
             width = width.substring(0, width.length-1);
@@ -624,22 +625,28 @@ class Window {
             this.guiWindow.classList.add("gui-window--size-qvga");
         }
     }
-    
+
     unfocusAllWindows() {
+        console.log("unfocusAllWindows enters...");
         let allWindows = SimpleJSGui.getWindowManager().getWindows();
         for(let i = 0; i < allWindows.length; i++) {
             let aWindow = allWindows[i].getDOMObject().querySelector(".gui-window");
             if(!aWindow.classList.contains("window-effect-shade")) {
                 aWindow.classList.add("window-effect-shade");
             }
+            allWindows[i].isFocused = false;
         }
+        SimpleJSGui.getWindowManager().notifyListDisplays();
     }
-    
+
     focusWindow() {
+        console.log("focusWindow enters...");
         this.unfocusAllWindows();
         this.guiWindow.classList.remove("window-effect-shade");
+        this.isFocused = true;
+        SimpleJSGui.getWindowManager().notifyListDisplays();
     }
-    
+
     setWidth(width) {
         if(width < this.minWidth) {
             return;
@@ -653,7 +660,7 @@ class Window {
         }
         this.calculateNewTitleLimits();
     }
-    
+
     setHeight(height) {
         if(height < this.minHeight) {
             return;
@@ -666,11 +673,11 @@ class Window {
         }
         this.calculateNewTitleLimits();
     }
-    
+
     setBackgroundColor(bgrcolor) {
         this.guiWindow.querySelector(".gui-window__content").style.background = bgrcolor;
     }
-    
+
     setTitle(title) {
         this.titleText = title;
         if(title.length > this.maxTitleLength) {
@@ -681,7 +688,7 @@ class Window {
 
         SimpleJSGui.getWindowManager().notifyListDisplays();
     }
-    
+
     calculateNewTitleLimits() {
         let width = this.getWidth();
         let leftLimit = this.DOMObj.querySelector(".window-btn-maximize").getBoundingClientRect().right - this.getWindowX();
@@ -698,12 +705,12 @@ class Window {
             this.title.textContent = this.titleText;
         }
     }
-    
+
     setWindowIcon(path) {
         this.windowIcon.setAttribute("src", path);
         SimpleJSGui.getWindowManager().notifyListDisplays();
     }
-    
+
     setContent(content) {
         if(content instanceof Object) {
             this.content = content;
@@ -714,7 +721,7 @@ class Window {
             this.windowContent.innerHTML = this.content;
         }
     }
-    
+
     setZIndex(z) {
         this.zIndex = z;
         this.guiWindow.style.zIndex = this.zIndex;
@@ -727,19 +734,19 @@ class Window {
     setWindowX(x) {
         this.guiWindow.style.left = x+"px";
     }
-    
+
     setWindowY(y) {
         this.guiWindow.style.top = y+"px";
     }
-    
+
     getWindowX() {
         return Number(this.guiWindow.style.left.split("px")[0]);
     }
-    
+
     getWindowY() {
         return Number(this.guiWindow.style.top.split("px")[0]);
     }
-    
+
     getWidth() {
         if(this.guiWindow.style.width.indexOf("%") != -1) {
             return document.body.clientWidth * (Number(this.guiWindow.style.width.split("%")[0])/100);
@@ -747,7 +754,7 @@ class Window {
             return Number(this.guiWindow.style.width.split("px")[0]);
         }
     }
-    
+
     getHeight() {
         if(this.guiWindow.style.height.indexOf("%") != -1) {
             return document.body.clientHeight * (Number(this.guiWindow.style.height.split("%")[0])/100);
@@ -755,19 +762,19 @@ class Window {
             return Number(this.guiWindow.style.height.split("px")[0]);
         }
     }
-    
+
     getBackgroundColor() {
         return this.guiWindow.querySelector(".gui-window__content").style.background;
     }
-    
+
     getTitle() {
         return this.title.textContent;
     }
-    
+
     getContent() {
         return this.content;
     }
-    
+
     isWindowPinnable() {
         return this.isPinnable;
     }

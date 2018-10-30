@@ -165,7 +165,7 @@ function () {
         var isAChild = false;
 
         do {
-          if (element.classList && element.classList.contains("gui-window")) {
+          if (element.classList && (element.classList.contains("gui-window") || element.classList.contains("gui-panel"))) {
             isAChild = true;
             break;
           }
@@ -434,17 +434,26 @@ function () {
       if (actionToDo == "minimize") {
         var status = newWindow.getStatus();
 
-        if (status == "active") {
-          newWindow.status = "unactive";
-          newWindow.getDOMObject().style.display = "none";
-        } else if (status == "unactive") {
-          newWindow.status = "active";
+        if (status == "onscreen") {
+          if (newWindow.isFocused) {
+            newWindow.status = "minimized";
+            newWindow.isFocused = false;
+            newWindow.getDOMObject().style.display = "none";
+          } else {
+            newWindow.unfocusAllWindows();
+            newWindow.isFocused = true;
+          }
+        } else if (status == "minimized") {
+          newWindow.unfocusAllWindows();
+          newWindow.status = "onscreen";
+          newWindow.isFocused = true;
           newWindow.getDOMObject().style.display = "block";
         }
       } else if (actionToDo == "maximize") {
-        newWindow.status = "active";
+        newWindow.status = "onscreen";
         newWindow.focusWindow();
         newWindow.getDOMObject().style.display = "block";
+        newWindow.isFocused = true;
       } else if (actionToDo == "close") {
         newWindow.getDOMObject().remove();
         this.windows.splice(this.getWindowOrderNumber(newWindow), 1);
@@ -23593,7 +23602,7 @@ function () {
   }, {
     key: "isAClockWidget",
     value: function isAClockWidget(evt_target) {
-      while (evt_target != document.body) {
+      while (evt_target != document.body && !evt_target.classList.contains("gui-panel__task-bar__item")) {
         if (evt_target == this.clockWidget) {
           return true;
         }
@@ -23936,7 +23945,7 @@ function () {
     this.item = document.createElement("div");
     this.item.classList.add("gui-panel__task-bar__item");
 
-    if (newWindow.getStatus() == "active") {
+    if (newWindow.isFocused) {
       this.item.classList.add("gui-panel__task-bar__item--active");
     }
 
@@ -23969,9 +23978,9 @@ function () {
       var nodeElem = this.getDOMObject();
       nodeElem.addEventListener('click', function (event) {
         var status = newWindow.getStatus();
-        console.log("status: " + status);
+        console.log("INSIDE!");
 
-        if (status == "active") {
+        if (status == "onscreen") {
           SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
           console.log("MINIMIZING");
           nodeElem.classList.remove(".gui-panel__task-bar__item--active");
@@ -23980,8 +23989,8 @@ function () {
           if (contextMenu.style.display == "inline-block") {
             contextMenu.style.display = "none";
           }
-        } else if (status == "unactive") {
-          SimpleJSGui.getWindowManager().windowAction("maximize", newWindow);
+        } else if (status == "minimized") {
+          SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
           console.log("UNMINIMIZING");
           nodeElem.classList.add(".gui-panel__task-bar__item--active");
 
@@ -24018,7 +24027,7 @@ function () {
         contextMenu.classList.toggle("context-menu-fadein");
         var status = newWindow.getStatus();
 
-        if (status == "unactive") {
+        if (status == "minimized") {
           SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
         }
 
@@ -24222,7 +24231,8 @@ function () {
   function Window() {
     _classCallCheck(this, Window);
 
-    this.status = "active";
+    this.status = "onscreen";
+    this.isFocused = true;
     this.maxTitleLength = 3000;
     this.titleText;
     this.remInPixels;
@@ -24885,6 +24895,7 @@ function () {
   }, {
     key: "unfocusAllWindows",
     value: function unfocusAllWindows() {
+      console.log("unfocusAllWindows enters...");
       var allWindows = SimpleJSGui.getWindowManager().getWindows();
 
       for (var i = 0; i < allWindows.length; i++) {
@@ -24893,13 +24904,20 @@ function () {
         if (!aWindow.classList.contains("window-effect-shade")) {
           aWindow.classList.add("window-effect-shade");
         }
+
+        allWindows[i].isFocused = false;
       }
+
+      SimpleJSGui.getWindowManager().notifyListDisplays();
     }
   }, {
     key: "focusWindow",
     value: function focusWindow() {
+      console.log("focusWindow enters...");
       this.unfocusAllWindows();
       this.guiWindow.classList.remove("window-effect-shade");
+      this.isFocused = true;
+      SimpleJSGui.getWindowManager().notifyListDisplays();
     }
   }, {
     key: "setWidth",

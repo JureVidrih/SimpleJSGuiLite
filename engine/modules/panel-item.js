@@ -10,7 +10,7 @@ class PanelItem {
         this.contextMenu = new PanelItemContextMenu(this);
         this.item = document.createElement("div");
         this.item.classList.add("gui-panel__task-bar__item");
-        if(newWindow.getStatus() == "active") {
+        if(newWindow.isFocused) {
             this.item.classList.add("gui-panel__task-bar__item--active");
         }
         this.nameObj = document.createElement("p");
@@ -37,8 +37,8 @@ class PanelItem {
         let nodeElem = this.getDOMObject();
         nodeElem.addEventListener('click', function(event) {
             let status = newWindow.getStatus();
-            console.log("status: " + status);
-            if(status == "active") {
+            console.log("INSIDE!");
+            if(status == "onscreen") {
                 SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
                 console.log("MINIMIZING");
                 nodeElem.classList.remove(".gui-panel__task-bar__item--active");
@@ -46,8 +46,8 @@ class PanelItem {
                 if(contextMenu.style.display == "inline-block") {
                     contextMenu.style.display = "none";
                 }
-            } else if(status == "unactive") {
-                SimpleJSGui.getWindowManager().windowAction("maximize", newWindow);
+            } else if(status == "minimized") {
+                SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
                 console.log("UNMINIMIZING");
                 nodeElem.classList.add(".gui-panel__task-bar__item--active");
                 let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
@@ -78,7 +78,7 @@ class PanelItem {
             node.getContextMenu().setBottomY((window.innerHeight-this.item.getBoundingClientRect().top));
             contextMenu.classList.toggle("context-menu-fadein");
             let status = newWindow.getStatus();
-            if(status == "unactive") {
+            if(status == "minimized") {
                 SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
             }
             return false;
