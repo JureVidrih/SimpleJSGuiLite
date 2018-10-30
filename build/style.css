@@ -293,6 +293,8 @@
             }.gui-panel__clock__clock-widget__table-top__prevMonth {
                     width: 16px;
                     height: 16px;
+                    border: none;
+                    outline: none;
                     margin: 5px 10px 0 0;
                     background-color: transparent;
                     background-size: 16px 16px;
@@ -310,6 +312,8 @@
                 }.gui-panel__clock__clock-widget__table-top__nextMonth {
                     width: 16px;
                     height: 16px;
+                    border: none;
+                    outline: none;
                     margin-top: 5px;
                     background-size: 16px 16px;
                     background-image: url("../themes/newtheme/assets/icons/nextMonth.png");

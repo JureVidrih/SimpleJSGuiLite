@@ -1038,7 +1038,8 @@ function () {
         }
 
         this.displayedTime = hours + ":" + minutes;
-        this.clockValue.textContent = this.displayedTime;
+        console.log(this.displayedTime);
+        this.clockValue.textContent = "02:44";
 
         if (this.panelInstance.taskBar) {
           this.panelInstance.taskBar.calculateFreeSpace();
@@ -1687,6 +1688,7 @@ function () {
     this.setTitle("M");
     this.remInPixels = parseInt(getComputedStyle(this.DOMObj).fontSize);
     this.setTitle("Window Title");
+    this.setWindowIcon("themes/newtheme/assets/icons/default.png");
     this.guiWindow.style.top = "50px";
     this.guiWindow.style.left = "300px";
     this.setWidth(350);
