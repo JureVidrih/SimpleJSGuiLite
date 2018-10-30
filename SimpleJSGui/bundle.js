@@ -2322,6 +2322,10 @@ function () {
   }, {
     key: "setWidth",
     value: function setWidth(width) {
+      if (width < this.minWidth) {
+        return;
+      }
+
       width = width + "";
       this.applyNewDimensionFlags(width);
 
@@ -2336,6 +2340,10 @@ function () {
   }, {
     key: "setHeight",
     value: function setHeight(height) {
+      if (height < this.minHeight) {
+        return;
+      }
+
       height = height + "";
 
       if (height.indexOf('%') != -1) {

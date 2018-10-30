@@ -640,6 +640,9 @@ class Window {
     }
     
     setWidth(width) {
+        if(width < this.minWidth) {
+            return;
+        }
         width = width + "";
         this.applyNewDimensionFlags(width);
         if(width.indexOf('%') != -1) {
@@ -651,6 +654,9 @@ class Window {
     }
     
     setHeight(height) {
+        if(height < this.minHeight) {
+            return;
+        }
         height = height + "";
         if(height.indexOf('%') != -1) {
             this.guiWindow.style.height = height;
