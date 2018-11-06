@@ -198,7 +198,7 @@
             }
     
             &--active {
-                border-top: 4px solid black;
+                border-top: 1px solid black;
                 padding-top: 3px;
                 color: black;
                 background-color: rgba(255, 255, 255, 0.87);

@@ -36,20 +36,18 @@ class PanelItem {
         let node = this;
         let nodeElem = this.getDOMObject();
         nodeElem.addEventListener('click', function(event) {
+            console.log("(click) event on a PanelItem...");
             let status = newWindow.getStatus();
-            console.log("INSIDE!");
             if(status == "onscreen") {
+                nodeElem.classList.remove("gui-panel__task-bar__item--active");
                 SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
-                console.log("MINIMIZING");
-                nodeElem.classList.remove(".gui-panel__task-bar__item--active");
                 let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
                 if(contextMenu.style.display == "inline-block") {
                     contextMenu.style.display = "none";
                 }
             } else if(status == "minimized") {
+                nodeElem.classList.add("gui-panel__task-bar__item--active");
                 SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
-                console.log("UNMINIMIZING");
-                nodeElem.classList.add(".gui-panel__task-bar__item--active");
                 let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
                 if(contextMenu.style.display == "inline-block") {
                     contextMenu.style.display = "none";

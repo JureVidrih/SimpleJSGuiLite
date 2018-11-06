@@ -207,20 +207,59 @@ class TaskBar {
     }
 
     notifyListChanged() {
+        console.log("notifyListChanged enters...");
         this.windows = SimpleJSGui.getWindowManager().getWindows();
-        this.items.forEach(function(elem) {
-            elem.getDOMObject().remove();
-        });
-        this.items = [];
-        this.windows.forEach(function(elem) {
+        if(this.windows.length == 0) {
+            return;
+        }
+        
+        for(let j = 0; j < this.items.length; j++) {
+            for(let i = 0; i < this.windows.length; i++) {
+                if(this.items[j].id == this.windows[i].id) {
+                    console.log("Updating a panel item!");
+                    this.items[j].setTitle(this.windows[i].getTitle());
+                    this.items[j].setIcon(this.windows[i].windowIcon.getAttribute("src"));
+                    let itemDOMObj = this.items[j].getDOMObject();
+                    if(this.windows[i].isFocused) {
+                        if(!itemDOMObj.classList.contains("gui-panel__task-bar__item--active")) {
+                            itemDOMObj.classList.add("gui-panel__task-bar__item--active");
+                        }
+                    } else {
+                        if(itemDOMObj.classList.contains("gui-panel__task-bar__item--active")) {
+                            itemDOMObj.classList.remove("gui-panel__task-bar__item--active");
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+        let newWindowsArr = [];
+        for(let j = 0; j < this.windows.length; j++) {
+            let alreadyKnown = false;
+            for(let i = 0; i < this.items.length; i++) {
+                if(this.windows[j].id == this.items[i].id) {
+                    alreadyKnown = true;
+                    break;
+                }
+            }
+            if(!alreadyKnown) {
+                newWindowsArr.push(this.windows[j]);
+            }
+        }
+
+
+        newWindowsArr.forEach(function(elem) {
+            console.log("Adding a window!");
             this.addAnItem(elem);
         }.bind(this));
     }
     
-    addAnItem(window) {
-        let node = new PanelItem(window, window.getID(), window.getTitle());
+    addAnItem(newWindow) {
+        let node = new PanelItem(newWindow, newWindow.getID(), newWindow.getTitle());
         node.attachToTaskBar(this);
         this.items.push(node);
+        newWindow.focusWindow();
         this.lineContainer.getLines()[0].putAnItem(node);
         this.freeSpaceWidget.getDOMObject().style.width = "0px";
         this.calculateFreeSpace();
@@ -231,6 +270,7 @@ class TaskBar {
     }
     
     rearrangeItems() {
+        // console.log("rearrangeItmes enters...");
         if(this.items.length > 0) {
             // console.log("Rearranging items...");
             let itemsInALine = Math.floor((this.DOMObj.clientWidth-this.lineSwitcher.getDOMObject().clientWidth) / this.items[0].getItemDefaultWidth());
@@ -315,6 +355,7 @@ class TaskBar {
     }
     
     calculateFreeSpace() {
+        // console.log("calculateFreeSpace enters...");
         this.freeSpaceWidget.calculateWidth(this.panel, this.leftContainer, this.rightContainer);
         this.rearrangeItems();
         // if(this.freeSpaceWidget.getWidth() <= 0) {

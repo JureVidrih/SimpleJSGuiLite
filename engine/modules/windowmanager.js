@@ -34,18 +34,23 @@ class WindowManager {
     }
     
     windowAction(actionToDo, newWindow) {
+        console.log("windowmanager: windowAction enters..");
         if(actionToDo == "minimize") {
             let status = newWindow.getStatus();
             if(status == "onscreen") {
+                console.log("Minimizing window.");
                 if(newWindow.isFocused) {
+                    console.log("Window is focused, now minimizing.")
                     newWindow.status = "minimized";
                     newWindow.isFocused = false;
                     newWindow.getDOMObject().style.display = "none";
                 } else {
+                    console.log("Window gained focus.");
                     newWindow.unfocusAllWindows();
                     newWindow.isFocused = true;
                 }
             } else if(status == "minimized") {
+                console.log("Unminimizing window.");
                 newWindow.unfocusAllWindows();
                 newWindow.status = "onscreen";
                 newWindow.isFocused = true;

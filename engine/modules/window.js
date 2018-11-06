@@ -627,7 +627,7 @@ class Window {
     }
 
     unfocusAllWindows() {
-        console.log("unfocusAllWindows enters...");
+        // console.log("unfocusAllWindows enters...");
         let allWindows = SimpleJSGui.getWindowManager().getWindows();
         for(let i = 0; i < allWindows.length; i++) {
             let aWindow = allWindows[i].getDOMObject().querySelector(".gui-window");
@@ -640,7 +640,7 @@ class Window {
     }
 
     focusWindow() {
-        console.log("focusWindow enters...");
+        // console.log("focusWindow enters...");
         this.unfocusAllWindows();
         this.guiWindow.classList.remove("window-effect-shade");
         this.isFocused = true;
