@@ -23693,7 +23693,7 @@ function () {
 
     this.panelInstance = panelInstance;
     this.time;
-    this.displayedTime = "00:00";
+    this.displayedTime = "MM:MM";
     this.clockIntervalID;
     this.DOMObj = document.createElement("div");
     this.DOMObj.classList.add("gui-panel__clock");

@@ -346,16 +346,17 @@
             visibility: hidden;
             opacity: 0.0;
             position: absolute;
-            width: 450px;
-            height: 450px;
+            width: 350px;
+            height: 350px;
             bottom: 35px;
             right: 0px;
+            font-size: 1.2rem;
             background-color: rgba(77, 87, 94, 0.95);
             border: 1px solid #afafaf;
             transform: translateY(5%);
             transition: all .1s ease-out;
         }.gui-panel__clock__clock-widget__table-top {
-                width: 400px;
+                width: 300px;
                 height: 32px;
                 margin: 25px auto 0 auto;
             }.gui-panel__clock__clock-widget__table-top__prevMonth {
@@ -378,27 +379,27 @@
                     transition: filter, ease-out .1s;
                     float: left;
                 }.gui-panel__clock__clock-widget__table-top__nextMonth {
-                    width: 16px;
-                    height: 16px;
+                    width: 14px;
+                    height: 14px;
                     border-style: none;
                     outline: none;
                     margin-top: 5px;
-                    background-size: 16px 16px;
+                    background-size: 14px 14px;
                     background-image: url("../themes/newtheme/assets/icons/nextMonth.png");
                     background-color: transparent;
                     float: right;
                 }.gui-panel__clock__clock-widget__table-top__nextMonth:hover {
-                    width: 16px;
-                    height: 16px;
+                    width: 14px;
+                    height: 14px;
                     margin-top: 5px;
-                    background-size: 16px 16px;
+                    background-size: 14px 14px;
                     background-image: url("../themes/newtheme/assets/icons/nextMonth.png");
                     filter: brightness(50%);
                     transition: filter, ease-out .1s;
                     float: right;
                 }.gui-panel__clock__clock-widget table {
-                width: 400px;
-                height: 350px;
+                width: 325px;
+                height: 275px;
                 border: 1px solid lightgray;
                 margin: 0 auto 25px auto;
                 text-align: center;
