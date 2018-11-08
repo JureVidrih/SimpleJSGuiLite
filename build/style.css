@@ -60,6 +60,10 @@
     to {
         transform: scaleY(0);
     }
+}@keyframes animation-spinner {
+    to {
+        transform: rotate(360deg);
+    }
 }.gui-desktop {
     position: fixed;
     z-index: 0;
@@ -106,13 +110,32 @@
     height: 100vh;
     z-index: 4;
     background-color: rgb(77, 87, 94);
-}.gui-overlay p {
+}.gui-overlay__center-container {
         position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        text-align: center;
+    }.gui-overlay p {
         color: white;
         font-size: 2rem;
         text-align: center;
-        top: 50%;
-        transform: translateY(-50%);
+    }.gui-overlay__spinner {
+        display: inline-block;
+        width: 192px;
+        height: 192px;
+        margin-bottom: 32px;
+        border-top: 4px solid white;
+        border-radius: 50%;
+        
+        transform-origin: 50% 50%;
+
+        animation-duration: 0.36s;
+        animation-timing-function: ease-out;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-iteration-count: infinite;
+        animation-name: animation-spinner;
     }.gui-panel {
     position: fixed;
     z-index: 3;

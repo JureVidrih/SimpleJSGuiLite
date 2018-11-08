@@ -261,12 +261,20 @@ function () {
 
     this.DOMObj = document.createElement("div");
     this.DOMObj.classList.add("gui-overlay");
+    this.centerContainer = document.createElement("div");
+    this.centerContainer.classList.add("gui-overlay__center-container");
+    this.DOMObj.appendChild(this.centerContainer);
   }
 
   _createClass(Overlay, [{
     key: "getDOMObject",
     value: function getDOMObject() {
       return this.DOMObj;
+    }
+  }, {
+    key: "getCenterContainer",
+    value: function getCenterContainer() {
+      return this.centerContainer;
     }
   }]);
 
@@ -301,7 +309,7 @@ function () {
     _classCallCheck(this, System);
 
     this.started = false;
-    this.minimumLoadingTime = 250;
+    this.minimumLoadingTime = 2000;
     this.desktop = new _desktop__WEBPACK_IMPORTED_MODULE_0__["default"]();
     this.smallScreenMsg = new _overlay__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.loadingOverlay = new _overlay__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -310,13 +318,14 @@ function () {
     document.body.appendChild(this.smallScreenMsg.getDOMObject());
     var overLayMessage = document.createElement("p");
     overLayMessage.textContent = "The browser window is too small to fit the necessary SimpleJSGui components.";
-    this.smallScreenMsg.getDOMObject().appendChild(overLayMessage);
+    this.smallScreenMsg.getCenterContainer().appendChild(overLayMessage);
     document.body.appendChild(this.loadingOverlay.getDOMObject());
+    var loadingSpinner = document.createElement("div");
+    loadingSpinner.classList.add("gui-overlay__spinner");
     var loadingMsg = document.createElement("p");
-    loadingMsg.textContent = "Loading...";
-    loadingMsg.style.left = "50%";
-    loadingMsg.style.transform = "translate(-50%, -50%)";
-    this.loadingOverlay.getDOMObject().appendChild(loadingMsg);
+    loadingMsg.textContent = "SimpleJSGui v0.9-alpha";
+    this.loadingOverlay.getCenterContainer().appendChild(loadingSpinner);
+    this.loadingOverlay.getCenterContainer().appendChild(loadingMsg);
     this.loadingOverlay.getDOMObject().style.display = "block";
     window.addEventListener('resize', function (event) {
       if (this.panel) {

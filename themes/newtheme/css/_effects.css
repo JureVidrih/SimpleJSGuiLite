@@ -84,3 +84,9 @@ html .clock-widget-fadein {
         transform: scaleY(0);
     }
 }
+
+@keyframes animation-spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}

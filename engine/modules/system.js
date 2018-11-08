@@ -5,7 +5,7 @@ import WindowManager from './windowmanager';
 class System {
     constructor() {
         this.started = false;
-        this.minimumLoadingTime = 250;
+        this.minimumLoadingTime = 2000;
         this.desktop = new Desktop();
         this.smallScreenMsg = new Overlay();
         this.loadingOverlay = new Overlay();
@@ -14,13 +14,15 @@ class System {
         document.body.appendChild(this.smallScreenMsg.getDOMObject());
         var overLayMessage = document.createElement("p");
         overLayMessage.textContent = "The browser window is too small to fit the necessary SimpleJSGui components.";
-        this.smallScreenMsg.getDOMObject().appendChild(overLayMessage);
+        this.smallScreenMsg.getCenterContainer().appendChild(overLayMessage);
         document.body.appendChild(this.loadingOverlay.getDOMObject());
+        var loadingSpinner = document.createElement("div");
+        loadingSpinner.classList.add("gui-overlay__spinner");
         var loadingMsg = document.createElement("p");
-        loadingMsg.textContent = "Loading...";
-        loadingMsg.style.left = "50%";
-        loadingMsg.style.transform = "translate(-50%, -50%)";
-        this.loadingOverlay.getDOMObject().appendChild(loadingMsg);
+        loadingMsg.textContent = "SimpleJSGui v0.9-alpha";
+
+        this.loadingOverlay.getCenterContainer().appendChild(loadingSpinner);
+        this.loadingOverlay.getCenterContainer().appendChild(loadingMsg);
         this.loadingOverlay.getDOMObject().style.display = "block";
         
         window.addEventListener('resize', function(event) {
