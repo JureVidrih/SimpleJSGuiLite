@@ -105,11 +105,15 @@
         transition: ease-out .15s;
     }.gui-overlay {
     position: fixed;
-    display: none;
+    visibility: hidden;
     width: 100vw;
     height: 100vh;
     z-index: 4;
     background-color: rgb(77, 87, 94);
+    opacity: 1.0;
+    transition-property: opacity;
+    transition-duration: .3s;
+    transition-timing-function: ease-out;
 }.gui-overlay__center-container {
         position: absolute;
         top: 50%;

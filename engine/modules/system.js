@@ -23,7 +23,7 @@ class System {
 
         this.loadingOverlay.getCenterContainer().appendChild(loadingSpinner);
         this.loadingOverlay.getCenterContainer().appendChild(loadingMsg);
-        this.loadingOverlay.getDOMObject().style.display = "block";
+        this.loadingOverlay.getDOMObject().style.visibility = "visible";
         
         window.addEventListener('resize', function(event) {
             if(this.panel) {
@@ -60,7 +60,17 @@ class System {
                 var intervalId = window.setInterval(function() {
                     if(document.readyState === "complete") {
                         this.started = true;
-                        this.loadingOverlay.getDOMObject().style.display = "none";
+                        this.loadingOverlay.getDOMObject().style.opacity = "0";
+                        let duration = window.getComputedStyle(this.loadingOverlay.getDOMObject()).getPropertyValue("transition-duration");
+                        duration = duration.substring(0, duration.indexOf('s'));
+                        if(duration.charAt(0) == '.') {
+                            duration = "0" + duration;
+                        }
+                        duration = new Number(duration);
+                        duration *= 1000;
+                        window.setTimeout(function() {
+                            this.loadingOverlay.getDOMObject().style.visibility = "hidden";
+                        }.bind(this), duration);
                     }
                     window.clearInterval(intervalId);
                 }.bind(this), 100);
