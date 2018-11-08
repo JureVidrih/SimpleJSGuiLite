@@ -182,7 +182,7 @@ class TaskBar {
         this.freeSpaceWidget = new FreeSpaceWidget(this);
         this.DOMObj.appendChild(this.freeSpaceWidget.getDOMObject());
         this.calculateFreeSpace();
-
+        
         SimpleJSGui.getWindowManager().registerWindowListDisplay(this);
         
         window.addEventListener('resize', function() {
@@ -201,22 +201,45 @@ class TaskBar {
     getLineSwitcher() {
         return this.lineSwitcher;
     }
-
+    
     attachToPanel(panel) {
         this.panelInstance = panel;
     }
-
+    
     notifyListChanged() {
-        console.log("notifyListChanged enters...");
+        // console.log("notifyListChanged enters...");
         this.windows = SimpleJSGui.getWindowManager().getWindows();
+        // console.log("Number of windows: " + this.windows.length + " and number of items: " + this.items.length);
+        
+        for(let i = 0; i < this.items.length; i++) {
+            let isAbsent = true;
+            if(this.windows.length != 0) {
+                for(let j = 0; j < this.windows.length; j++) {
+                    // console.log(i + " | " + j);
+                    // console.log(this.items[i].id + " | " + this.windows[j].id);
+                    if(this.items[i].id == this.windows[j].id) {
+                        // console.log("Matches!");
+                        isAbsent = false;
+                    }
+                }
+            }
+            
+            
+            if(isAbsent) {
+                // console.log("Item #" + i + " is absent!");
+                this.items[i].getDOMObject().remove();
+                this.items.splice(i, 1);
+            }
+        }
+
         if(this.windows.length == 0) {
             return;
         }
-        
+
         for(let j = 0; j < this.items.length; j++) {
             for(let i = 0; i < this.windows.length; i++) {
                 if(this.items[j].id == this.windows[i].id) {
-                    console.log("Updating a panel item!");
+                    // console.log("Updating a panel item!");
                     this.items[j].setTitle(this.windows[i].getTitle());
                     this.items[j].setIcon(this.windows[i].windowIcon.getAttribute("src"));
                     let itemDOMObj = this.items[j].getDOMObject();
@@ -233,7 +256,7 @@ class TaskBar {
                 }
             }
         }
-
+        
         let newWindowsArr = [];
         for(let j = 0; j < this.windows.length; j++) {
             let alreadyKnown = false;
@@ -247,10 +270,10 @@ class TaskBar {
                 newWindowsArr.push(this.windows[j]);
             }
         }
-
-
+        
+        
         newWindowsArr.forEach(function(elem) {
-            console.log("Adding a window!");
+            // console.log("Adding a window!");
             this.addAnItem(elem);
         }.bind(this));
     }

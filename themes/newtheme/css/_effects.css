@@ -23,6 +23,16 @@ html .window-applyanimation-unminimize {
     animation-name: window-animation-unminimize;
 }
 
+html .window-applyanimation-close {
+    transform-origin: 50% 50%;
+    animation-direction: normal;
+    animation-duration: .08s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-name: window-animation-close;
+}
+
 html .window-effect-transparency {
     opacity: 0.86;
 }
@@ -66,5 +76,11 @@ html .clock-widget-fadein {
     100% {
         opacity: 1.0;
         visibility: visible;
+    }
+}
+
+@keyframes window-animation-close {
+    to {
+        transform: scaleY(0);
     }
 }

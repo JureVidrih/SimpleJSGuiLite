@@ -431,28 +431,27 @@ function () {
   }, {
     key: "windowAction",
     value: function windowAction(actionToDo, newWindow) {
-      console.log("windowmanager: windowAction enters..");
+      // console.log("windowmanager: windowAction enters..");
       var newWindowActualDOMObject = newWindow.getDOMObject().querySelector(".gui-window");
 
       if (actionToDo == "minimize") {
         var status = newWindow.getStatus();
 
         if (status == "onscreen") {
-          console.log("Minimizing window.");
-
+          // console.log("Minimizing window.");
           if (newWindow.isFocused) {
-            console.log("Window is focused, now minimizing.");
+            // console.log("Window is focused, now minimizing.")
             newWindow.status = "minimized";
             newWindow.isFocused = false;
             newWindowActualDOMObject.classList.remove("window-applyanimation-unminimize");
             newWindowActualDOMObject.classList.add("window-applyanimation-minimize");
           } else {
-            console.log("Window gained focus.");
+            // console.log("Window gained focus.");
             newWindow.unfocusAllWindows();
             newWindow.isFocused = true;
           }
         } else if (status == "minimized") {
-          console.log("Unminimizing window.");
+          // console.log("Unminimizing window.");
           newWindow.unfocusAllWindows();
           newWindow.status = "onscreen";
           newWindow.isFocused = true;
@@ -468,9 +467,12 @@ function () {
         newWindow.getDOMObject().style.display = "block";
         newWindow.isFocused = true;
       } else if (actionToDo == "close") {
-        newWindow.getDOMObject().remove();
+        newWindowActualDOMObject.classList.add("window-applyanimation-close");
         this.windows.splice(this.getWindowOrderNumber(newWindow), 1);
-        newWindow = null;
+        window.setTimeout(function () {
+          newWindow.getDOMObject().remove();
+          newWindow = null;
+        }.bind(this), this.getAnimationDuration(newWindowActualDOMObject));
       }
 
       this.notifyListDisplays();
@@ -503,7 +505,8 @@ function () {
         if (elem === window) {
           orderNumber = id;
         }
-      });
+      }); // console.log("order: " + orderNumber);
+
       return orderNumber;
     } // AUXILIARY METHODS
 
@@ -794,22 +797,45 @@ function () {
   }, {
     key: "notifyListChanged",
     value: function notifyListChanged() {
-      console.log("notifyListChanged enters...");
-      this.windows = SimpleJSGui.getWindowManager().getWindows();
+      // console.log("notifyListChanged enters...");
+      this.windows = SimpleJSGui.getWindowManager().getWindows(); // console.log("Number of windows: " + this.windows.length + " and number of items: " + this.items.length);
+
+      for (var i = 0; i < this.items.length; i++) {
+        var isAbsent = true;
+
+        if (this.windows.length != 0) {
+          for (var j = 0; j < this.windows.length; j++) {
+            // console.log(i + " | " + j);
+            // console.log(this.items[i].id + " | " + this.windows[j].id);
+            if (this.items[i].id == this.windows[j].id) {
+              // console.log("Matches!");
+              isAbsent = false;
+            }
+          }
+        }
+
+        if (isAbsent) {
+          // console.log("Item #" + i + " is absent!");
+          this.items[i].getDOMObject().remove();
+          this.items.splice(i, 1);
+        }
+      }
 
       if (this.windows.length == 0) {
         return;
       }
 
-      for (var j = 0; j < this.items.length; j++) {
-        for (var i = 0; i < this.windows.length; i++) {
-          if (this.items[j].id == this.windows[i].id) {
-            console.log("Updating a panel item!");
-            this.items[j].setTitle(this.windows[i].getTitle());
-            this.items[j].setIcon(this.windows[i].windowIcon.getAttribute("src"));
-            var itemDOMObj = this.items[j].getDOMObject();
+      for (var _j = 0; _j < this.items.length; _j++) {
+        for (var _i = 0; _i < this.windows.length; _i++) {
+          if (this.items[_j].id == this.windows[_i].id) {
+            // console.log("Updating a panel item!");
+            this.items[_j].setTitle(this.windows[_i].getTitle());
 
-            if (this.windows[i].isFocused) {
+            this.items[_j].setIcon(this.windows[_i].windowIcon.getAttribute("src"));
+
+            var itemDOMObj = this.items[_j].getDOMObject();
+
+            if (this.windows[_i].isFocused) {
               if (!itemDOMObj.classList.contains("gui-panel__task-bar__item--active")) {
                 itemDOMObj.classList.add("gui-panel__task-bar__item--active");
               }
@@ -826,23 +852,23 @@ function () {
 
       var newWindowsArr = [];
 
-      for (var _j = 0; _j < this.windows.length; _j++) {
+      for (var _j2 = 0; _j2 < this.windows.length; _j2++) {
         var alreadyKnown = false;
 
-        for (var _i = 0; _i < this.items.length; _i++) {
-          if (this.windows[_j].id == this.items[_i].id) {
+        for (var _i2 = 0; _i2 < this.items.length; _i2++) {
+          if (this.windows[_j2].id == this.items[_i2].id) {
             alreadyKnown = true;
             break;
           }
         }
 
         if (!alreadyKnown) {
-          newWindowsArr.push(this.windows[_j]);
+          newWindowsArr.push(this.windows[_j2]);
         }
       }
 
       newWindowsArr.forEach(function (elem) {
-        console.log("Adding a window!");
+        // console.log("Adding a window!");
         this.addAnItem(elem);
       }.bind(this));
     }
@@ -931,7 +957,7 @@ function () {
           } // console.log(this.lines.length);
 
 
-          for (var _i2 = 0, j = 0, ij = 0; _i2 < this.items.length; _i2++, ij++) {
+          for (var _i3 = 0, j = 0, ij = 0; _i3 < this.items.length; _i3++, ij++) {
             if (ij >= itemsInALine) {
               j++;
               ij = 0;
@@ -939,7 +965,7 @@ function () {
             // console.log(this.items[i]);
 
 
-            this.lines[j].putAnItem(this.items[_i2]);
+            this.lines[j].putAnItem(this.items[_i3]);
           }
 
           this.freeSpaceWidget.calculateWidth(this.panel, this.leftContainer, this.rightContainer);
@@ -24050,7 +24076,7 @@ function () {
       var node = this;
       var nodeElem = this.getDOMObject();
       nodeElem.addEventListener('click', function (event) {
-        console.log("(click) event on a PanelItem...");
+        // console.log("(click) event on a PanelItem...");
         var status = newWindow.getStatus();
 
         if (status == "onscreen") {

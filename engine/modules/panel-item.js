@@ -36,7 +36,7 @@ class PanelItem {
         let node = this;
         let nodeElem = this.getDOMObject();
         nodeElem.addEventListener('click', function(event) {
-            console.log("(click) event on a PanelItem...");
+            // console.log("(click) event on a PanelItem...");
             let status = newWindow.getStatus();
             if(status == "onscreen") {
                 nodeElem.classList.remove("gui-panel__task-bar__item--active");
