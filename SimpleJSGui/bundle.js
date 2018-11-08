@@ -24862,6 +24862,11 @@ function () {
     key: "snapWindow",
     value: function snapWindow() {
       if (!this.isSnapped) {
+        if (!this.getDOMObject().querySelector(".gui-window").classList.contains("gui-window--no-borders") && !this.getDOMObject().querySelector(".gui-window__titlebar").classList.contains("gui-window__titlebar--no-borders")) {
+          this.getDOMObject().querySelector(".gui-window").classList.add("gui-window--no-borders");
+          this.getDOMObject().querySelector(".gui-window__titlebar").classList.add("gui-window__titlebar--no-borders");
+        }
+
         if (this.isAtTop && !this.isMaximized) {
           this.maximizeWindow();
           this.toggleWindowSnapVisualEffects("top");
@@ -24891,6 +24896,11 @@ function () {
           this.isSnapped = true;
         }
       } else {
+        if (this.getDOMObject().querySelector(".gui-window").classList.contains("gui-window--no-borders") && this.getDOMObject().querySelector(".gui-window__titlebar").classList.contains("gui-window__titlebar--no-borders")) {
+          this.getDOMObject().querySelector(".gui-window").classList.remove("gui-window--no-borders");
+          this.getDOMObject().querySelector(".gui-window__titlebar").classList.remove("gui-window__titlebar--no-borders");
+        }
+
         if (!this.isAtTop && this.isMaximized) {
           this.maximizeWindow();
         } else if (!this.isAtLeft || !this.isAtRight) {
@@ -24917,6 +24927,8 @@ function () {
 
         this.setWidth(this.cachedWidth);
         this.setHeight(this.cachedHeight);
+        this.getDOMObject().querySelector(".gui-window").classList.remove("gui-window--no-borders");
+        this.getDOMObject().querySelector(".gui-window__titlebar").classList.remove("gui-window__titlebar--no-borders");
       } else {
         this.cachedXBeforeMax = this.getWindowX();
         this.cachedYBeforeMax = this.getWindowY();
@@ -24926,6 +24938,8 @@ function () {
         this.guiWindow.style.top = "0";
         this.setWidth("100%");
         this.setHeight(SimpleJSGui.getDesktop().getDesktopDOMObject().clientHeight);
+        this.getDOMObject().querySelector(".gui-window").classList.add("gui-window--no-borders");
+        this.getDOMObject().querySelector(".gui-window__titlebar").classList.add("gui-window__titlebar--no-borders");
         this.isMaximized = true;
         this.isSnapped = true;
         this.isAtTop = true;

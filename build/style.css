@@ -438,7 +438,10 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-}.gui-window__titlebar {
+}.gui-window--no-borders {
+        border: none;
+        border-radius: 0px;
+    }.gui-window__titlebar {
         position: relative;
         display: block;
         width: 100%;
@@ -448,7 +451,10 @@
         border-radius: 5px 5px 0 0;
         color: white;
         font-weight: bold;
-    }.gui-window__titlebar__buttons {
+    }.gui-window__titlebar--no-borders {
+            border: none;
+            border-radius: 0px;
+        }.gui-window__titlebar__buttons {
             position: relative;
             z-index: 2;
             display: block;
