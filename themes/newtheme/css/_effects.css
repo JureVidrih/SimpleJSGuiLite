@@ -3,6 +3,26 @@ html .window-snap-indicator-fade-in {
     opacity: 0.8;
 }
 
+html .window-applyanimation-minimize {
+    opacity: 1.0;
+    animation-direction: normal;
+    animation-duration: .03s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-name: window-animation-minimize;
+}
+
+html .window-applyanimation-unminimize {
+    opacity: 0.0;
+    animation-direction: normal;
+    animation-duration: .03s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-name: window-animation-unminimize;
+}
+
 html .window-effect-transparency {
     opacity: 0.86;
 }
@@ -33,4 +53,18 @@ html .clock-widget-fadein {
     visibility: visible;
     opacity: 1.0;
     transform: translateY(0%);
+}
+
+@keyframes window-animation-minimize {
+    100% {
+        opacity: 0.0;
+        visibility: hidden;
+    }
+}
+
+@keyframes window-animation-unminimize {
+    100% {
+        opacity: 1.0;
+        visibility: visible;
+    }
 }

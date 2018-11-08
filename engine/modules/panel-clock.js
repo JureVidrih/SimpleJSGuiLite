@@ -144,7 +144,7 @@ class PanelItemClock {
             case 12: monthInText = "December"; break;
         }
 
-        this.monthTextSpan.textContent = monthInText + ", " + currYear;
+        this.monthTextSpan.textContent = monthInText + " " + currYear;
 
         this.table.innerHTML = "<thead><tr><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td><td>Sun</td></tr></thead>";
         

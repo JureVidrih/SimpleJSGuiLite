@@ -14,7 +14,7 @@ SimpleJSGui.addAWindow(myWindow3);
 
 myWindow.setWidth(1);
 myWindow.setHeight(1);
-myWindow.setWindowX(500);
+myWindow.setWindowX(50);
 myWindow.setTitle("My first window's title!");
 myWindow.setWindowIcon("themes/newtheme/assets/icons/default.png");
 myWindow.setContent("<p>This is a paragraph.</p>");
@@ -39,7 +39,7 @@ myWindow.setContent("<p>This is a paragraph.</p>");
 //     alert("Listener QVGA toggled");
 // });
 
-myWindow2.setWindowX(50);
+myWindow2.setWindowX(500);
 myWindow2.setTitle("My second window.");
 myWindow2.setWindowIcon("themes/newtheme/assets/icons/default.png");
 

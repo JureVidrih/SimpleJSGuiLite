@@ -35,6 +35,7 @@ class WindowManager {
     
     windowAction(actionToDo, newWindow) {
         console.log("windowmanager: windowAction enters..");
+        let newWindowActualDOMObject = newWindow.getDOMObject().querySelector(".gui-window");
         if(actionToDo == "minimize") {
             let status = newWindow.getStatus();
             if(status == "onscreen") {
@@ -43,7 +44,8 @@ class WindowManager {
                     console.log("Window is focused, now minimizing.")
                     newWindow.status = "minimized";
                     newWindow.isFocused = false;
-                    newWindow.getDOMObject().style.display = "none";
+                    newWindowActualDOMObject.classList.remove("window-applyanimation-unminimize");
+                    newWindowActualDOMObject.classList.add("window-applyanimation-minimize");
                 } else {
                     console.log("Window gained focus.");
                     newWindow.unfocusAllWindows();
@@ -54,7 +56,12 @@ class WindowManager {
                 newWindow.unfocusAllWindows();
                 newWindow.status = "onscreen";
                 newWindow.isFocused = true;
-                newWindow.getDOMObject().style.display = "block";
+                newWindowActualDOMObject.classList.remove("window-applyanimation-minimize");
+                newWindowActualDOMObject.classList.add("window-applyanimation-unminimize");
+
+                window.setTimeout(function() {
+                    newWindowActualDOMObject.classList.remove("window-applyanimation-unminimize");
+                }, this.getAnimationDuration(newWindowActualDOMObject));
             }
         } else if(actionToDo == "maximize") {
             newWindow.status = "onscreen";
@@ -94,6 +101,18 @@ class WindowManager {
         });
 
         return orderNumber;
+    }
+
+    // AUXILIARY METHODS
+    getAnimationDuration(obj) {
+        let duration = window.getComputedStyle(obj).getPropertyValue("animation-duration");
+        duration = duration.substring(0, duration.indexOf('s'));
+        if(duration.charAt(0) == '.') {
+            duration = "0" + duration;
+        }
+        duration = new Number(duration);
+
+        return duration * 1000;
     }
 }
 

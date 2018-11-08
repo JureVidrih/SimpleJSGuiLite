@@ -432,6 +432,7 @@ function () {
     key: "windowAction",
     value: function windowAction(actionToDo, newWindow) {
       console.log("windowmanager: windowAction enters..");
+      var newWindowActualDOMObject = newWindow.getDOMObject().querySelector(".gui-window");
 
       if (actionToDo == "minimize") {
         var status = newWindow.getStatus();
@@ -443,7 +444,8 @@ function () {
             console.log("Window is focused, now minimizing.");
             newWindow.status = "minimized";
             newWindow.isFocused = false;
-            newWindow.getDOMObject().style.display = "none";
+            newWindowActualDOMObject.classList.remove("window-applyanimation-unminimize");
+            newWindowActualDOMObject.classList.add("window-applyanimation-minimize");
           } else {
             console.log("Window gained focus.");
             newWindow.unfocusAllWindows();
@@ -454,7 +456,11 @@ function () {
           newWindow.unfocusAllWindows();
           newWindow.status = "onscreen";
           newWindow.isFocused = true;
-          newWindow.getDOMObject().style.display = "block";
+          newWindowActualDOMObject.classList.remove("window-applyanimation-minimize");
+          newWindowActualDOMObject.classList.add("window-applyanimation-unminimize");
+          window.setTimeout(function () {
+            newWindowActualDOMObject.classList.remove("window-applyanimation-unminimize");
+          }, this.getAnimationDuration(newWindowActualDOMObject));
         }
       } else if (actionToDo == "maximize") {
         newWindow.status = "onscreen";
@@ -499,6 +505,20 @@ function () {
         }
       });
       return orderNumber;
+    } // AUXILIARY METHODS
+
+  }, {
+    key: "getAnimationDuration",
+    value: function getAnimationDuration(obj) {
+      var duration = window.getComputedStyle(obj).getPropertyValue("animation-duration");
+      duration = duration.substring(0, duration.indexOf('s'));
+
+      if (duration.charAt(0) == '.') {
+        duration = "0" + duration;
+      }
+
+      duration = new Number(duration);
+      return duration * 1000;
     }
   }]);
 
@@ -23804,7 +23824,7 @@ function () {
           break;
       }
 
-      this.monthTextSpan.textContent = monthInText + ", " + currYear;
+      this.monthTextSpan.textContent = monthInText + " " + currYear;
       this.table.innerHTML = "<thead><tr><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td><td>Sun</td></tr></thead>";
       var data = "";
       var isInPreviousMonth = true;
