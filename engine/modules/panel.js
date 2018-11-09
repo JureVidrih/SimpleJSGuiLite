@@ -28,6 +28,12 @@ import TaskBar from './task-bar';
             this.taskBar = new TaskBar();
             this.taskBar.attachToPanel(this);
             this.leftContainer.appendChild(this.taskBar.getDOMObject());
+
+            SimpleJSGui.getWindowManager().registerWindowListDisplay(this);
+        }
+
+        notifyListChanged() {
+            this.DOMObj.style.zIndex = SimpleJSGui.getWindowManager().getWindows().length+1;
         }
 
         selectInstance(instanceId) {

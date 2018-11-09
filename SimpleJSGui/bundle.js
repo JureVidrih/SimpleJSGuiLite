@@ -24285,9 +24285,15 @@ function () {
     this.taskBar = new _task_bar__WEBPACK_IMPORTED_MODULE_3__["default"]();
     this.taskBar.attachToPanel(this);
     this.leftContainer.appendChild(this.taskBar.getDOMObject());
+    SimpleJSGui.getWindowManager().registerWindowListDisplay(this);
   }
 
   _createClass(Panel, [{
+    key: "notifyListChanged",
+    value: function notifyListChanged() {
+      this.DOMObj.style.zIndex = SimpleJSGui.getWindowManager().getWindows().length + 1;
+    }
+  }, {
     key: "selectInstance",
     value: function selectInstance(instanceId) {
       this.panelInstance = instanceId;
@@ -24859,6 +24865,27 @@ function () {
       }
     }
   }, {
+    key: "turnWindowSnapEffectsOff",
+    value: function turnWindowSnapEffectsOff() {
+      var visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
+      var visualEffectLeft = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
+      var visualEffectRight = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
+
+      if (visualEffectTop.classList.contains("window-snap-indicator-fade-in")) {
+        visualEffectTop.classList.remove("window-snap-indicator-fade-in");
+      }
+
+      if (visualEffectLeft.classList.contains("window-snap-indicator-fade-in")) {
+        visualEffectLeft.classList.remove("window-snap-indicator-fade-in");
+      }
+
+      if (visualEffectRight.classList.contains("window-snap-indicator-fade-in")) {
+        visualEffectRight.classList.remove("window-snap-indicator-fade-in");
+      }
+
+      this.snapEffectsToggled = false;
+    }
+  }, {
     key: "snapWindow",
     value: function snapWindow() {
       if (!this.isSnapped) {
@@ -24895,6 +24922,8 @@ function () {
         if (this.isAtTop && !this.isMaximized || this.isAtLeft || this.isAtRight) {
           this.isSnapped = true;
         }
+
+        this.turnWindowSnapEffectsOff();
       } else {
         if (this.getDOMObject().querySelector(".gui-window").classList.contains("gui-window--no-borders") && this.getDOMObject().querySelector(".gui-window__titlebar").classList.contains("gui-window__titlebar--no-borders")) {
           this.getDOMObject().querySelector(".gui-window").classList.remove("gui-window--no-borders");

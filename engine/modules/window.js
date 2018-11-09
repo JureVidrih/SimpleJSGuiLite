@@ -490,6 +490,24 @@ class Window {
             this.snapEffectsToggled = false;
         }
     }
+    
+    turnWindowSnapEffectsOff() {
+        let visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
+        let visualEffectLeft = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
+        let visualEffectRight = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
+
+        if(visualEffectTop.classList.contains("window-snap-indicator-fade-in")) {
+            visualEffectTop.classList.remove("window-snap-indicator-fade-in");
+        }
+        if(visualEffectLeft.classList.contains("window-snap-indicator-fade-in")) {
+            visualEffectLeft.classList.remove("window-snap-indicator-fade-in");
+        }
+        if(visualEffectRight.classList.contains("window-snap-indicator-fade-in")) {
+            visualEffectRight.classList.remove("window-snap-indicator-fade-in");
+        }
+
+        this.snapEffectsToggled = false;
+    }
 
     snapWindow() {
         if(!this.isSnapped) {
@@ -497,7 +515,6 @@ class Window {
                 this.getDOMObject().querySelector(".gui-window").classList.add("gui-window--no-borders");
                 this.getDOMObject().querySelector(".gui-window__titlebar").classList.add("gui-window__titlebar--no-borders");
             }
-
             if(this.isAtTop && !this.isMaximized) {
                 this.maximizeWindow();
                 this.toggleWindowSnapVisualEffects("top");
@@ -525,6 +542,7 @@ class Window {
             if((this.isAtTop && !this.isMaximized) || this.isAtLeft || this.isAtRight) {
                 this.isSnapped = true;
             }
+            this.turnWindowSnapEffectsOff();
         } else {
             if(this.getDOMObject().querySelector(".gui-window").classList.contains("gui-window--no-borders") && this.getDOMObject().querySelector(".gui-window__titlebar").classList.contains("gui-window__titlebar--no-borders")) {
                 this.getDOMObject().querySelector(".gui-window").classList.remove("gui-window--no-borders");
