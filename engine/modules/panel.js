@@ -11,7 +11,8 @@ class Panel {
         this.rightContainer = document.createElement("div");
         this.rightContainer.classList.add("gui-panel__right-container");
         this.panelMenu = new PanelMenu();
-        this.panelMenu.addAnItem("Dummy Menu Item #1", () => window.alert("You've clicked on the dummy menu item #1!")).addASeparator().addAnItem("Dummy Menu Item #2", () => window.alert("You've clicked on the dummy menu item #2!"));
+        this.panelMenu.addAnIcon("themes/newtheme/assets/icons/default.png", function() { alert("You've clicked on a dummy icon!"); }).addAnIcon("themes/newtheme/assets/icons/default.png", function() { alert("You've clicked on a dummy icon!"); }).addAnIcon("themes/newtheme/assets/icons/default.png", function() { alert("You've clicked on a dummy icon!"); }).addAnItem("Dummy Menu Item #1", () => window.alert("You've clicked on the dummy menu item #1!")).addASeparator().addAnItem("Dummy Menu Item #2", () => window.alert("You've clicked on the dummy menu item #2!"));
+        
         this.panelClock = new PanelItemClock(this);
         this.desktop = SimpleJSGui.getDesktop();
         this.DOMObj = document.createElement("div");

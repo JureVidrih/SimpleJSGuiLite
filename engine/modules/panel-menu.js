@@ -4,11 +4,13 @@ class PanelMenu {
     constructor() {
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-panel__menu");
-        this.DOMObj.innerHTML = '<div class="gui-panel__menu__icon"></div><div class="gui-panel__menu__content"><div class="gui-panel__menu__titleArea"></div><div class="gui-panel__menu__content__titleArea__text"><h1>Menu</h1></div><div class="gui-panel__menu__content__items"></div></div>';
+        this.DOMObj.innerHTML = '<div class="gui-panel__menu__icon"></div><div class="gui-panel__menu__content"><div class="gui-panel__menu__titleArea"></div><div class="gui-panel__menu__content__titleArea__text"><h1>Menu</h1></div><div class="gui-panel__menu__content__icons"></div><div class="gui-panel__menu__content__items"></div></div>';
         this.visibleContent = this.DOMObj.querySelector(".gui-panel__menu__content");
         this.menuIcon = this.DOMObj.querySelector(".gui-panel__menu__icon");
         this.menuContent = this.DOMObj.querySelector(".gui-panel__menu__content__items");
+        this.menuIcons = this.DOMObj.querySelector(".gui-panel__menu__content__icons");
         this.items = [];
+        this.icons = [];
 
         this.menuContent.innerHTML = "<p style='position: absolute; width: 100%; text-align: center; top: 50%; transform: translateY(-50%);'>The menu is empty.</p>";
 
@@ -31,6 +33,19 @@ class PanelMenu {
 
     close() {
         this.visibleContent.classList.remove("menu-fadein");
+    }
+
+    addAnIcon(iconSrc, elementListener) {
+        let newIcon = document.createElement("img");
+        newIcon.setAttribute("src", iconSrc);
+        newIcon.onclick = function() {
+            elementListener();
+            this.close();
+        }.bind(this);
+        this.icons.push(newIcon);
+        this.menuIcons.appendChild(newIcon);
+
+        return this;
     }
 
     addAnItem(itemName, elementListener) {

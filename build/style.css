@@ -192,6 +192,7 @@
             transition: all ease-out .15s;
             opacity: 0.0;
             transform: translateY(5%);
+            overflow: hidden;
         }.gui-panel__menu__content__titleArea__text h1 {
                         margin-top: 5px;
                         padding: 10px 0 10px 10px;
@@ -199,10 +200,25 @@
                         text-align: left;
                         color: white;
                         border-bottom: 1px solid rgba(200, 200, 200, 0.75);
-                    }.gui-panel__menu__content__items p {
+                    }.gui-panel__menu__content__icons {
+                display: inline-block;
+                width: 40px;
+                height: inherit;
+                border-right: 1px solid rgba(200, 200, 200, 0.35);
+            }.gui-panel__menu__content__icons img {
+                    width: 39px;
+                    height: 39px;
+                    padding: 5px;
+                }.gui-panel__menu__content__icons img:hover {
+                    background-color: rgba(255, 255, 255, 0.25);
+                }.gui-panel__menu__content__items {
+                display: inline-block;
+                width: 273px;
+                vertical-align: top;
+            }.gui-panel__menu__content__items p {
                     color: white;
                 }.gui-panel__menu__content__items__menu-item {
-                    padding: 5px 0 5px 10px;
+                    padding: 10px 0 10px 5px;
                     font-size: 1.2rem;
                     text-align: left;
                     color: white;

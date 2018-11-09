@@ -58,6 +58,7 @@
             transition: all ease-out .15s;
             opacity: 0.0;
             transform: translateY(5%);
+            overflow: hidden;
 
             &__titleArea {   
                 &__text {
@@ -71,13 +72,34 @@
                     }
                 }
             }
+
+            &__icons {
+                display: inline-block;
+                width: 40px;
+                height: inherit;
+                border-right: 1px solid rgba(200, 200, 200, 0.35);
+
+                img {
+                    width: 39px;
+                    height: 39px;
+                    padding: 5px;
+                }
+
+                img:hover {
+                    background-color: rgba(255, 255, 255, 0.25);
+                }
+            }
+
             &__items {
+                display: inline-block;
+                width: 273px;
+                vertical-align: top;
                 p {
                     color: white;
                 } 
 
                 &__menu-item {
-                    padding: 5px 0 5px 10px;
+                    padding: 10px 0 10px 5px;
                     font-size: 1.2rem;
                     text-align: left;
                     color: white;

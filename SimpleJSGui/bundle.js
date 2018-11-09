@@ -1044,11 +1044,13 @@ function () {
 
     this.DOMObj = document.createElement("div");
     this.DOMObj.classList.add("gui-panel__menu");
-    this.DOMObj.innerHTML = '<div class="gui-panel__menu__icon"></div><div class="gui-panel__menu__content"><div class="gui-panel__menu__titleArea"></div><div class="gui-panel__menu__content__titleArea__text"><h1>Menu</h1></div><div class="gui-panel__menu__content__items"></div></div>';
+    this.DOMObj.innerHTML = '<div class="gui-panel__menu__icon"></div><div class="gui-panel__menu__content"><div class="gui-panel__menu__titleArea"></div><div class="gui-panel__menu__content__titleArea__text"><h1>Menu</h1></div><div class="gui-panel__menu__content__icons"></div><div class="gui-panel__menu__content__items"></div></div>';
     this.visibleContent = this.DOMObj.querySelector(".gui-panel__menu__content");
     this.menuIcon = this.DOMObj.querySelector(".gui-panel__menu__icon");
     this.menuContent = this.DOMObj.querySelector(".gui-panel__menu__content__items");
+    this.menuIcons = this.DOMObj.querySelector(".gui-panel__menu__content__icons");
     this.items = [];
+    this.icons = [];
     this.menuContent.innerHTML = "<p style='position: absolute; width: 100%; text-align: center; top: 50%; transform: translateY(-50%);'>The menu is empty.</p>";
     this.menuIcon.addEventListener('mousedown', function (event) {
       this.visibleContent.classList.toggle("menu-fadein");
@@ -1071,6 +1073,21 @@ function () {
     key: "close",
     value: function close() {
       this.visibleContent.classList.remove("menu-fadein");
+    }
+  }, {
+    key: "addAnIcon",
+    value: function addAnIcon(iconSrc, elementListener) {
+      var newIcon = document.createElement("img");
+      newIcon.setAttribute("src", iconSrc);
+
+      newIcon.onclick = function () {
+        elementListener();
+        this.close();
+      }.bind(this);
+
+      this.icons.push(newIcon);
+      this.menuIcons.appendChild(newIcon);
+      return this;
     }
   }, {
     key: "addAnItem",
@@ -24280,7 +24297,13 @@ function () {
     this.rightContainer = document.createElement("div");
     this.rightContainer.classList.add("gui-panel__right-container");
     this.panelMenu = new _panel_menu__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.panelMenu.addAnItem("Dummy Menu Item #1", function () {
+    this.panelMenu.addAnIcon("themes/newtheme/assets/icons/default.png", function () {
+      alert("You've clicked on a dummy icon!");
+    }).addAnIcon("themes/newtheme/assets/icons/default.png", function () {
+      alert("You've clicked on a dummy icon!");
+    }).addAnIcon("themes/newtheme/assets/icons/default.png", function () {
+      alert("You've clicked on a dummy icon!");
+    }).addAnItem("Dummy Menu Item #1", function () {
       return window.alert("You've clicked on the dummy menu item #1!");
     }).addASeparator().addAnItem("Dummy Menu Item #2", function () {
       return window.alert("You've clicked on the dummy menu item #2!");
