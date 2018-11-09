@@ -6,13 +6,12 @@ import TaskBar from './task-bar';
 class Panel {
     constructor() {
         this.windows = [];
-        this.windowsStatus = new Map();
         this.leftContainer = document.createElement("div");
         this.leftContainer.classList.add("gui-panel__left-container");
         this.rightContainer = document.createElement("div");
         this.rightContainer.classList.add("gui-panel__right-container");
         this.panelMenu = new PanelMenu();
-        // this.panelMenu.addAnItem("Test #1", () => console.log("test 1")).addASeparator().addAnItem("Test #2", () => console.log("test 2"));
+        this.panelMenu.addAnItem("Dummy Menu Item #1", () => window.alert("You've clicked on the dummy menu item #1!")).addASeparator().addAnItem("Dummy Menu Item #2", () => window.alert("You've clicked on the dummy menu item #2!"));
         this.panelClock = new PanelItemClock(this);
         this.desktop = SimpleJSGui.getDesktop();
         this.DOMObj = document.createElement("div");
@@ -51,7 +50,27 @@ class Panel {
             }
         }
     }
+
+    getMenu() {
+        return this.panelMenu;
+    }
+
+    getClock() {
+        return this.panelClock;
+    }
+
+    getTaskBar() {
+        return this.taskBar;
+    }
+
+    getLeftContainer() {
+        return this.leftContainer;
+    }
     
+    getRightContainer() {
+        return this.rightContainer;
+    }
+
     getPanelItem(windowId) {
         let items = this.taskBar.getItems();
         for(let i = 0; i < items.length; i++) {

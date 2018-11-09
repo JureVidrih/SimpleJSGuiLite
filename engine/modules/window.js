@@ -810,6 +810,14 @@ class Window {
     isWindowPinnable() {
         return this.isPinnable;
     }
+
+    isMaximized() {
+        return this.isMaximized;
+    }
+
+    isSnapped() {
+        return this.isSnapped;
+    }
 }
 
 export default Window;

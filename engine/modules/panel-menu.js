@@ -35,7 +35,7 @@ class PanelMenu {
 
     addAnItem(itemName, elementListener) {
         let newElement = document.createElement("p");
-        newElement.classList.add("gui-panel__menu__content__menu-item");
+        newElement.classList.add("gui-panel__menu__content__items__menu-item");
         newElement.textContent = itemName;
         newElement.addEventListener('mousedown', function() {
             elementListener();
@@ -43,7 +43,7 @@ class PanelMenu {
         }.bind(this));
 
         this.items.push(newElement);
-        if(this.items.length > 0) {
+        if(this.items.length == 1) {
             this.menuContent.innerHTML = "";
         }
         this.menuContent.appendChild(newElement);
@@ -53,7 +53,7 @@ class PanelMenu {
 
     addASeparator() {
         let newElement = document.createElement("div");
-        newElement.classList.add("gui-panel__menu__content__item-separator");
+        newElement.classList.add("gui-panel__menu__content__items__item-separator");
         if(this.items.length == 0) {
             console.log("Didn't append the separator because the content of the menu is empty.");
         } else {

@@ -1076,7 +1076,7 @@ function () {
     key: "addAnItem",
     value: function addAnItem(itemName, elementListener) {
       var newElement = document.createElement("p");
-      newElement.classList.add("gui-panel__menu__content__menu-item");
+      newElement.classList.add("gui-panel__menu__content__items__menu-item");
       newElement.textContent = itemName;
       newElement.addEventListener('mousedown', function () {
         elementListener();
@@ -1084,7 +1084,7 @@ function () {
       }.bind(this));
       this.items.push(newElement);
 
-      if (this.items.length > 0) {
+      if (this.items.length == 1) {
         this.menuContent.innerHTML = "";
       }
 
@@ -1095,7 +1095,7 @@ function () {
     key: "addASeparator",
     value: function addASeparator() {
       var newElement = document.createElement("div");
-      newElement.classList.add("gui-panel__menu__content__item-separator");
+      newElement.classList.add("gui-panel__menu__content__items__item-separator");
 
       if (this.items.length == 0) {
         console.log("Didn't append the separator because the content of the menu is empty.");
@@ -24275,13 +24275,16 @@ function () {
     _classCallCheck(this, Panel);
 
     this.windows = [];
-    this.windowsStatus = new Map();
     this.leftContainer = document.createElement("div");
     this.leftContainer.classList.add("gui-panel__left-container");
     this.rightContainer = document.createElement("div");
     this.rightContainer.classList.add("gui-panel__right-container");
-    this.panelMenu = new _panel_menu__WEBPACK_IMPORTED_MODULE_1__["default"](); // this.panelMenu.addAnItem("Test #1", () => console.log("test 1")).addASeparator().addAnItem("Test #2", () => console.log("test 2"));
-
+    this.panelMenu = new _panel_menu__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.panelMenu.addAnItem("Dummy Menu Item #1", function () {
+      return window.alert("You've clicked on the dummy menu item #1!");
+    }).addASeparator().addAnItem("Dummy Menu Item #2", function () {
+      return window.alert("You've clicked on the dummy menu item #2!");
+    });
     this.panelClock = new _panel_clock__WEBPACK_IMPORTED_MODULE_2__["default"](this);
     this.desktop = SimpleJSGui.getDesktop();
     this.DOMObj = document.createElement("div");
@@ -24323,6 +24326,31 @@ function () {
           return i;
         }
       }
+    }
+  }, {
+    key: "getMenu",
+    value: function getMenu() {
+      return this.panelMenu;
+    }
+  }, {
+    key: "getClock",
+    value: function getClock() {
+      return this.panelClock;
+    }
+  }, {
+    key: "getTaskBar",
+    value: function getTaskBar() {
+      return this.taskBar;
+    }
+  }, {
+    key: "getLeftContainer",
+    value: function getLeftContainer() {
+      return this.leftContainer;
+    }
+  }, {
+    key: "getRightContainer",
+    value: function getRightContainer() {
+      return this.rightContainer;
     }
   }, {
     key: "getPanelItem",
@@ -25252,6 +25280,16 @@ function () {
     key: "isWindowPinnable",
     value: function isWindowPinnable() {
       return this.isPinnable;
+    }
+  }, {
+    key: "isMaximized",
+    value: function isMaximized() {
+      return this.isMaximized;
+    }
+  }, {
+    key: "isSnapped",
+    value: function isSnapped() {
+      return this.isSnapped;
     }
   }]);
 
