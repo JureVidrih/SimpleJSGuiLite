@@ -306,7 +306,15 @@
                 transition: all ease-out .15s;
                 opacity: 0.0;
                 transform: translateY(5%);
-            }.gui-panel__task-bar__item__context-menu__content {
+            }.gui-panel__task-bar__item__context-menu__empty-message {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 100%;
+                    text-align: center;
+                    font-size: 0.75rem;
+                    color: rgb(45, 45, 45);
+                }.gui-panel__task-bar__item__context-menu__content {
                     position: absolute;
                     bottom: 0;
                     width: 100%;

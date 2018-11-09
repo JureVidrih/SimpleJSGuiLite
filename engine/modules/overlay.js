@@ -16,6 +16,10 @@ class Overlay {
     getCenterContainer() {
         return this.centerContainer;
     }
+
+    notifyListChanged() {
+        this.DOMObj.style.zIndex = SimpleJSGui.getWindowManager().getWindows().length+2;
+    }
 }
 
 export default Overlay;

@@ -5,6 +5,10 @@ class PanelItemContextMenu {
         this.DOMObj.classList.add("gui-panel__task-bar__item__context-menu");
         this.DOMObj.innerHTML = '<div class="gui-panel__task-bar__item__context-menu__content"></div>';
         this.menuContent = this.DOMObj.querySelector(".gui-panel__task-bar__item__context-menu__content");
+        this.emptyContextMenuMsg = document.createElement("p");
+        this.emptyContextMenuMsg.classList.add("gui-panel__task-bar__item__context-menu__empty-message");
+        this.emptyContextMenuMsg.textContent = "Context menu is empty.";
+        this.DOMObj.appendChild(this.emptyContextMenuMsg);
 
         document.addEventListener('mousedown', function(event) {
             if(event.button == 0) {
@@ -24,6 +28,7 @@ class PanelItemContextMenu {
     }
 
     addAnItem(itemName, elementListener) {
+        this.DOMObj.removeChild(this.emptyContextMenuMsg);
         let newElement = document.createElement("p");
         newElement.classList.add("gui-panel__task-bar__item__context-menu__content__menu-item");
         newElement.textContent = itemName;

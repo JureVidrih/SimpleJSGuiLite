@@ -276,6 +276,11 @@ function () {
     value: function getCenterContainer() {
       return this.centerContainer;
     }
+  }, {
+    key: "notifyListChanged",
+    value: function notifyListChanged() {
+      this.DOMObj.style.zIndex = SimpleJSGui.getWindowManager().getWindows().length + 2;
+    }
   }]);
 
   return Overlay;
@@ -311,9 +316,11 @@ function () {
     this.started = false;
     this.minimumLoadingTime = 2000;
     this.desktop = new _desktop__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    this.windowManager = new _windowmanager__WEBPACK_IMPORTED_MODULE_2__["default"]();
     this.smallScreenMsg = new _overlay__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.loadingOverlay = new _overlay__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.windowManager = new _windowmanager__WEBPACK_IMPORTED_MODULE_2__["default"]();
+    this.windowManager.registerWindowListDisplay(this.smallScreenMsg);
+    this.windowManager.registerWindowListDisplay(this.loadingOverlay);
     document.body.appendChild(this.desktop.getDOMObject());
     document.body.appendChild(this.smallScreenMsg.getDOMObject());
     var overLayMessage = document.createElement("p");
@@ -23977,6 +23984,10 @@ function () {
     this.DOMObj.classList.add("gui-panel__task-bar__item__context-menu");
     this.DOMObj.innerHTML = '<div class="gui-panel__task-bar__item__context-menu__content"></div>';
     this.menuContent = this.DOMObj.querySelector(".gui-panel__task-bar__item__context-menu__content");
+    this.emptyContextMenuMsg = document.createElement("p");
+    this.emptyContextMenuMsg.classList.add("gui-panel__task-bar__item__context-menu__empty-message");
+    this.emptyContextMenuMsg.textContent = "Context menu is empty.";
+    this.DOMObj.appendChild(this.emptyContextMenuMsg);
     document.addEventListener('mousedown', function (event) {
       if (event.button == 0) {
         if (!event.target.classList.contains("gui-panel__task-bar__item")) {
@@ -23999,6 +24010,7 @@ function () {
   }, {
     key: "addAnItem",
     value: function addAnItem(itemName, elementListener) {
+      this.DOMObj.removeChild(this.emptyContextMenuMsg);
       var newElement = document.createElement("p");
       newElement.classList.add("gui-panel__task-bar__item__context-menu__content__menu-item");
       newElement.textContent = itemName;

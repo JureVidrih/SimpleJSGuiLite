@@ -6,10 +6,12 @@ class System {
     constructor() {
         this.started = false;
         this.minimumLoadingTime = 2000;
-        this.desktop = new Desktop();
+        this.desktop = new Desktop()
+        this.windowManager = new WindowManager();
         this.smallScreenMsg = new Overlay();
         this.loadingOverlay = new Overlay();
-        this.windowManager = new WindowManager();
+        this.windowManager.registerWindowListDisplay(this.smallScreenMsg);
+        this.windowManager.registerWindowListDisplay(this.loadingOverlay);
         document.body.appendChild(this.desktop.getDOMObject());
         document.body.appendChild(this.smallScreenMsg.getDOMObject());
         var overLayMessage = document.createElement("p");
