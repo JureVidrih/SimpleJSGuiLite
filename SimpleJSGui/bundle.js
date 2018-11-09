@@ -24951,6 +24951,7 @@ function () {
         }
 
         this.isSnapped = false;
+        this.turnWindowSnapEffectsOff();
       }
     }
   }, {

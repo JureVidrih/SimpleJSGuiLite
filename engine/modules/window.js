@@ -556,6 +556,7 @@ class Window {
                 this.setWindowX(this.cachedXBeforeSnap);
             }
             this.isSnapped = false;
+            this.turnWindowSnapEffectsOff();
         }
     }
 
