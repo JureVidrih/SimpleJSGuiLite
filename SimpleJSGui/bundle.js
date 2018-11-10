@@ -314,7 +314,7 @@ function () {
     _classCallCheck(this, System);
 
     this.started = false;
-    this.minimumLoadingTime = 2000;
+    this.minimumLoadingTime = 500;
     this.desktop = new _desktop__WEBPACK_IMPORTED_MODULE_0__["default"]();
     this.windowManager = new _windowmanager__WEBPACK_IMPORTED_MODULE_2__["default"]();
     this.smallScreenMsg = new _overlay__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -24986,6 +24986,10 @@ function () {
           this.isSnapped = true;
         }
 
+        if (this.getDOMObject().querySelector(".gui-window").classList.contains("window-effect-transparency")) {
+          this.getDOMObject().querySelector(".gui-window").classList.remove("window-effect-transparency");
+        }
+
         this.turnWindowSnapEffectsOff();
       } else {
         if (this.getDOMObject().querySelector(".gui-window").classList.contains("gui-window--no-borders") && this.getDOMObject().querySelector(".gui-window__titlebar").classList.contains("gui-window__titlebar--no-borders")) {
@@ -25228,8 +25232,8 @@ function () {
     value: function setContent(content) {
       if (content instanceof Object) {
         this.content = content;
+        this.windowContent.innerHTML = "";
         this.windowContent.appendChild(this.content);
-        content.remove();
       } else if (!(content instanceof Object)) {
         this.content = content;
         this.windowContent.innerHTML = this.content;

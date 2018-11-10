@@ -5,7 +5,7 @@ import WindowManager from './windowmanager';
 class System {
     constructor() {
         this.started = false;
-        this.minimumLoadingTime = 2000;
+        this.minimumLoadingTime = 500;
         this.desktop = new Desktop()
         this.windowManager = new WindowManager();
         this.smallScreenMsg = new Overlay();

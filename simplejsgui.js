@@ -39,9 +39,12 @@ myWindow.setContent("<p>This is a paragraph.</p>");
 //     alert("Listener QVGA toggled");
 // });
 
+var myObj = document.createElement("p");
+myObj.textContent = "A DOM Object";
 myWindow2.setWindowX(500);
 myWindow2.setTitle("My second window.");
 myWindow2.setWindowIcon("themes/newtheme/assets/icons/default.png");
+myWindow2.setContent(myObj);
 
 myWindow3.setWindowX(1000);
 myWindow3.setTitle("My third window.");

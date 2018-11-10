@@ -542,6 +542,9 @@ class Window {
             if((this.isAtTop && !this.isMaximized) || this.isAtLeft || this.isAtRight) {
                 this.isSnapped = true;
             }
+            if(this.getDOMObject().querySelector(".gui-window").classList.contains("window-effect-transparency")) {
+                this.getDOMObject().querySelector(".gui-window").classList.remove("window-effect-transparency");
+            }
             this.turnWindowSnapEffectsOff();
         } else {
             if(this.getDOMObject().querySelector(".gui-window").classList.contains("gui-window--no-borders") && this.getDOMObject().querySelector(".gui-window__titlebar").classList.contains("gui-window__titlebar--no-borders")) {
@@ -746,8 +749,8 @@ class Window {
     setContent(content) {
         if(content instanceof Object) {
             this.content = content;
+            this.windowContent.innerHTML = "";
             this.windowContent.appendChild(this.content);
-            content.remove();
         } else if (!(content instanceof Object)) {
             this.content = content;
             this.windowContent.innerHTML = this.content;
