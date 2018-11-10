@@ -8,6 +8,7 @@ class PanelItem {
         this.withText = true;
         this.itemName = itemName;
         this.contextMenu = new PanelItemContextMenu(this);
+        this.contextMenuContents = [];
         this.item = document.createElement("div");
         this.item.classList.add("gui-panel__task-bar__item");
         if(newWindow.isFocused) {
@@ -38,7 +39,17 @@ class PanelItem {
         nodeElem.addEventListener('click', function(event) {
             // console.log("(click) event on a PanelItem...");
             let status = newWindow.getStatus();
-            if(status == "onscreen") {
+            let dummyNode = event.target;
+            let isContextMenu = false;
+            while(dummyNode != document.body) {
+                if(dummyNode == this.contextMenu.getDOMObject()) {
+                    isContextMenu = true;
+                    break;
+                } else {
+                    dummyNode = dummyNode.parentNode;
+                }
+            }
+            if(status == "onscreen" && !isContextMenu) {
                 nodeElem.classList.remove("gui-panel__task-bar__item--active");
                 SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
                 let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
@@ -54,33 +65,33 @@ class PanelItem {
                 }
             }
         }.bind(this));
-        // nodeElem.addEventListener('contextmenu', function(event) {
-        //     event.preventDefault();
-        //     let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
-        //     let items = this.taskBar.getItems();
-        //     for(let i = 0; i < items.length; i++) {
-        //         if(items[i].getID() != newWindow.getID()) {
-        //             let anItem = items[i].getDOMObject().querySelector(".gui-panel__task-bar__item__context-menu");
-        //             if(anItem.classList.contains("context-menu-fadein")) {
-        //                 anItem.classList.remove("context-menu-fadein");
-        //             }
-        //         }
-        //     }
-        //     this.taskBar.panelInstance.panelMenu.close();
-        //     // if(contextMenu.style.display == "none") {
-        //     //     contextMenu.style.display = "block";
-        //     //     contextMenu.classList.add("context-menu-fadein");
-        //     // } else {
-        //     //     contextMenu.classList.remove("context-menu-fadein");
-        //     //     contextMenu.style.display = "none";
-        //     node.getContextMenu().setBottomY((window.innerHeight-this.item.getBoundingClientRect().top));
-        //     contextMenu.classList.toggle("context-menu-fadein");
-        //     let status = newWindow.getStatus();
-        //     if(status == "minimized") {
-        //         SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
-        //     }
-        //     return false;
-        // }.bind(this), false);
+        nodeElem.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+            let items = this.taskBar.getItems();
+            for(let i = 0; i < items.length; i++) {
+                if(items[i].getID() != newWindow.getID()) {
+                    let anItem = items[i].getDOMObject().querySelector(".gui-panel__task-bar__item__context-menu");
+                    if(anItem.classList.contains("context-menu-fadein")) {
+                        anItem.classList.remove("context-menu-fadein");
+                    }
+                }
+            }
+            this.taskBar.panelInstance.panelMenu.close();
+            // if(contextMenu.style.display == "none") {
+            //     contextMenu.style.display = "block";
+            //     contextMenu.classList.add("context-menu-fadein");
+            // } else {
+            //     contextMenu.classList.remove("context-menu-fadein");
+            //     contextMenu.style.display = "none";
+            node.getContextMenu().setBottomY((window.innerHeight-this.item.getBoundingClientRect().top));
+            contextMenu.classList.toggle("context-menu-fadein");
+            let status = newWindow.getStatus();
+            if(status == "minimized") {
+                SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
+            }
+            return false;
+        }.bind(this), false);
     }
 
     getItem() {
@@ -126,6 +137,52 @@ class PanelItem {
     setIcon(path) {
         this.itemIcon.setAttribute("src", path);
         // console.log("actual width: " +  this.itemIcon.clientWidth);
+    }
+
+    setContextMenuContents(newContents) {
+        console.log("setContextMenuContents starts with length of " + newContents.length);
+        console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
+        if(this.contextMenuContents.length != 0) {
+            let isSame = true;
+            console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
+            if(this.contextMenuContents.length == newContents.length) {
+                console.log("Same size");
+                for(let i = 0; i < newContents.length; i++) {
+                    console.log("i: " + i + " a[]: " + this.contextMenuContents[i] + " b[]: " + newContents[i]);
+                    if(this.contextMenuContents[i] !== newContents[i]) {
+                        console.log("Item mismatch!");
+                        isSame = false;
+                    }
+                }
+            } else {
+                console.log("Bigger size");
+                isSame = false;
+            }
+            if(isSame) {
+                console.log("New contents of length " + newContents.length + " are the same as the old ones! Returning..");
+                return;
+            }
+        }
+
+        if(newContents.length == 0) {
+            console.log("New contents are of length 0. Returning..");
+            return;
+        }
+
+        this.contextMenuContents = newContents.slice();
+        this.contextMenu.clear();
+
+        console.log("Adding " + newContents.length + " new contents to the context menu..");
+        for(let i = 0; i < this.contextMenuContents.length; i++) {
+            console.log("Contents: " + this.contextMenuContents[i]);
+            if(this.contextMenuContents[i] != "Separator") {
+                this.contextMenu.addAnItem(this.contextMenuContents[i].name, this.contextMenuContents[i].action);
+            } else {
+                this.contextMenu.addASeparator();
+            }
+        }
+
+        console.log("Exiting, length now at: " + this.contextMenuContents.length);
     }
 
     changeMode() {

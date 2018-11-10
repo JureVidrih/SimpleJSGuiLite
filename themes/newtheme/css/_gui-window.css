@@ -79,6 +79,10 @@
         overflow: auto;
     }
 
+    &__content--no-padding {
+        padding: 0px;
+    }
+
     #nw-resize {
         position: absolute;
         z-index: 2;

@@ -242,6 +242,9 @@ class TaskBar {
                     // console.log("Updating a panel item!");
                     this.items[j].setTitle(this.windows[i].getTitle());
                     this.items[j].setIcon(this.windows[i].windowIcon.getAttribute("src"));
+                    if(this.windows[i].getContextMenuContents().length != 0) {
+                        this.items[j].setContextMenuContents(this.windows[i].getContextMenuContents());
+                    }
                     let itemDOMObj = this.items[j].getDOMObject();
                     if(this.windows[i].isFocused) {
                         if(!itemDOMObj.classList.contains("gui-panel__task-bar__item--active")) {

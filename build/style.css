@@ -515,6 +515,8 @@
         padding: 8px;
         background-color: white;
         overflow: auto;
+    }.gui-window__content--no-padding {
+        padding: 0px;
     }.gui-window #nw-resize {
         position: absolute;
         z-index: 2;

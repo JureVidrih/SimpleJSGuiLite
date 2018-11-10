@@ -1,6 +1,6 @@
 class PanelItemContextMenu {
     constructor(panelItem) {
-        this.panelITem = panelItem;
+        this.panelItem = panelItem;
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-panel__task-bar__item__context-menu");
         this.DOMObj.innerHTML = '<div class="gui-panel__task-bar__item__context-menu__content"></div>';
@@ -9,7 +9,7 @@ class PanelItemContextMenu {
         this.emptyContextMenuMsg.classList.add("gui-panel__task-bar__item__context-menu__empty-message");
         this.emptyContextMenuMsg.textContent = "Context menu is empty.";
         this.DOMObj.appendChild(this.emptyContextMenuMsg);
-
+        
         document.addEventListener('mousedown', function(event) {
             if(event.button == 0) {
                 if(!event.target.classList.contains("gui-panel__task-bar__item")) {
@@ -18,17 +18,20 @@ class PanelItemContextMenu {
             }
         }.bind(this));
     }
-
+    
     getDOMObject() {
         return this.DOMObj;
     }
-
+    
     setBottomY(newY) {
         this.DOMObj.style.bottom = newY+"px";
     }
-
+    
     addAnItem(itemName, elementListener) {
-        this.DOMObj.removeChild(this.emptyContextMenuMsg);
+        if(this.DOMObj.contains(this.emptyContextMenuMsg)) {
+            this.DOMObj.removeChild(this.emptyContextMenuMsg);
+        }
+        
         let newElement = document.createElement("p");
         newElement.classList.add("gui-panel__task-bar__item__context-menu__content__menu-item");
         newElement.textContent = itemName;
@@ -41,10 +44,10 @@ class PanelItemContextMenu {
         } else {
             this.menuContent.insertBefore(newElement, this.menuContent.querySelector("*"));
         }
-
+        
         return this;
     }
-
+    
     addASeparator() {
         let newElement = document.createElement("div");
         newElement.classList.add("gui-panel__task-bar__item__context-menu__content__item-separator");
@@ -53,8 +56,13 @@ class PanelItemContextMenu {
         } else {
             this.menuContent.insertBefore(newElement, this.menuContent.querySelector("p"));
         }
-
+        
         return this;
+    }
+    
+    clear() {
+        this.menuContent.innerHTML = "";
+        this.DOMObj.appendChild(this.emptyContextMenuMsg);
     }
 }
 

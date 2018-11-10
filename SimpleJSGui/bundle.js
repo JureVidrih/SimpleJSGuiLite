@@ -863,6 +863,10 @@ function () {
 
             this.items[_j].setIcon(this.windows[_i].windowIcon.getAttribute("src"));
 
+            if (this.windows[_i].getContextMenuContents().length != 0) {
+              this.items[_j].setContextMenuContents(this.windows[_i].getContextMenuContents());
+            }
+
             var itemDOMObj = this.items[_j].getDOMObject();
 
             if (this.windows[_i].isFocused) {
@@ -23996,7 +24000,7 @@ function () {
   function PanelItemContextMenu(panelItem) {
     _classCallCheck(this, PanelItemContextMenu);
 
-    this.panelITem = panelItem;
+    this.panelItem = panelItem;
     this.DOMObj = document.createElement("div");
     this.DOMObj.classList.add("gui-panel__task-bar__item__context-menu");
     this.DOMObj.innerHTML = '<div class="gui-panel__task-bar__item__context-menu__content"></div>';
@@ -24027,7 +24031,10 @@ function () {
   }, {
     key: "addAnItem",
     value: function addAnItem(itemName, elementListener) {
-      this.DOMObj.removeChild(this.emptyContextMenuMsg);
+      if (this.DOMObj.contains(this.emptyContextMenuMsg)) {
+        this.DOMObj.removeChild(this.emptyContextMenuMsg);
+      }
+
       var newElement = document.createElement("p");
       newElement.classList.add("gui-panel__task-bar__item__context-menu__content__menu-item");
       newElement.textContent = itemName;
@@ -24057,6 +24064,12 @@ function () {
       }
 
       return this;
+    }
+  }, {
+    key: "clear",
+    value: function clear() {
+      this.menuContent.innerHTML = "";
+      this.DOMObj.appendChild(this.emptyContextMenuMsg);
     }
   }]);
 
@@ -24092,6 +24105,7 @@ function () {
     this.withText = true;
     this.itemName = itemName;
     this.contextMenu = new _panel_item_contextmenu__WEBPACK_IMPORTED_MODULE_0__["default"](this);
+    this.contextMenuContents = [];
     this.item = document.createElement("div");
     this.item.classList.add("gui-panel__task-bar__item");
 
@@ -24129,8 +24143,19 @@ function () {
       nodeElem.addEventListener('click', function (event) {
         // console.log("(click) event on a PanelItem...");
         var status = newWindow.getStatus();
+        var dummyNode = event.target;
+        var isContextMenu = false;
 
-        if (status == "onscreen") {
+        while (dummyNode != document.body) {
+          if (dummyNode == this.contextMenu.getDOMObject()) {
+            isContextMenu = true;
+            break;
+          } else {
+            dummyNode = dummyNode.parentNode;
+          }
+        }
+
+        if (status == "onscreen" && !isContextMenu) {
           nodeElem.classList.remove("gui-panel__task-bar__item--active");
           SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
           var contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
@@ -24148,33 +24173,39 @@ function () {
             _contextMenu.style.display = "none";
           }
         }
-      }.bind(this)); // nodeElem.addEventListener('contextmenu', function(event) {
-      //     event.preventDefault();
-      //     let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
-      //     let items = this.taskBar.getItems();
-      //     for(let i = 0; i < items.length; i++) {
-      //         if(items[i].getID() != newWindow.getID()) {
-      //             let anItem = items[i].getDOMObject().querySelector(".gui-panel__task-bar__item__context-menu");
-      //             if(anItem.classList.contains("context-menu-fadein")) {
-      //                 anItem.classList.remove("context-menu-fadein");
-      //             }
-      //         }
-      //     }
-      //     this.taskBar.panelInstance.panelMenu.close();
-      //     // if(contextMenu.style.display == "none") {
-      //     //     contextMenu.style.display = "block";
-      //     //     contextMenu.classList.add("context-menu-fadein");
-      //     // } else {
-      //     //     contextMenu.classList.remove("context-menu-fadein");
-      //     //     contextMenu.style.display = "none";
-      //     node.getContextMenu().setBottomY((window.innerHeight-this.item.getBoundingClientRect().top));
-      //     contextMenu.classList.toggle("context-menu-fadein");
-      //     let status = newWindow.getStatus();
-      //     if(status == "minimized") {
-      //         SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
-      //     }
-      //     return false;
-      // }.bind(this), false);
+      }.bind(this));
+      nodeElem.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+        var contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+        var items = this.taskBar.getItems();
+
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].getID() != newWindow.getID()) {
+            var anItem = items[i].getDOMObject().querySelector(".gui-panel__task-bar__item__context-menu");
+
+            if (anItem.classList.contains("context-menu-fadein")) {
+              anItem.classList.remove("context-menu-fadein");
+            }
+          }
+        }
+
+        this.taskBar.panelInstance.panelMenu.close(); // if(contextMenu.style.display == "none") {
+        //     contextMenu.style.display = "block";
+        //     contextMenu.classList.add("context-menu-fadein");
+        // } else {
+        //     contextMenu.classList.remove("context-menu-fadein");
+        //     contextMenu.style.display = "none";
+
+        node.getContextMenu().setBottomY(window.innerHeight - this.item.getBoundingClientRect().top);
+        contextMenu.classList.toggle("context-menu-fadein");
+        var status = newWindow.getStatus();
+
+        if (status == "minimized") {
+          SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
+        }
+
+        return false;
+      }.bind(this), false);
     }
   }, {
     key: "getItem",
@@ -24234,6 +24265,59 @@ function () {
     key: "setIcon",
     value: function setIcon(path) {
       this.itemIcon.setAttribute("src", path); // console.log("actual width: " +  this.itemIcon.clientWidth);
+    }
+  }, {
+    key: "setContextMenuContents",
+    value: function setContextMenuContents(newContents) {
+      console.log("setContextMenuContents starts with length of " + newContents.length);
+      console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
+
+      if (this.contextMenuContents.length != 0) {
+        var isSame = true;
+        console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
+
+        if (this.contextMenuContents.length == newContents.length) {
+          console.log("Same size");
+
+          for (var i = 0; i < newContents.length; i++) {
+            console.log("i: " + i + " a[]: " + this.contextMenuContents[i] + " b[]: " + newContents[i]);
+
+            if (this.contextMenuContents[i] !== newContents[i]) {
+              console.log("Item mismatch!");
+              isSame = false;
+            }
+          }
+        } else {
+          console.log("Bigger size");
+          isSame = false;
+        }
+
+        if (isSame) {
+          console.log("New contents of length " + newContents.length + " are the same as the old ones! Returning..");
+          return;
+        }
+      }
+
+      if (newContents.length == 0) {
+        console.log("New contents are of length 0. Returning..");
+        return;
+      }
+
+      this.contextMenuContents = newContents.slice();
+      this.contextMenu.clear();
+      console.log("Adding " + newContents.length + " new contents to the context menu..");
+
+      for (var _i = 0; _i < this.contextMenuContents.length; _i++) {
+        console.log("Contents: " + this.contextMenuContents[_i]);
+
+        if (this.contextMenuContents[_i] != "Separator") {
+          this.contextMenu.addAnItem(this.contextMenuContents[_i].name, this.contextMenuContents[_i].action);
+        } else {
+          this.contextMenu.addASeparator();
+        }
+      }
+
+      console.log("Exiting, length now at: " + this.contextMenuContents.length);
     }
   }, {
     key: "changeMode",
@@ -24420,6 +24504,7 @@ function () {
     this.remInPixels;
     this.DOMObj;
     this.zIndex = 1;
+    this.contextMenuContents = [];
     this.isPinnable = true;
     this.isBeingDragged = false;
     this.cachedX = 0;
@@ -25222,6 +25307,15 @@ function () {
       SimpleJSGui.getWindowManager().notifyListDisplays();
     }
   }, {
+    key: "enableContentPadding",
+    value: function enableContentPadding(value) {
+      if (value && this.windowContent.classList.contains("gui-window__content--no-padding")) {
+        this.windowContent.classList.remove("gui-window__content--no-padding");
+      } else if (!value && !this.windowContent.classList.contains("gui-window__content--no-padding")) {
+        this.windowContent.classList.add("gui-window__content--no-padding");
+      }
+    }
+  }, {
     key: "setContent",
     value: function setContent(content) {
       if (content instanceof Object) {
@@ -25296,6 +25390,28 @@ function () {
     key: "getContent",
     value: function getContent() {
       return this.content;
+    }
+  }, {
+    key: "getContextMenuContents",
+    value: function getContextMenuContents() {
+      return this.contextMenuContents;
+    }
+  }, {
+    key: "addAnItem",
+    value: function addAnItem(item, listener) {
+      this.contextMenuContents.push({
+        name: item,
+        action: listener
+      });
+      SimpleJSGui.getWindowManager().notifyListDisplays();
+      return this;
+    }
+  }, {
+    key: "addASeparator",
+    value: function addASeparator() {
+      this.contextMenuContents.push("Separator");
+      SimpleJSGui.getWindowManager().notifyListDisplays();
+      return this;
     }
   }, {
     key: "isWindowPinnable",

@@ -8,6 +8,8 @@ class Window {
         this.DOMObj;
         this.zIndex = 1;
 
+        this.contextMenuContents = [];
+
         this.isPinnable = true;
 
         this.isBeingDragged = false;
@@ -746,6 +748,14 @@ class Window {
         SimpleJSGui.getWindowManager().notifyListDisplays();
     }
 
+    enableContentPadding(value) {
+        if(value && this.windowContent.classList.contains("gui-window__content--no-padding")) {
+            this.windowContent.classList.remove("gui-window__content--no-padding");
+        } else if(!value && !this.windowContent.classList.contains("gui-window__content--no-padding")) {
+            this.windowContent.classList.add("gui-window__content--no-padding");
+        }
+    }
+
     setContent(content) {
         if(content instanceof Object) {
             this.content = content;
@@ -808,6 +818,26 @@ class Window {
 
     getContent() {
         return this.content;
+    }
+
+    getContextMenuContents() {
+        return this.contextMenuContents;
+    }
+
+    addAnItem(item, listener) {
+        this.contextMenuContents.push({name: item, action: listener});
+
+        SimpleJSGui.getWindowManager().notifyListDisplays();
+
+        return this;
+    }
+
+    addASeparator() {
+        this.contextMenuContents.push("Separator");
+
+        SimpleJSGui.getWindowManager().notifyListDisplays();
+
+        return this;
     }
 
     isWindowPinnable() {
