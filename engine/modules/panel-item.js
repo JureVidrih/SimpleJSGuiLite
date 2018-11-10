@@ -54,33 +54,33 @@ class PanelItem {
                 }
             }
         }.bind(this));
-        nodeElem.addEventListener('contextmenu', function(event) {
-            event.preventDefault();
-            let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
-            let items = this.taskBar.getItems();
-            for(let i = 0; i < items.length; i++) {
-                if(items[i].getID() != newWindow.getID()) {
-                    let anItem = items[i].getDOMObject().querySelector(".gui-panel__task-bar__item__context-menu");
-                    if(anItem.classList.contains("context-menu-fadein")) {
-                        anItem.classList.remove("context-menu-fadein");
-                    }
-                }
-            }
-            this.taskBar.panelInstance.panelMenu.close();
-            // if(contextMenu.style.display == "none") {
-            //     contextMenu.style.display = "block";
-            //     contextMenu.classList.add("context-menu-fadein");
-            // } else {
-            //     contextMenu.classList.remove("context-menu-fadein");
-            //     contextMenu.style.display = "none";
-            node.getContextMenu().setBottomY((window.innerHeight-this.item.getBoundingClientRect().top));
-            contextMenu.classList.toggle("context-menu-fadein");
-            let status = newWindow.getStatus();
-            if(status == "minimized") {
-                SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
-            }
-            return false;
-        }.bind(this), false);
+        // nodeElem.addEventListener('contextmenu', function(event) {
+        //     event.preventDefault();
+        //     let contextMenu = nodeElem.querySelector(".gui-panel__task-bar__item__context-menu");
+        //     let items = this.taskBar.getItems();
+        //     for(let i = 0; i < items.length; i++) {
+        //         if(items[i].getID() != newWindow.getID()) {
+        //             let anItem = items[i].getDOMObject().querySelector(".gui-panel__task-bar__item__context-menu");
+        //             if(anItem.classList.contains("context-menu-fadein")) {
+        //                 anItem.classList.remove("context-menu-fadein");
+        //             }
+        //         }
+        //     }
+        //     this.taskBar.panelInstance.panelMenu.close();
+        //     // if(contextMenu.style.display == "none") {
+        //     //     contextMenu.style.display = "block";
+        //     //     contextMenu.classList.add("context-menu-fadein");
+        //     // } else {
+        //     //     contextMenu.classList.remove("context-menu-fadein");
+        //     //     contextMenu.style.display = "none";
+        //     node.getContextMenu().setBottomY((window.innerHeight-this.item.getBoundingClientRect().top));
+        //     contextMenu.classList.toggle("context-menu-fadein");
+        //     let status = newWindow.getStatus();
+        //     if(status == "minimized") {
+        //         SimpleJSGui.getWindowManager().windowAction("minimize", newWindow);
+        //     }
+        //     return false;
+        // }.bind(this), false);
     }
 
     getItem() {
