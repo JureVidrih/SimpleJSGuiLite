@@ -478,6 +478,7 @@ function () {
             // console.log("Window gained focus.");
             newWindow.unfocusAllWindows();
             newWindow.isFocused = true;
+            newWindow.focusWindow();
           }
         } else if (status == "minimized") {
           // console.log("Unminimizing window.");
