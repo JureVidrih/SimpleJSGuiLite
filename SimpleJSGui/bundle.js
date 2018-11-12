@@ -24101,7 +24101,7 @@ function () {
 
     this.itemWidth = 0;
     this.id = id;
-    this.maxTitleLength = 25;
+    this.maxTitleLength = 18;
     this.withText = true;
     this.itemName = itemName;
     this.contextMenu = new _panel_item_contextmenu__WEBPACK_IMPORTED_MODULE_0__["default"](this);
@@ -24252,8 +24252,8 @@ function () {
     }
   }, {
     key: "setTitle",
-    value: function setTitle(newtitle) {
-      this.itemName = newtitle;
+    value: function setTitle(newTitle) {
+      this.itemName = newTitle;
 
       if (this.itemName.length > this.maxTitleLength) {
         this.itemName = this.itemName.substring(0, this.maxTitleLength - 3) + "...";
@@ -24269,55 +24269,49 @@ function () {
   }, {
     key: "setContextMenuContents",
     value: function setContextMenuContents(newContents) {
-      console.log("setContextMenuContents starts with length of " + newContents.length);
-      console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
-
+      // console.log("setContextMenuContents starts with length of " + newContents.length);
+      // console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
       if (this.contextMenuContents.length != 0) {
-        var isSame = true;
-        console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
+        var isSame = true; // console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
 
         if (this.contextMenuContents.length == newContents.length) {
-          console.log("Same size");
-
+          // console.log("Same size");
           for (var i = 0; i < newContents.length; i++) {
             console.log("i: " + i + " a[]: " + this.contextMenuContents[i] + " b[]: " + newContents[i]);
 
             if (this.contextMenuContents[i] !== newContents[i]) {
-              console.log("Item mismatch!");
+              // console.log("Item mismatch!");
               isSame = false;
             }
           }
         } else {
-          console.log("Bigger size");
+          // console.log("Bigger size");
           isSame = false;
         }
 
         if (isSame) {
-          console.log("New contents of length " + newContents.length + " are the same as the old ones! Returning..");
+          // console.log("New contents of length " + newContents.length + " are the same as the old ones! Returning..");
           return;
         }
       }
 
       if (newContents.length == 0) {
-        console.log("New contents are of length 0. Returning..");
+        // console.log("New contents are of length 0. Returning..");
         return;
       }
 
       this.contextMenuContents = newContents.slice();
-      this.contextMenu.clear();
-      console.log("Adding " + newContents.length + " new contents to the context menu..");
+      this.contextMenu.clear(); // console.log("Adding " + newContents.length + " new contents to the context menu..");
 
       for (var _i = 0; _i < this.contextMenuContents.length; _i++) {
-        console.log("Contents: " + this.contextMenuContents[_i]);
-
+        // console.log("Contents: " + this.contextMenuContents[i]);
         if (this.contextMenuContents[_i] != "Separator") {
           this.contextMenu.addAnItem(this.contextMenuContents[_i].name, this.contextMenuContents[_i].action);
         } else {
           this.contextMenu.addASeparator();
         }
-      }
+      } // console.log("Exiting, length now at: " + this.contextMenuContents.length);
 
-      console.log("Exiting, length now at: " + this.contextMenuContents.length);
     }
   }, {
     key: "changeMode",
@@ -25384,7 +25378,7 @@ function () {
   }, {
     key: "getTitle",
     value: function getTitle() {
-      return this.title.textContent;
+      return this.titleText;
     }
   }, {
     key: "getContent",

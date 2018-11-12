@@ -4,7 +4,7 @@ class PanelItem {
     constructor(newWindow, id, itemName) {
         this.itemWidth = 0;
         this.id = id;
-        this.maxTitleLength = 25;
+        this.maxTitleLength = 18;
         this.withText = true;
         this.itemName = itemName;
         this.contextMenu = new PanelItemContextMenu(this);
@@ -126,8 +126,8 @@ class PanelItem {
         return this.nameObj;
     }
 
-    setTitle(newtitle) {
-        this.itemName = newtitle;
+    setTitle(newTitle) {
+        this.itemName = newTitle;
         if(this.itemName.length > this.maxTitleLength) {
             this.itemName = this.itemName.substring(0, (this.maxTitleLength-3)) + "...";
         }
@@ -140,41 +140,41 @@ class PanelItem {
     }
 
     setContextMenuContents(newContents) {
-        console.log("setContextMenuContents starts with length of " + newContents.length);
-        console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
+        // console.log("setContextMenuContents starts with length of " + newContents.length);
+        // console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
         if(this.contextMenuContents.length != 0) {
             let isSame = true;
-            console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
+            // console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
             if(this.contextMenuContents.length == newContents.length) {
-                console.log("Same size");
+                // console.log("Same size");
                 for(let i = 0; i < newContents.length; i++) {
                     console.log("i: " + i + " a[]: " + this.contextMenuContents[i] + " b[]: " + newContents[i]);
                     if(this.contextMenuContents[i] !== newContents[i]) {
-                        console.log("Item mismatch!");
+                        // console.log("Item mismatch!");
                         isSame = false;
                     }
                 }
             } else {
-                console.log("Bigger size");
+                // console.log("Bigger size");
                 isSame = false;
             }
             if(isSame) {
-                console.log("New contents of length " + newContents.length + " are the same as the old ones! Returning..");
+                // console.log("New contents of length " + newContents.length + " are the same as the old ones! Returning..");
                 return;
             }
         }
 
         if(newContents.length == 0) {
-            console.log("New contents are of length 0. Returning..");
+            // console.log("New contents are of length 0. Returning..");
             return;
         }
 
         this.contextMenuContents = newContents.slice();
         this.contextMenu.clear();
 
-        console.log("Adding " + newContents.length + " new contents to the context menu..");
+        // console.log("Adding " + newContents.length + " new contents to the context menu..");
         for(let i = 0; i < this.contextMenuContents.length; i++) {
-            console.log("Contents: " + this.contextMenuContents[i]);
+            // console.log("Contents: " + this.contextMenuContents[i]);
             if(this.contextMenuContents[i] != "Separator") {
                 this.contextMenu.addAnItem(this.contextMenuContents[i].name, this.contextMenuContents[i].action);
             } else {
@@ -182,7 +182,7 @@ class PanelItem {
             }
         }
 
-        console.log("Exiting, length now at: " + this.contextMenuContents.length);
+        // console.log("Exiting, length now at: " + this.contextMenuContents.length);
     }
 
     changeMode() {

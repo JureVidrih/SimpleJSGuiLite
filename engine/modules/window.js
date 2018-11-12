@@ -813,7 +813,7 @@ class Window {
     }
 
     getTitle() {
-        return this.title.textContent;
+        return this.titleText;
     }
 
     getContent() {
