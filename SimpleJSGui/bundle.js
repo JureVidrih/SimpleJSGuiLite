@@ -23779,7 +23779,8 @@ function () {
         }
 
         this.displayedTime = hours + ":" + minutes;
-        this.clockValue.textContent = this.displayedTime; // this.clockValue.style.width = Math.ceil(this.clockValue.offsetWidth)+"px";
+        this.clockValue.textContent = this.displayedTime;
+        this.clockValue.style.width = Math.floor(this.clockValue.clientWidth) + "px";
 
         if (this.panelInstance.taskBar) {
           this.panelInstance.taskBar.calculateFreeSpace();

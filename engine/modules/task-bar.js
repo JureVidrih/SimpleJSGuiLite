@@ -25,6 +25,7 @@ class FreeSpaceWidget {
             switcherWidth = this.taskBar.getLineSwitcher().getDOMObject().clientWidth;
         }
         let width = panelWidth-((leftContainerWidth-this.DOMObj.clientWidth)+rightContainerWidth);
+
         // console.log("width is at: " + width + "px");
         if(width > 0) {
             this.DOMObj.style.width = width+"px";
