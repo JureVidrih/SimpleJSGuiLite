@@ -1,7 +1,6 @@
 {
   "name": "simplejsgui",
   "version": "1.0.0",
-  "description": "",
   "main": "simplejsgui.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,5 +21,15 @@
     "postcss-nested": "^3.0.0",
     "postcss-simple-vars": "^4.1.0",
     "webpack": "^4.20.2"
-  }
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JureVidrih/SimpleJSGui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JureVidrih/SimpleJSGui/issues"
+  },
+  "homepage": "https://github.com/JureVidrih/SimpleJSGui#readme",
+  "description": ""
 }
