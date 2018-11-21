@@ -485,6 +485,7 @@ function () {
           newWindow.unfocusAllWindows();
           newWindow.status = "onscreen";
           newWindow.isFocused = true;
+          newWindow.focusWindow();
           newWindowActualDOMObject.classList.remove("window-applyanimation-minimize");
           newWindowActualDOMObject.classList.add("window-applyanimation-unminimize");
           window.setTimeout(function () {
