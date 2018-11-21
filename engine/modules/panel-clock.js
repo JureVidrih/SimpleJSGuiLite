@@ -54,11 +54,16 @@ class PanelItemClock {
             }
             this.displayedTime = hours + ":" + minutes;
             this.clockValue.textContent = this.displayedTime;
-            this.clockValue.style.width = Math.floor(this.clockValue.clientWidth)+"px";
+            this.clockValue.style.width = calculateNewWidth(this.clockValue.offsetWidth)+"px";
             if(this.panelInstance.taskBar) {
                 this.panelInstance.taskBar.calculateFreeSpace();
             }
-        }.bind(this), 25);
+        }.bind(this), 1000);
+    }
+
+    calculateNewWidth(input) {
+        let value = Math.ceil(input);
+        return value;
     }
 
     createTheClockWidget() {
