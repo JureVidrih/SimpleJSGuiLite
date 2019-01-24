@@ -24539,6 +24539,7 @@ function () {
     this.cachedHeight = 0;
     this.isSnapped = false;
     this.snapEffectsToggled = false;
+    this.snapEffectToggleOffTimeoutDuration = 1000;
     this.cachedXBeforeSnap;
     this.isAtTop;
     this.isAtLeft;
@@ -24924,22 +24925,37 @@ function () {
   }, {
     key: "checkForEnterCorners",
     value: function checkForEnterCorners(event) {
-      if (!this.isAtTop && event.clientY <= 0) {
-        if (event.clientX > 10 && event.clientX < document.body.clientWidth - 10) {
+      if (!this.isAtTop && event.clientY <= 0 && !this.windowSnappingTopTimeoutID) {
+        if (event.clientX > 1 && event.clientX < document.body.clientWidth - 2) {
           this.isAtTop = true;
           this.toggleWindowSnapVisualEffects("top");
+          this.windowSnappingTopTimeoutID = window.setTimeout(function () {
+            this.isAtTop = false;
+            this.leaveCornerAction("top");
+            this.windowSnappingTopTimeoutID = null;
+          }.bind(this), this.snapEffectToggleOffTimeoutDuration);
         }
       }
 
       if (!this.isMaximized) {
-        if (!this.isAtLeft && event.clientX < 10) {
+        if (!this.isAtLeft && event.clientX < 1 && !this.windowSnappingLeftTimeoutID) {
           this.isAtLeft = true;
           this.toggleWindowSnapVisualEffects("left");
+          this.windowSnappingLeftTimeoutID = window.setTimeout(function () {
+            this.isAtLeft = false;
+            this.leaveCornerAction("left");
+            this.windowSnappingLeftTimeoutID = null;
+          }.bind(this), this.snapEffectToggleOffTimeoutDuration);
         }
 
-        if (!this.isAtRight && event.clientX > document.body.clientWidth - 10) {
+        if (!this.isAtRight && event.clientX > document.body.clientWidth - 2 && !this.windowSnappingRightTimeoutID) {
           this.isAtRight = true;
           this.toggleWindowSnapVisualEffects("right");
+          this.windowSnappingRightTimeoutID = window.setTimeout(function () {
+            this.isAtRight = false;
+            this.leaveCornerAction("right");
+            this.windowSnappingRightTimeoutID = null;
+          }.bind(this), this.snapEffectToggleOffTimeoutDuration);
         }
       }
     }
@@ -24947,21 +24963,21 @@ function () {
     key: "checkForLeaveCorners",
     value: function checkForLeaveCorners(event) {
       if (this.isAtTop) {
-        if (event.clientY >= 10 || event.clientX < 10 || event.clientX > document.body.clientWidth - 10) {
+        if (event.clientY >= 1 || event.clientX < 1 || event.clientX > document.body.clientWidth - 2) {
           this.isAtTop = false;
           this.leaveCornerAction("top");
         }
       }
 
       if (this.isAtLeft) {
-        if (event.clientX > 10) {
+        if (event.clientX > 1) {
           this.isAtLeft = false;
           this.leaveCornerAction("left");
         }
       }
 
       if (this.isAtRight) {
-        if (event.clientX < document.body.clientWidth - 10) {
+        if (event.clientX < document.body.clientWidth - 2) {
           this.isAtRight = false;
           this.leaveCornerAction("right");
         }
@@ -24970,6 +24986,8 @@ function () {
   }, {
     key: "leaveCornerAction",
     value: function leaveCornerAction(indicator) {
+      this.clearWindowSnappipngTimeouts();
+
       if (this.isSnapped) {
         this.snapWindow();
       }
@@ -25011,6 +25029,7 @@ function () {
   }, {
     key: "turnWindowSnapEffectsOff",
     value: function turnWindowSnapEffectsOff() {
+      var desktop = SimpleJSGui.getDesktop().getDOMObject();
       var visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
       var visualEffectLeft = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
       var visualEffectRight = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
@@ -25030,9 +25049,29 @@ function () {
       this.snapEffectsToggled = false;
     }
   }, {
+    key: "clearWindowSnappipngTimeouts",
+    value: function clearWindowSnappipngTimeouts() {
+      if (this.windowSnappingTopTimeoutID) {
+        window.clearTimeout(this.windowSnappingTopTimeoutID);
+        this.windowSnappingTopTimeoutID = null;
+      }
+
+      if (this.windowSnappingLeftTimeoutID) {
+        window.clearTimeout(this.windowSnappingLeftTimeoutID);
+        this.windowSnappingLeftTimeoutID = null;
+      }
+
+      if (this.windowSnappingRightTimeoutID) {
+        window.clearTimeout(this.windowSnappingRightTimeoutID);
+        this.windowSnappingRightTimeoutID = null;
+      }
+    }
+  }, {
     key: "snapWindow",
     value: function snapWindow() {
       if (!this.isSnapped) {
+        this.clearWindowSnappipngTimeouts();
+
         if (!this.getDOMObject().querySelector(".gui-window").classList.contains("gui-window--no-borders") && !this.getDOMObject().querySelector(".gui-window__titlebar").classList.contains("gui-window__titlebar--no-borders")) {
           this.getDOMObject().querySelector(".gui-window").classList.add("gui-window--no-borders");
           this.getDOMObject().querySelector(".gui-window__titlebar").classList.add("gui-window__titlebar--no-borders");

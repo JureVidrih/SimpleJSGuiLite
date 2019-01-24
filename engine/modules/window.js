@@ -7,15 +7,15 @@ class Window {
         this.remInPixels;
         this.DOMObj;
         this.zIndex = 1;
-
+        
         this.contextMenuContents = [];
-
+        
         this.isPinnable = true;
-
+        
         this.isBeingDragged = false;
         this.cachedX = 0;
         this.cachedY = 0;
-
+        
         this.isBeingResized = false;
         this.minWidth = 350;
         this.minHeight = 400;
@@ -37,7 +37,7 @@ class Window {
         this.wasListenerHDCalled = false;
         this.wasListenerVGACalled = false;
         this.wasListenerQVGACalled = false;
-
+        
         this.isMaximized = false;
         this.cachedXBeforeMax;
         this.cachedYBeforeMax;
@@ -45,6 +45,7 @@ class Window {
         this.cachedHeight = 0;
         this.isSnapped = false;
         this.snapEffectsToggled = false;
+        this.snapEffectToggleOffTimeoutDuration = 1000;
         this.cachedXBeforeSnap;
         this.isAtTop;
         this.isAtLeft;
@@ -60,23 +61,23 @@ class Window {
         this.setHeight(400);
         this.registerEvents();
     }
-
+    
     getDOMObject() {
         return this.DOMObj;
     }
-
+    
     getStatus() {
         return this.status;
     }
-
+    
     setID(newID) {
         this.id = newID;
     }
-
+    
     getID() {
         return this.id;
     }
-
+    
     createDOMObject() {
         this.DOMObj = document.createElement("div");
         this.DOMObj.id = this.id;
@@ -105,16 +106,16 @@ class Window {
         this.windowIcon = this.DOMObj.querySelector(".gui-window__titlebar__icon");
         this.windowContent = this.DOMObj.querySelector(".gui-window__content");
     }
-
+    
     registerEvents() {
         this.close.addEventListener('click', function() {
             SimpleJSGui.getWindowManager().windowAction("close", this);
         }.bind(this));
-
+        
         this.min.addEventListener('click', function() {
             SimpleJSGui.getWindowManager().windowAction("minimize", this);
         }.bind(this));
-
+        
         this.max.addEventListener('click', function() {
             // let content = this.guiWindow.getElementsByClassName("gui-window__content")[0];
             // if(content.style.display == "none") {
@@ -124,63 +125,63 @@ class Window {
             // }
             this.maximizeWindow();
         }.bind(this));
-
+        
         this.nwResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingNW = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-
+        
         this.neResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingNE = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-
+        
         this.swResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingSW = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-
+        
         this.seResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingSE = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-
+        
         this.nResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingN = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-
+        
         this.sResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingS = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-
+        
         this.wResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingW = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-
+        
         this.eResize.addEventListener('mousedown', function(event) {
             this.isBeingResized = true;
             this.isResizingE = true;
             this.cachedResizeX = event.clientX;
             this.cachedResizeY = event.clientY;
         }.bind(this));
-
+        
         document.addEventListener('mouseup', function(event) {
             if(this.isBeingResized) {
                 this.isBeingResized = false;
@@ -194,7 +195,7 @@ class Window {
                 this.isResizingE = false;
             }
         }.bind(this));
-
+        
         document.addEventListener('mousemove', function(event) {
             if(this.isBeingResized) {
                 if(this.isResizingNW) {
@@ -220,7 +221,7 @@ class Window {
                             this.setHeight(this.getHeight()+change);
                         }
                     }
-
+                    
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingNE) {
@@ -246,7 +247,7 @@ class Window {
                             this.setHeight(this.getHeight()+change);
                         }
                     }
-
+                    
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingSW) {
@@ -272,7 +273,7 @@ class Window {
                             this.setHeight(this.getHeight()+change);
                         }
                     }
-
+                    
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingSE) {
@@ -298,7 +299,7 @@ class Window {
                             this.setHeight(this.getHeight()+change);
                         }
                     }
-
+                    
                     this.cachedResizeX = event.clientX;
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingN) {
@@ -313,7 +314,7 @@ class Window {
                             this.setHeight(this.getHeight()+change);
                         }
                     }
-
+                    
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingS) {
                     let change = event.clientY-this.cachedResizeY;
@@ -327,7 +328,7 @@ class Window {
                             this.setHeight(this.getHeight()+change);
                         }
                     }
-
+                    
                     this.cachedResizeY = event.clientY;
                 } else if(this.isResizingW) {
                     let change = this.cachedResizeX-event.clientX;
@@ -341,7 +342,7 @@ class Window {
                             this.setWidth(this.getWidth()+change);
                         }
                     }
-
+                    
                     this.cachedResizeX = event.clientX;
                 } else if(this.isResizingE) {
                     let change = event.clientX-this.cachedResizeX;
@@ -355,14 +356,14 @@ class Window {
                             this.setWidth(this.getWidth()+change);
                         }
                     }
-
+                    
                     this.cachedResizeX = event.clientX;
                 }
-
+                
                 this.calculateNewTitleLimits();
             }
         }.bind(this));
-
+        
         this.guiWindow.addEventListener('mousedown', function(event) {
             if(event.button == 0) {
                 this.focusWindow();
@@ -370,7 +371,7 @@ class Window {
                 SimpleJSGui.getWindowManager().sortWindowsByZIndex(presentWindow);
             }
         }.bind(this));
-
+        
         this.titleBar.addEventListener('mousedown', function(event) {
             this.isBeingDragged = true;
             this.cachedX = event.clientX;
@@ -379,11 +380,11 @@ class Window {
                 this.guiWindow.classList.add("window-effect-transparency");
             }
         }.bind(this));
-
+        
         this.titleBar.addEventListener('dblclick', function(event) {
             this.maximizeWindow();
         }.bind(this));
-
+        
         document.addEventListener('mouseup', function(event) {
             if(this.isBeingDragged) {
                 this.isBeingDragged = false;
@@ -393,7 +394,7 @@ class Window {
                 this.guiWindow.classList.remove("window-effect-transparency");
             }
         }.bind(this));
-
+        
         document.addEventListener('mousemove', function(event) {
             if(this.isBeingDragged) {
                 let coord = this.guiWindow.getBoundingClientRect();
@@ -415,63 +416,79 @@ class Window {
             }
         }.bind(this));
     }
-
+    
     checkForEnterCorners(event) {
-        if(!this.isAtTop && event.clientY <= 0) {
-            if(event.clientX > 10 && (event.clientX < (document.body.clientWidth-10))) {
+        if(!this.isAtTop && event.clientY <= 0 && !this.windowSnappingTopTimeoutID) {
+            if(event.clientX > 1 && (event.clientX < (document.body.clientWidth-2))) {
                 this.isAtTop = true;
                 this.toggleWindowSnapVisualEffects("top");
+                this.windowSnappingTopTimeoutID = window.setTimeout(function() {
+                    this.isAtTop = false;
+                    this.leaveCornerAction("top");
+                    this.windowSnappingTopTimeoutID = null;
+                }.bind(this), this.snapEffectToggleOffTimeoutDuration);
             }
         }
         if(!this.isMaximized) {
-            if(!this.isAtLeft && event.clientX < 10) {
+            if(!this.isAtLeft && event.clientX < 1 && !this.windowSnappingLeftTimeoutID) {
                 this.isAtLeft = true;
                 this.toggleWindowSnapVisualEffects("left");
+                this.windowSnappingLeftTimeoutID = window.setTimeout(function() {
+                    this.isAtLeft = false;
+                    this.leaveCornerAction("left");
+                    this.windowSnappingLeftTimeoutID = null;
+                }.bind(this), this.snapEffectToggleOffTimeoutDuration);
             }
-            if(!this.isAtRight && (event.clientX > (document.body.clientWidth-10))) {
+            if(!this.isAtRight && (event.clientX > (document.body.clientWidth-2)) && !this.windowSnappingRightTimeoutID) {
                 this.isAtRight = true;
                 this.toggleWindowSnapVisualEffects("right");
+                this.windowSnappingRightTimeoutID = window.setTimeout(function() {
+                    this.isAtRight = false;
+                    this.leaveCornerAction("right");
+                    this.windowSnappingRightTimeoutID = null;
+                }.bind(this), this.snapEffectToggleOffTimeoutDuration);
             }
         }
     }
-
+    
     checkForLeaveCorners(event) {
         if(this.isAtTop) {
-            if(event.clientY >= 10 || event.clientX < 10 || event.clientX > (document.body.clientWidth-10)) {
+            if(event.clientY >= 1 || event.clientX < 1 || event.clientX > (document.body.clientWidth-2)) {
                 this.isAtTop = false;
                 this.leaveCornerAction("top");
             }
         }
         if(this.isAtLeft) {
-            if(event.clientX > 10) {
+            if(event.clientX > 1) {
                 this.isAtLeft = false;
                 this.leaveCornerAction("left");
             }
         }
         if(this.isAtRight) {
-            if(event.clientX < (document.body.clientWidth-10)) {
+            if(event.clientX < (document.body.clientWidth-2)) {
                 this.isAtRight = false;
                 this.leaveCornerAction("right");
             }
         }
     }
-
+    
     leaveCornerAction(indicator) {
+        this.clearWindowSnappipngTimeouts();
         if(this.isSnapped) {
             this.snapWindow();
         }
-
+        
         if(this.snapEffectsToggled) {
             this.toggleWindowSnapVisualEffects(indicator);
         }
     }
-
+    
     toggleWindowSnapVisualEffects(indicator) {
         let desktop = SimpleJSGui.getDesktop().getDOMObject();
         let visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
         let visualEffectLeft = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
         let visualEffectRight = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
-
+        
         if(indicator == "top") {
             visualEffectTop.classList.toggle("window-snap-indicator-fade-in");
         }
@@ -481,11 +498,11 @@ class Window {
         if(indicator == "right") {
             visualEffectRight.classList.toggle("window-snap-indicator-fade-in");
         }
-
+        
         let checkTop = visualEffectTop.classList.contains("window-snap-indicator-fade-in");
         let checkLeft = visualEffectLeft.classList.contains("window-snap-indicator-fade-in");
         let checkRight = visualEffectRight.classList.contains("window-snap-indicator-fade-in");
-
+        
         if(checkTop || checkLeft || checkRight) {
             this.snapEffectsToggled = true;
         } else {
@@ -494,10 +511,11 @@ class Window {
     }
     
     turnWindowSnapEffectsOff() {
+        let desktop = SimpleJSGui.getDesktop().getDOMObject();
         let visualEffectTop = desktop.querySelector(".gui-desktop__window-snap-indicator-top");
         let visualEffectLeft = desktop.querySelector(".gui-desktop__window-snap-indicator-left");
         let visualEffectRight = desktop.querySelector(".gui-desktop__window-snap-indicator-right");
-
+        
         if(visualEffectTop.classList.contains("window-snap-indicator-fade-in")) {
             visualEffectTop.classList.remove("window-snap-indicator-fade-in");
         }
@@ -507,12 +525,31 @@ class Window {
         if(visualEffectRight.classList.contains("window-snap-indicator-fade-in")) {
             visualEffectRight.classList.remove("window-snap-indicator-fade-in");
         }
-
+        
         this.snapEffectsToggled = false;
     }
 
+    clearWindowSnappipngTimeouts() {
+        if(this.windowSnappingTopTimeoutID) {
+                window.clearTimeout(this.windowSnappingTopTimeoutID);
+                this.windowSnappingTopTimeoutID = null;
+            }
+            
+            if(this.windowSnappingLeftTimeoutID) {
+                window.clearTimeout(this.windowSnappingLeftTimeoutID);
+                this.windowSnappingLeftTimeoutID = null;
+            }
+            
+            if(this.windowSnappingRightTimeoutID) {
+                window.clearTimeout(this.windowSnappingRightTimeoutID);
+                this.windowSnappingRightTimeoutID = null;
+            }
+    }
+    
     snapWindow() {
         if(!this.isSnapped) {
+            this.clearWindowSnappipngTimeouts();
+            
             if(!this.getDOMObject().querySelector(".gui-window").classList.contains("gui-window--no-borders") && !this.getDOMObject().querySelector(".gui-window__titlebar").classList.contains("gui-window__titlebar--no-borders")) {
                 this.getDOMObject().querySelector(".gui-window").classList.add("gui-window--no-borders");
                 this.getDOMObject().querySelector(".gui-window__titlebar").classList.add("gui-window__titlebar--no-borders");
@@ -564,7 +601,7 @@ class Window {
             this.turnWindowSnapEffectsOff();
         }
     }
-
+    
     maximizeWindow() {
         if(this.isMaximized) {
             this.isMaximized = false;
@@ -594,30 +631,30 @@ class Window {
             this.isAtTop = true;
         }
     }
-
+    
     setResizeListenerFullHD(newListener) {
         this.resizeListenerFullHD = newListener;
     }
-
+    
     setResizeListenerHD(newListener) {
         this.resizeListenerHD = newListener;
     }
-
+    
     setResizeListenerVGA(newListener) {
         this.resizeListenerVGA = newListener;
     }
-
+    
     setResizeListenerQVGA(newListener) {
         this.resizeListenerQVGA = newListener;
     }
-
+    
     removeDimensionFlags() {
         this.guiWindow.classList.remove("gui-window--size-fullhd");
         this.guiWindow.classList.remove("gui-window--size-hd");
         this.guiWindow.classList.remove("gui-window--size-vga");
         this.guiWindow.classList.remove("gui-window--size-qvga");
     }
-
+    
     applyNewDimensionFlags(width) {
         if(width.indexOf("%") != -1) {
             width = width.substring(0, width.length-1);
@@ -662,7 +699,7 @@ class Window {
             this.guiWindow.classList.add("gui-window--size-qvga");
         }
     }
-
+    
     unfocusAllWindows() {
         // console.log("unfocusAllWindows enters...");
         let allWindows = SimpleJSGui.getWindowManager().getWindows();
@@ -675,7 +712,7 @@ class Window {
         }
         SimpleJSGui.getWindowManager().notifyListDisplays();
     }
-
+    
     focusWindow() {
         // console.log("focusWindow enters...");
         this.unfocusAllWindows();
@@ -683,7 +720,7 @@ class Window {
         this.isFocused = true;
         SimpleJSGui.getWindowManager().notifyListDisplays();
     }
-
+    
     setWidth(width) {
         if(width < this.minWidth) {
             return;
@@ -697,7 +734,7 @@ class Window {
         }
         this.calculateNewTitleLimits();
     }
-
+    
     setHeight(height) {
         if(height < this.minHeight) {
             return;
@@ -710,11 +747,11 @@ class Window {
         }
         this.calculateNewTitleLimits();
     }
-
+    
     setBackgroundColor(bgrcolor) {
         this.guiWindow.querySelector(".gui-window__content").style.background = bgrcolor;
     }
-
+    
     setTitle(title) {
         this.titleText = title;
         if(title.length > this.maxTitleLength) {
@@ -722,10 +759,10 @@ class Window {
         }
         this.title.textContent = title;
         this.calculateNewTitleLimits();
-
+        
         SimpleJSGui.getWindowManager().notifyListDisplays();
     }
-
+    
     calculateNewTitleLimits() {
         let width = this.getWidth();
         let leftLimit = this.DOMObj.querySelector(".window-btn-maximize").getBoundingClientRect().right - this.getWindowX();
@@ -742,12 +779,12 @@ class Window {
             this.title.textContent = this.titleText;
         }
     }
-
+    
     setWindowIcon(path) {
         this.windowIcon.setAttribute("src", path);
         SimpleJSGui.getWindowManager().notifyListDisplays();
     }
-
+    
     enableContentPadding(value) {
         if(value && this.windowContent.classList.contains("gui-window__content--no-padding")) {
             this.windowContent.classList.remove("gui-window__content--no-padding");
@@ -755,7 +792,7 @@ class Window {
             this.windowContent.classList.add("gui-window__content--no-padding");
         }
     }
-
+    
     setContent(content) {
         if(content instanceof Object) {
             this.content = content;
@@ -766,32 +803,32 @@ class Window {
             this.windowContent.innerHTML = this.content;
         }
     }
-
+    
     setZIndex(z) {
         this.zIndex = z;
         this.guiWindow.style.zIndex = this.zIndex;
     }
-
+    
     getZIndex() {
         return this.zIndex;
     }
-
+    
     setWindowX(x) {
         this.guiWindow.style.left = x+"px";
     }
-
+    
     setWindowY(y) {
         this.guiWindow.style.top = y+"px";
     }
-
+    
     getWindowX() {
         return Number(this.guiWindow.style.left.split("px")[0]);
     }
-
+    
     getWindowY() {
         return Number(this.guiWindow.style.top.split("px")[0]);
     }
-
+    
     getWidth() {
         if(this.guiWindow.style.width.indexOf("%") != -1) {
             return document.body.clientWidth * (Number(this.guiWindow.style.width.split("%")[0])/100);
@@ -799,7 +836,7 @@ class Window {
             return Number(this.guiWindow.style.width.split("px")[0]);
         }
     }
-
+    
     getHeight() {
         if(this.guiWindow.style.height.indexOf("%") != -1) {
             return document.body.clientHeight * (Number(this.guiWindow.style.height.split("%")[0])/100);
@@ -807,47 +844,47 @@ class Window {
             return Number(this.guiWindow.style.height.split("px")[0]);
         }
     }
-
+    
     getBackgroundColor() {
         return this.guiWindow.querySelector(".gui-window__content").style.background;
     }
-
+    
     getTitle() {
         return this.titleText;
     }
-
+    
     getContent() {
         return this.content;
     }
-
+    
     getContextMenuContents() {
         return this.contextMenuContents;
     }
-
+    
     addAnItem(item, listener) {
         this.contextMenuContents.push({name: item, action: listener});
-
+        
         SimpleJSGui.getWindowManager().notifyListDisplays();
-
+        
         return this;
     }
-
+    
     addASeparator() {
         this.contextMenuContents.push("Separator");
-
+        
         SimpleJSGui.getWindowManager().notifyListDisplays();
-
+        
         return this;
     }
-
+    
     isWindowPinnable() {
         return this.isPinnable;
     }
-
+    
     isMaximized() {
         return this.isMaximized;
     }
-
+    
     isSnapped() {
         return this.isSnapped;
     }
