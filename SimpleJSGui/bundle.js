@@ -24986,7 +24986,7 @@ function () {
   }, {
     key: "leaveCornerAction",
     value: function leaveCornerAction(indicator) {
-      this.clearWindowSnappipngTimeouts();
+      this.clearWindowSnappipngTimeouts(indicator);
 
       if (this.isSnapped) {
         this.snapWindow();
@@ -25050,20 +25050,29 @@ function () {
     }
   }, {
     key: "clearWindowSnappipngTimeouts",
-    value: function clearWindowSnappipngTimeouts() {
-      if (this.windowSnappingTopTimeoutID) {
+    value: function clearWindowSnappipngTimeouts(indicator) {
+      if (!indicator) {
         window.clearTimeout(this.windowSnappingTopTimeoutID);
         this.windowSnappingTopTimeoutID = null;
-      }
-
-      if (this.windowSnappingLeftTimeoutID) {
         window.clearTimeout(this.windowSnappingLeftTimeoutID);
         this.windowSnappingLeftTimeoutID = null;
-      }
-
-      if (this.windowSnappingRightTimeoutID) {
         window.clearTimeout(this.windowSnappingRightTimeoutID);
         this.windowSnappingRightTimeoutID = null;
+      } else {
+        if (indicator == "top" && this.windowSnappingTopTimeoutID) {
+          window.clearTimeout(this.windowSnappingTopTimeoutID);
+          this.windowSnappingTopTimeoutID = null;
+        }
+
+        if (indicator == "left" && this.windowSnappingLeftTimeoutID) {
+          window.clearTimeout(this.windowSnappingLeftTimeoutID);
+          this.windowSnappingLeftTimeoutID = null;
+        }
+
+        if (indicator == "right" && this.windowSnappingRightTimeoutID) {
+          window.clearTimeout(this.windowSnappingRightTimeoutID);
+          this.windowSnappingRightTimeoutID = null;
+        }
       }
     }
   }, {

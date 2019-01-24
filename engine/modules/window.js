@@ -473,7 +473,7 @@ class Window {
     }
     
     leaveCornerAction(indicator) {
-        this.clearWindowSnappipngTimeouts();
+        this.clearWindowSnappipngTimeouts(indicator);
         if(this.isSnapped) {
             this.snapWindow();
         }
@@ -528,22 +528,33 @@ class Window {
         
         this.snapEffectsToggled = false;
     }
-
-    clearWindowSnappipngTimeouts() {
-        if(this.windowSnappingTopTimeoutID) {
+    
+    clearWindowSnappipngTimeouts(indicator) {
+        if(!indicator) {
+            window.clearTimeout(this.windowSnappingTopTimeoutID);
+            this.windowSnappingTopTimeoutID = null;
+            
+            window.clearTimeout(this.windowSnappingLeftTimeoutID);
+            this.windowSnappingLeftTimeoutID = null;
+            
+            window.clearTimeout(this.windowSnappingRightTimeoutID);
+            this.windowSnappingRightTimeoutID = null;
+        } else {
+            if(indicator == "top" && this.windowSnappingTopTimeoutID) {
                 window.clearTimeout(this.windowSnappingTopTimeoutID);
                 this.windowSnappingTopTimeoutID = null;
             }
             
-            if(this.windowSnappingLeftTimeoutID) {
+            if(indicator == "left" && this.windowSnappingLeftTimeoutID) {
                 window.clearTimeout(this.windowSnappingLeftTimeoutID);
                 this.windowSnappingLeftTimeoutID = null;
             }
             
-            if(this.windowSnappingRightTimeoutID) {
+            if(indicator == "right" && this.windowSnappingRightTimeoutID) {
                 window.clearTimeout(this.windowSnappingRightTimeoutID);
                 this.windowSnappingRightTimeoutID = null;
             }
+        }
     }
     
     snapWindow() {
