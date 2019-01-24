@@ -24924,20 +24924,20 @@ function () {
   }, {
     key: "checkForEnterCorners",
     value: function checkForEnterCorners(event) {
-      if (!this.isAtTop && this.getWindowY() <= 0) {
-        if (this.getWindowX() > 10 && this.getWindowX() + this.getWidth() < document.body.clientWidth - 10) {
+      if (!this.isAtTop && event.clientY <= 0) {
+        if (event.clientX > 10 && event.clientX < document.body.clientWidth - 10) {
           this.isAtTop = true;
           this.toggleWindowSnapVisualEffects("top");
         }
       }
 
       if (!this.isMaximized) {
-        if (!this.isAtLeft && this.getWindowX() < 10) {
+        if (!this.isAtLeft && event.clientX < 10) {
           this.isAtLeft = true;
           this.toggleWindowSnapVisualEffects("left");
         }
 
-        if (!this.isAtRight && this.getWindowX() + this.getWidth() > document.body.clientWidth - 10) {
+        if (!this.isAtRight && event.clientX > document.body.clientWidth - 10) {
           this.isAtRight = true;
           this.toggleWindowSnapVisualEffects("right");
         }
@@ -24945,23 +24945,23 @@ function () {
     }
   }, {
     key: "checkForLeaveCorners",
-    value: function checkForLeaveCorners() {
+    value: function checkForLeaveCorners(event) {
       if (this.isAtTop) {
-        if (this.getWindowY() >= 10 || this.getWindowX() < 10 || this.getWindowX() + this.getWidth() > document.body.clientWidth - 10) {
+        if (event.clientY >= 10 || event.clientX < 10 || event.clientX > document.body.clientWidth - 10) {
           this.isAtTop = false;
           this.leaveCornerAction("top");
         }
       }
 
       if (this.isAtLeft) {
-        if (this.getWindowX() > 10) {
+        if (event.clientX > 10) {
           this.isAtLeft = false;
           this.leaveCornerAction("left");
         }
       }
 
       if (this.isAtRight) {
-        if (this.getWindowX() + this.getWidth() < document.body.clientWidth - 10) {
+        if (event.clientX < document.body.clientWidth - 10) {
           this.isAtRight = false;
           this.leaveCornerAction("right");
         }
