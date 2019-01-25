@@ -24546,7 +24546,6 @@ function () {
     this.isAtRight;
     this.createDOMObject();
     this.setTitle("M");
-    this.remInPixels = parseInt(getComputedStyle(this.DOMObj).fontSize);
     this.setTitle("Window Title");
     this.setWindowIcon("themes/newtheme/assets/icons/default.png");
     this.guiWindow.style.top = "50px";
@@ -25338,6 +25337,7 @@ function () {
       var leftLimit = this.DOMObj.querySelector(".window-btn-maximize").getBoundingClientRect().right - this.getWindowX();
       var rightLimit = this.getWidth() - (this.DOMObj.querySelector(".gui-window__titlebar__icon").getBoundingClientRect().left - this.getWindowX());
       var appliableWidth = width - (leftLimit + rightLimit);
+      this.remInPixels = parseInt(window.getComputedStyle(this.title).getPropertyValue("font-size"));
       var numOfChars = Math.floor(appliableWidth / this.remInPixels);
 
       if (this.titleText.length > numOfChars) {
