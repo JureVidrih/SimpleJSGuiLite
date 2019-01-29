@@ -74,8 +74,8 @@ class System {
                         window.setTimeout(function() {
                             this.loadingOverlay.getDOMObject().style.visibility = "hidden";
                         }.bind(this), duration);
+                        window.clearInterval(intervalId);
                     }
-                    window.clearInterval(intervalId);
                 }.bind(this), 100);
             }.bind(this), this.minimumLoadingTime);
         }
