@@ -58,10 +58,15 @@ class System {
     }
     
     start() {
+        console.log("System.start() method called..");
         if(!this.started) {
+            console.log("Starting the timeout..");
             window.setTimeout(function() {
+                console.log("Starting the interval..");
                 var intervalId = window.setInterval(function() {
+                    console.log("new interval cycle..");
                     if(document.readyState === "complete") {
+                        console.log("All the resources loaded, starting..");
                         this.started = true;
                         this.loadingOverlay.getDOMObject().style.opacity = "0";
                         let duration = window.getComputedStyle(this.loadingOverlay.getDOMObject()).getPropertyValue("transition-duration");
@@ -74,8 +79,9 @@ class System {
                         window.setTimeout(function() {
                             this.loadingOverlay.getDOMObject().style.visibility = "hidden";
                         }.bind(this), duration);
+                        console.log("Clearing the interval..");
+                        window.clearInterval(intervalId);
                     }
-                    window.clearInterval(intervalId);
                 }.bind(this), 100);
             }.bind(this), this.minimumLoadingTime);
         }
