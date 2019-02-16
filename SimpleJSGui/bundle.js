@@ -372,17 +372,15 @@ function () {
   }, {
     key: "start",
     value: function start() {
-      console.log("System.start() method called..");
-
+      // console.log("System.start() method called..");
       if (!this.started) {
-        console.log("Starting the timeout..");
+        // console.log("Starting the timeout..");
         window.setTimeout(function () {
-          console.log("Starting the interval..");
+          // console.log("Starting the interval..");
           var intervalId = window.setInterval(function () {
-            console.log("new interval cycle..");
-
+            // console.log("new interval cycle..");
             if (document.readyState === "complete") {
-              console.log("All the resources loaded, starting..");
+              // console.log("All the resources loaded, starting..");
               this.started = true;
               this.loadingOverlay.getDOMObject().style.opacity = "0";
               var duration = window.getComputedStyle(this.loadingOverlay.getDOMObject()).getPropertyValue("transition-duration");
@@ -396,8 +394,8 @@ function () {
               duration *= 1000;
               window.setTimeout(function () {
                 this.loadingOverlay.getDOMObject().style.visibility = "hidden";
-              }.bind(this), duration);
-              console.log("Clearing the interval..");
+              }.bind(this), duration); // console.log("Clearing the interval..");
+
               window.clearInterval(intervalId);
             }
           }.bind(this), 100);
@@ -648,19 +646,23 @@ function () {
     this.currentLevel.classList.add("gui-panel__task-bar__line-switcher__current-level");
     this.currentLevel.textContent = "1";
     this.moveDown.addEventListener("click", function () {
-      currentLine = this.taskBar.getLineContainer().getCurrentLine(); // console.log("Going down, line is " + currentLine);
+      var currentLine = this.taskBar.getLineContainer().getCurrentLine();
+      console.log("Going down, line is " + currentLine);
 
       if (currentLine > 0) {
         currentLine -= 1;
-        this.taskBar.getLineContainer().switchLine(currentLine); // console.log("Line Down! #" + currentLine);
+        this.taskBar.getLineContainer().switchLine(currentLine);
+        console.log("Line Down! #" + currentLine);
       }
     }.bind(this));
     this.moveUp.addEventListener("click", function () {
-      currentLine = this.taskBar.getLineContainer().getCurrentLine(); // console.log("Going up, line is " + currentLine + " " + this.taskBar.getLineContainer().getLines().length);
+      var currentLine = this.taskBar.getLineContainer().getCurrentLine();
+      console.log("Going up, line is " + currentLine + " of " + this.taskBar.getLineContainer().getLines().length);
 
       if (currentLine < this.taskBar.getLineContainer().getLines().length - 1) {
         currentLine += 1;
-        this.taskBar.getLineContainer().switchLine(currentLine); // console.log("Line Up! #" + currentLine);
+        this.taskBar.getLineContainer().switchLine(currentLine);
+        console.log("Line Up! #" + currentLine);
       }
     }.bind(this));
     this.DOMObj.appendChild(this.moveDown);
@@ -760,8 +762,6 @@ function () {
     this.height = 0;
     this.DOMObj = document.createElement("div");
     this.DOMObj.classList.add("gui-panel__task-bar__wrapper__line-container__line");
-    var height = window.getComputedStyle(this.DOMObj).getPropertyValue("height");
-    this.height = Number(height.substring(0, height.indexOf("px")));
   }
 
   _createClass(Line, [{
@@ -778,6 +778,8 @@ function () {
   }, {
     key: "getLineHeight",
     value: function getLineHeight() {
+      this.height = window.getComputedStyle(this.DOMObj).getPropertyValue("height");
+      this.height = Number(this.height.substring(0, this.height.indexOf("px")));
       return this.height;
     }
   }]);
@@ -936,7 +938,7 @@ function () {
       // console.log("rearrangeItmes enters...");
       if (this.items.length > 0) {
         // console.log("Rearranging items...");
-        var itemsInALine = Math.floor((this.DOMObj.clientWidth - this.lineSwitcher.getDOMObject().clientWidth) / this.items[0].getItemDefaultWidth());
+        var itemsInALine = Math.floor((this.DOMObj.clientWidth - this.lineSwitcher.getDOMObject().clientWidth) / this.items[0].getItemDefaultWidth()); // console.log("itemsInALine: " + itemsInALine);
 
         if (itemsInALine == 0) {
           itemsInALine = 1;
@@ -945,7 +947,7 @@ function () {
         var numOfItems = itemsInALine;
         var shouldEmptyLineContainer = false;
 
-        if (this.cachedNumOfItems != numOfItems) {
+        if (this.cachedNumOfItems != numOfItems || this.lineContainer.getLines().length == 1 && numOfItems < this.items.length || this.lineContainer.getLines().length > 1) {
           shouldEmptyLineContainer = true;
         }
 
@@ -960,19 +962,21 @@ function () {
         this.lineContainer.getDOMObject().style.width = amount + "px";
         var reduce = this.freeSpaceWidget.getDOMObject().clientWidth - amount;
         this.freeSpaceWidget.getDOMObject().style.width = 0 + "px";
-        this.freeSpaceWidget.calculateWidth(this.panel, this.leftContainer, this.rightContainer); // if(this.freeSpaceWidget.getWidth() <= 0) {
-        //     itemsInALine--;
-        // }
-        // console.log("width is at: " + this.DOMObj.clientWidth);
+        this.freeSpaceWidget.calculateWidth(this.panel, this.leftContainer, this.rightContainer);
+
+        if (this.freeSpaceWidget.getWidth() <= 0) {
+          numOfItems--;
+        } // console.log("width is at: " + this.DOMObj.clientWidth);
         // console.log("panel is at: " + this.panel.clientWidth + ", and right is at: " + this.rightContainer.clientWidth);
 
-        var numOfLines = Math.floor(this.items.length / itemsInALine);
 
-        if (this.items.length % itemsInALine != 0) {
+        var numOfLines = Math.floor(this.items.length / numOfItems);
+
+        if (this.items.length % numOfItems != 0) {
           numOfLines++;
         }
 
-        if (!numOfLines) {
+        if (!numOfLines || numOfLines == Infinity) {
           numOfLines = 0;
         }
 
@@ -982,20 +986,22 @@ function () {
           this.lineSwitcher.getDOMObject().style.visibility = "visible";
         }
 
-        if (this.lineContainer.getCurrentLine() > numOfLines - 1) {
-          this.lineContainer.switchLine(numOfLines - 1);
-        } // console.log("length: " + this.items.length);
+        if (this.lineContainer.getCurrentLine() != 0 && numOfLines != this.cachedNumOfLines) {
+          this.lineContainer.switchLine(numOfLines - (numOfLines + 1 - this.lineContainer.getCurrentLine()));
+        }
+
+        this.cachedNumOfLines = numOfLines; // console.log("length: " + this.items.length);
         // console.log("inaline: " + itemsInALine);
         // console.log("numOfLines: " + numOfLines);
-        // console.log("lines: " + numOfLines);
-
 
         if (shouldEmptyLineContainer) {
           this.lineContainer.empty();
-          this.lines = this.lineContainer.getLines(); // console.log(this.lines.length);
+          this.lines = this.lineContainer.getLines(); // console.log("this.lines.length: " + this.lines.length);
+
+          console.log("numOfLines: " + numOfLines);
 
           for (var i = 0; i < numOfLines; i++) {
-            this.lineContainer.addALine(new Line(this)); // newLine = this.lines[this.lines.length-1];
+            this.lineContainer.addALine(new Line(this)); // let newLine = this.lines[this.lines.length-1];
           } // console.log(this.lines.length);
 
 

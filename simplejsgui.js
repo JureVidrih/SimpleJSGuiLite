@@ -10,7 +10,7 @@ var myWindow3 = new Window();
 
 SimpleJSGui.addAWindow(myWindow);
 SimpleJSGui.addAWindow(myWindow2);
-// SimpleJSGui.addAWindow(myWindow3);
+SimpleJSGui.addAWindow(myWindow3);
 
 myWindow.setWidth(1);
 myWindow.setHeight(1);
