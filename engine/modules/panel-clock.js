@@ -54,6 +54,7 @@ class PanelItemClock {
             }
             this.displayedTime = hours + ":" + minutes;
             this.clockValue.textContent = this.displayedTime;
+            this.clockValue.style.width = "";
             this.clockValue.style.width = this.calculateNewWidth(this.clockValue.offsetWidth)+"px";
             if(this.panelInstance.taskBar) {
                 this.panelInstance.taskBar.calculateFreeSpace();
