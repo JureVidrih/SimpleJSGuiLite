@@ -23845,7 +23845,14 @@ function () {
       prevMonth.addEventListener('mousedown', function () {
         currYear = this.clockWidgetDate.getFullYear();
         currMonth = this.clockWidgetDate.getMonth();
-        this.renderMonth(currYear, currMonth - 1);
+
+        if (currMonth == 0) {
+          currMonth = 11;
+        } else {
+          currMonth -= 1;
+        }
+
+        this.renderMonth(currYear, currMonth);
       }.bind(this));
       var nextMonth = document.createElement("img");
       nextMonth.classList.add("gui-panel__clock__clock-widget__table-top__nextMonth");
@@ -23853,7 +23860,14 @@ function () {
       nextMonth.addEventListener('mousedown', function () {
         currYear = this.clockWidgetDate.getFullYear();
         currMonth = this.clockWidgetDate.getMonth();
-        this.renderMonth(currYear, currMonth + 1);
+
+        if (currMonth == 11) {
+          currMonth = 0;
+        } else {
+          currMonth += 1;
+        }
+
+        this.renderMonth(currYear, currMonth);
       }.bind(this));
       tableTop.appendChild(prevMonth);
       this.monthTextSpan = document.createElement("span");
