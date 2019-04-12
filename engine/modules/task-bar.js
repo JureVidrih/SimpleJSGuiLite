@@ -54,21 +54,21 @@ class LineSwitcher {
         
         this.moveDown.addEventListener("click", function() {
             let currentLine = this.taskBar.getLineContainer().getCurrentLine();
-            console.log("Going down, line is " + currentLine);
+            // console.log("Going down, line is " + currentLine);
             if(currentLine > 0) {
                 currentLine -= 1;
                 this.taskBar.getLineContainer().switchLine(currentLine);
-                console.log("Line Down! #" + currentLine);
+                // console.log("Line Down! #" + currentLine);
             }
         }.bind(this));
         
         this.moveUp.addEventListener("click", function() {
             let currentLine = this.taskBar.getLineContainer().getCurrentLine();
-            console.log("Going up, line is " + currentLine + " of " + this.taskBar.getLineContainer().getLines().length);
+            // console.log("Going up, line is " + currentLine + " of " + this.taskBar.getLineContainer().getLines().length);
             if(currentLine < this.taskBar.getLineContainer().getLines().length-1) {
                 currentLine += 1;
                 this.taskBar.getLineContainer().switchLine(currentLine);
-                console.log("Line Up! #" + currentLine);
+                // console.log("Line Up! #" + currentLine);
             }
         }.bind(this));
         
@@ -121,12 +121,21 @@ class LineContainer {
         return this.currentLine;
     }
     
-    switchLine(newLine) {
+    switchLine(newLine, shouldDisableEffect) {
         this.currentLine = newLine;
         // console.log("currentLine is now: " + newLine);
         // console.log("Line height of first line is: " + this.lines[0].getLineHeight());
         // console.log("New top is: " + -(newLine)*this.lines[0].getLineHeight());
         this.taskBar.getLineSwitcher().setCurrentLineText(newLine+1);
+        if(shouldDisableEffect) {
+            this.cachedStyle = this.DOMObj.style;
+            this.DOMObj.style.transition = "top ease-out 0s";
+        } else {
+            if(this.DOMObj.style.transition) {
+                let style = this.DOMObj.getAttribute("style");
+                this.DOMObj.setAttribute("style", style.substring(0, style.indexOf("transition")));
+            }         
+        }
         this.DOMObj.style.top = -(newLine)*this.lines[0].getLineHeight()+"px";
     }
     
@@ -161,6 +170,9 @@ class Line {
         this.height = window.getComputedStyle(this.DOMObj).getPropertyValue("height");
         this.height = Number(this.height.substring(0, this.height.indexOf("px")));
         return this.height;
+    }
+    getItems() {
+        return this.items;
     }
 }
 
@@ -332,6 +344,7 @@ class TaskBar {
             
             if(!numOfLines || numOfLines == Infinity) {
                 numOfLines = 0;
+                shouldEmptyLineContainer = false;
             }
             
             if(numOfLines <= 1) {
@@ -341,10 +354,13 @@ class TaskBar {
             }
             
             if(this.lineContainer.getCurrentLine() != 0 && numOfLines != this.cachedNumOfLines) {
-                this.lineContainer.switchLine(numOfLines-((numOfLines+1)-this.lineContainer.getCurrentLine()));
+                if(numOfLines < this.cachedNumOfLines) {
+                    this.lineContainer.switchLine(numOfLines-((numOfLines+1)-this.lineContainer.getCurrentLine()));
+                }    
             }
             
-            this.cachedNumOfLines = numOfLines;
+            this.cachedCurrentLine = this.lineContainer.getLines()[this.lineContainer.getCurrentLine()];
+            this.cachedNumOfItemsInCurrentLine = this.cachedCurrentLine.getItems().length;
 
             // console.log("length: " + this.items.length);
             // console.log("inaline: " + itemsInALine);
@@ -355,7 +371,7 @@ class TaskBar {
                 this.lines = this.lineContainer.getLines();
                 
                 // console.log("this.lines.length: " + this.lines.length);
-                console.log("numOfLines: " + numOfLines);
+                // console.log("numOfLines: " + numOfLines);
                 for(let i = 0; i < numOfLines; i++) {
                     this.lineContainer.addALine(new Line(this));
                     // let newLine = this.lines[this.lines.length-1];
@@ -376,7 +392,13 @@ class TaskBar {
                 
                 this.freeSpaceWidget.calculateWidth(this.panel, this.leftContainer, this.rightContainer);
             }
-            
+
+            if(numOfLines > this.cachedNumOfLines) {
+                if(this.cachedNumOfItemsInCurrentLine == 1) {
+                    this.lineContainer.switchLine(this.lineContainer.getCurrentLine()+1, true);
+                }
+            }
+            this.cachedNumOfLines = numOfLines;
             // console.log("Num of lines: " + this.lines.length);
             // console.log("Done rearranging!");
             // console.log(" ");
