@@ -22,7 +22,7 @@ class System {
         loadingSpinner.classList.add("gui-overlay__spinner");
         var loadingMsg = document.createElement("p");
         loadingMsg.style.fontSize = "1.5rem";
-        loadingMsg.textContent = "SimpleJSGui v0.9-alpha";
+        loadingMsg.textContent = "SimpleJSGuiLite v0.9-alpha";
 
         this.loadingOverlay.getCenterContainer().appendChild(loadingSpinner);
         this.loadingOverlay.getCenterContainer().appendChild(loadingMsg);
