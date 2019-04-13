@@ -50,6 +50,7 @@ class WindowManager {
                     // console.log("Window gained focus.");
                     newWindow.unfocusAllWindows();
                     newWindow.isFocused = true;
+                    SimpleJSGui.getWindowManager().sortWindowsByZIndex(SimpleJSGui.getWindowManager().getWindowOrderNumber(newWindow));
                     newWindow.focusWindow();
                 }
             } else if(status == "minimized") {
