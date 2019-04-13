@@ -345,7 +345,6 @@ function () {
     value: function checkForSmallWindowSize() {
       if (this.panel) {
         this.minimalWidth = this.panel.calculateMinimalWidth();
-        console.log(this.minimalWidth + " : " + window.innerWidth);
 
         if (window.innerWidth < this.minimalWidth) {
           this.smallScreenMsg.getDOMObject().style.visibility = "visible";
@@ -956,8 +955,9 @@ function () {
     value: function rearrangeItems() {
       // console.log("rearrangeItmes enters...");
       if (this.items.length > 0) {
-        // console.log("Rearranging items...");
-        var itemsInALine = Math.floor((this.DOMObj.clientWidth - this.lineSwitcher.getDOMObject().clientWidth) / this.items[0].getItemDefaultWidth()); // console.log("itemsInALine: " + itemsInALine);
+        console.log("Rearranging items...");
+        var dummyPanelItem = new PanelItem(null, "Dummy ID", "Dummy item");
+        var itemsInALine = Math.floor((this.DOMObj.clientWidth - this.lineSwitcher.getDOMObject().clientWidth) / dummyPanelItem.getItemDefaultWidth()); // console.log("itemsInALine: " + itemsInALine);
 
         if (itemsInALine == 0) {
           itemsInALine = 1;
@@ -974,10 +974,10 @@ function () {
 
         if (this.items.length < itemsInALine) {
           numOfItems = this.items.length;
-        } // console.log("items: " + numOfItems);
+        }
 
-
-        var amount = numOfItems * this.items[0].getItemDefaultWidth();
+        console.log("items: " + numOfItems);
+        var amount = numOfItems * dummyPanelItem.getItemDefaultWidth();
         this.lineContainer.getDOMObject().style.width = amount + "px";
         var reduce = this.freeSpaceWidget.getDOMObject().clientWidth - amount;
         this.freeSpaceWidget.getDOMObject().style.width = 0 + "px";
@@ -1013,19 +1013,24 @@ function () {
         }
 
         this.cachedCurrentLine = this.lineContainer.getLines()[this.lineContainer.getCurrentLine()];
-        this.cachedNumOfItemsInCurrentLine = this.cachedCurrentLine.getItems().length; // console.log("length: " + this.items.length);
-        // console.log("inaline: " + itemsInALine);
-        // console.log("numOfLines: " + numOfLines);
+        this.cachedNumOfItemsInCurrentLine = this.cachedCurrentLine.getItems().length;
+        console.log("length: " + this.items.length);
+        console.log("inaline: " + itemsInALine);
+        console.log("numOfLines: " + numOfLines);
 
         if (shouldEmptyLineContainer) {
+          console.log("shouldEmptyLineContainer!");
           this.lineContainer.empty();
-          this.lines = this.lineContainer.getLines(); // console.log("this.lines.length: " + this.lines.length);
-          // console.log("numOfLines: " + numOfLines);
+          this.lines = this.lineContainer.getLines();
+          console.log("this.lines.length: " + this.lines.length);
+          console.log("numOfLines: " + numOfLines);
 
           for (var i = 0; i < numOfLines; i++) {
             this.lineContainer.addALine(new Line(this)); // let newLine = this.lines[this.lines.length-1];
           } // console.log(this.lines.length);
 
+
+          console.log("this.items.length: " + this.items.length);
 
           for (var _i3 = 0, j = 0, ij = 0; _i3 < this.items.length; _i3++, ij++) {
             if (ij >= itemsInALine) {
@@ -1035,6 +1040,7 @@ function () {
             // console.log(this.items[i]);
 
 
+            console.log("Putting an item into a line!");
             this.lines[j].putAnItem(this.items[_i3]);
           }
 
@@ -1047,9 +1053,10 @@ function () {
           }
         }
 
-        this.cachedNumOfLines = numOfLines; // console.log("Num of lines: " + this.lines.length);
-        // console.log("Done rearranging!");
-        // console.log(" ");
+        this.cachedNumOfLines = numOfLines;
+        console.log("Num of lines: " + this.lines.length);
+        console.log("Done rearranging!");
+        console.log(" ");
       }
     }
   }, {
@@ -24190,9 +24197,10 @@ function () {
     if (newWindow) {
       if (newWindow.isFocused) {
         this.item.classList.add("gui-panel__task-bar__item--active");
-        this.itemIcon.setAttribute("src", newWindow.windowIcon.getAttribute("src"));
-        this.attachEvents(newWindow);
       }
+
+      this.itemIcon.setAttribute("src", newWindow.windowIcon.getAttribute("src"));
+      this.attachEvents(newWindow);
     }
   }
 
@@ -24533,7 +24541,6 @@ function () {
     key: "calculateMinimalWidth",
     value: function calculateMinimalWidth() {
       var dummyPanelItem = new _panel_item__WEBPACK_IMPORTED_MODULE_0__["default"](null, "DUMMY_ID", "DummyText");
-      console.log("width: " + dummyPanelItem.getItemDefaultWidth());
       return this.panelMenu.getDOMObject().clientWidth + 2 + dummyPanelItem.getItemDefaultWidth() + this.taskBar.getLineSwitcher().getDOMObject().clientWidth + this.rightContainer.clientWidth;
     }
   }]);

@@ -36,7 +36,6 @@ class System {
     checkForSmallWindowSize() {
         if(this.panel) {
             this.minimalWidth = this.panel.calculateMinimalWidth();
-            console.log(this.minimalWidth + " : " + window.innerWidth);
             if(window.innerWidth < this.minimalWidth) {
                 this.smallScreenMsg.getDOMObject().style.visibility = "visible";
             } else {

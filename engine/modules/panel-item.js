@@ -25,16 +25,16 @@ class PanelItem {
         if(newWindow) {
             if(newWindow.isFocused) {
                 this.item.classList.add("gui-panel__task-bar__item--active");
-                this.itemIcon.setAttribute("src", newWindow.windowIcon.getAttribute("src"));
-                this.attachEvents(newWindow);
             }
+            this.itemIcon.setAttribute("src", newWindow.windowIcon.getAttribute("src"));
+            this.attachEvents(newWindow);
         }
     }
-
+    
     attachToTaskBar(taskBar) {
         this.taskBar = taskBar;
     }
-
+    
     attachEvents(newWindow) {
         let node = this;
         let nodeElem = this.getDOMObject();
@@ -95,7 +95,7 @@ class PanelItem {
             return false;
         }.bind(this), false);
     }
-
+    
     getItem() {
         return this.item;
     }
@@ -115,22 +115,22 @@ class PanelItem {
         document.body.removeChild(this.item);
         var value = width;
         value = value.substring(0, value.indexOf("px"));
-
+        
         return Number(value);
     }
-
+    
     getDOMObject() {
         return this.item;
     }
-
+    
     getContextMenu() {
         return this.contextMenu;
     }
-
+    
     getTitleObj() {
         return this.nameObj;
     }
-
+    
     setTitle(newTitle) {
         this.itemName = newTitle;
         if(this.itemName.length > this.maxTitleLength) {
@@ -138,12 +138,12 @@ class PanelItem {
         }
         this.nameObj.textContent = this.itemName;
     }
-
+    
     setIcon(path) {
         this.itemIcon.setAttribute("src", path);
         // console.log("actual width: " +  this.itemIcon.clientWidth);
     }
-
+    
     setContextMenuContents(newContents) {
         // console.log("setContextMenuContents starts with length of " + newContents.length);
         // console.log("a: " + this.contextMenuContents.length + ", b: " + newContents.length);
@@ -168,15 +168,15 @@ class PanelItem {
                 return;
             }
         }
-
+        
         if(newContents.length == 0) {
             // console.log("New contents are of length 0. Returning..");
             return;
         }
-
+        
         this.contextMenuContents = newContents.slice();
         this.contextMenu.clear();
-
+        
         // console.log("Adding " + newContents.length + " new contents to the context menu..");
         for(let i = 0; i < this.contextMenuContents.length; i++) {
             // console.log("Contents: " + this.contextMenuContents[i]);
@@ -186,10 +186,10 @@ class PanelItem {
                 this.contextMenu.addASeparator();
             }
         }
-
+        
         // console.log("Exiting, length now at: " + this.contextMenuContents.length);
     }
-
+    
     changeMode() {
         if(!this.withText) {
             this.nameObj.style.display = "none";
