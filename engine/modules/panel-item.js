@@ -11,9 +11,6 @@ class PanelItem {
         this.contextMenuContents = [];
         this.item = document.createElement("div");
         this.item.classList.add("gui-panel__task-bar__item");
-        if(newWindow.isFocused) {
-            this.item.classList.add("gui-panel__task-bar__item--active");
-        }
         this.nameObj = document.createElement("p");
         if(this.itemName.length > this.maxTitleLength) {
             this.itemName = this.itemName.substring(0, (this.maxTitleLength-3)) + "...";
@@ -21,12 +18,17 @@ class PanelItem {
         this.nameObj.textContent = this.itemName;
         this.itemIcon = document.createElement("img");
         this.itemIcon.classList.add("gui-panel__task-bar__item__icon");
-        this.itemIcon.setAttribute("src", newWindow.windowIcon.getAttribute("src"));
         this.item.appendChild(this.itemIcon);
         this.item.appendChild(this.nameObj);
         this.item.appendChild(this.contextMenu.getDOMObject());
         this.changeMode();
-        this.attachEvents(newWindow);
+        if(newWindow) {
+            if(newWindow.isFocused) {
+                this.item.classList.add("gui-panel__task-bar__item--active");
+                this.itemIcon.setAttribute("src", newWindow.windowIcon.getAttribute("src"));
+                this.attachEvents(newWindow);
+            }
+        }
     }
 
     attachToTaskBar(taskBar) {
@@ -107,7 +109,10 @@ class PanelItem {
         return this.item;
     }
     getItemDefaultWidth() {
+        this.item.style.display = "block";
+        document.body.appendChild(this.item);
         var width = window.getComputedStyle(this.item).getPropertyValue("width");
+        document.body.removeChild(this.item);
         var value = width;
         value = value.substring(0, value.indexOf("px"));
 

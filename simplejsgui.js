@@ -4,6 +4,8 @@ SimpleJSGui.getDesktop().changeBackgroundImage("backgrounds/pablo-acevedo-359265
 
 var myPanel = new Panel();
 
+SimpleJSGui.registerPanel(myPanel);
+
 var myWindow = new Window();
 var myWindow2 = new Window();
 var myWindow3 = new Window();

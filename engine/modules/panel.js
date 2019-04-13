@@ -84,6 +84,7 @@ class Panel {
     
     calculateMinimalWidth() {
         let dummyPanelItem = new PanelItem(null, "DUMMY_ID", "DummyText");
+        console.log("width: " + dummyPanelItem.getItemDefaultWidth());
         return this.panelMenu.getDOMObject().clientWidth+2 + dummyPanelItem.getItemDefaultWidth() + this.taskBar.getLineSwitcher().getDOMObject().clientWidth + this.rightContainer.clientWidth;
     }
 }

@@ -338,11 +338,12 @@ function () {
     window.addEventListener('resize', function (event) {
       if (this.panel) {
         this.minimalWidth = this.panel.calculateMinimalWidth();
+        console.log(this.minimalWidth + " : " + window.innerWidth);
 
         if (window.innerWidth < this.minimalWidth) {
-          this.smallScreenMsg.getDOMObject().style.display = "block";
+          this.smallScreenMsg.getDOMObject().style.visibility = "visible";
         } else {
-          this.smallScreenMsg.getDOMObject().style.display = "none";
+          this.smallScreenMsg.getDOMObject().style.visibility = "hidden";
         }
       }
     }.bind(this));
@@ -24166,11 +24167,6 @@ function () {
     this.contextMenuContents = [];
     this.item = document.createElement("div");
     this.item.classList.add("gui-panel__task-bar__item");
-
-    if (newWindow.isFocused) {
-      this.item.classList.add("gui-panel__task-bar__item--active");
-    }
-
     this.nameObj = document.createElement("p");
 
     if (this.itemName.length > this.maxTitleLength) {
@@ -24180,12 +24176,18 @@ function () {
     this.nameObj.textContent = this.itemName;
     this.itemIcon = document.createElement("img");
     this.itemIcon.classList.add("gui-panel__task-bar__item__icon");
-    this.itemIcon.setAttribute("src", newWindow.windowIcon.getAttribute("src"));
     this.item.appendChild(this.itemIcon);
     this.item.appendChild(this.nameObj);
     this.item.appendChild(this.contextMenu.getDOMObject());
     this.changeMode();
-    this.attachEvents(newWindow);
+
+    if (newWindow) {
+      if (newWindow.isFocused) {
+        this.item.classList.add("gui-panel__task-bar__item--active");
+        this.itemIcon.setAttribute("src", newWindow.windowIcon.getAttribute("src"));
+        this.attachEvents(newWindow);
+      }
+    }
   }
 
   _createClass(PanelItem, [{
@@ -24288,7 +24290,10 @@ function () {
   }, {
     key: "getItemDefaultWidth",
     value: function getItemDefaultWidth() {
+      this.item.style.display = "block";
+      document.body.appendChild(this.item);
       var width = window.getComputedStyle(this.item).getPropertyValue("width");
+      document.body.removeChild(this.item);
       var value = width;
       value = value.substring(0, value.indexOf("px"));
       return Number(value);
@@ -24522,6 +24527,7 @@ function () {
     key: "calculateMinimalWidth",
     value: function calculateMinimalWidth() {
       var dummyPanelItem = new _panel_item__WEBPACK_IMPORTED_MODULE_0__["default"](null, "DUMMY_ID", "DummyText");
+      console.log("width: " + dummyPanelItem.getItemDefaultWidth());
       return this.panelMenu.getDOMObject().clientWidth + 2 + dummyPanelItem.getItemDefaultWidth() + this.taskBar.getLineSwitcher().getDOMObject().clientWidth + this.rightContainer.clientWidth;
     }
   }]);

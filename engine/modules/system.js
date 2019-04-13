@@ -31,10 +31,11 @@ class System {
         window.addEventListener('resize', function(event) {
             if(this.panel) {
                 this.minimalWidth = this.panel.calculateMinimalWidth();
+                console.log(this.minimalWidth + " : " + window.innerWidth);
                 if(window.innerWidth < this.minimalWidth) {
-                    this.smallScreenMsg.getDOMObject().style.display = "block";
+                    this.smallScreenMsg.getDOMObject().style.visibility = "visible";
                 } else {
-                    this.smallScreenMsg.getDOMObject().style.display = "none";
+                    this.smallScreenMsg.getDOMObject().style.visibility = "hidden";
                 }
             }
         }.bind(this));
