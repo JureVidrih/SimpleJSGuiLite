@@ -408,6 +408,10 @@
                         border-left: 0;
                         border-right: 0;
                     }
+
+                    td:hover {
+                        background-color: inherit;
+                    }
                 }
 
                 tbody {

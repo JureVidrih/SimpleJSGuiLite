@@ -446,6 +446,8 @@
                 }.gui-panel__clock__clock-widget table thead td {
                         border-left: 0;
                         border-right: 0;
+                    }.gui-panel__clock__clock-widget table thead td:hover {
+                        background-color: inherit;
                     }.gui-panel__clock__clock-widget table tbody {
 
                 }.gui-window {
