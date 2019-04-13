@@ -336,6 +336,13 @@ function () {
     this.loadingOverlay.getCenterContainer().appendChild(loadingMsg);
     this.loadingOverlay.getDOMObject().style.visibility = "visible";
     window.addEventListener('resize', function (event) {
+      this.checkForSmallWindowSize();
+    }.bind(this));
+  }
+
+  _createClass(System, [{
+    key: "checkForSmallWindowSize",
+    value: function checkForSmallWindowSize() {
       if (this.panel) {
         this.minimalWidth = this.panel.calculateMinimalWidth();
         console.log(this.minimalWidth + " : " + window.innerWidth);
@@ -346,10 +353,8 @@ function () {
           this.smallScreenMsg.getDOMObject().style.visibility = "hidden";
         }
       }
-    }.bind(this));
-  }
-
-  _createClass(System, [{
+    }
+  }, {
     key: "getDesktop",
     value: function getDesktop() {
       return this.desktop;
@@ -398,6 +403,7 @@ function () {
               }.bind(this), duration); // console.log("Clearing the interval..");
 
               window.clearInterval(intervalId);
+              this.checkForSmallWindowSize();
             }
           }.bind(this), 100);
         }.bind(this), this.minimumLoadingTime);

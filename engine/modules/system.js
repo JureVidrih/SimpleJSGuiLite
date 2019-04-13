@@ -29,18 +29,22 @@ class System {
         this.loadingOverlay.getDOMObject().style.visibility = "visible";
         
         window.addEventListener('resize', function(event) {
-            if(this.panel) {
-                this.minimalWidth = this.panel.calculateMinimalWidth();
-                console.log(this.minimalWidth + " : " + window.innerWidth);
-                if(window.innerWidth < this.minimalWidth) {
-                    this.smallScreenMsg.getDOMObject().style.visibility = "visible";
-                } else {
-                    this.smallScreenMsg.getDOMObject().style.visibility = "hidden";
-                }
-            }
+            this.checkForSmallWindowSize();
         }.bind(this));
     }
     
+    checkForSmallWindowSize() {
+        if(this.panel) {
+            this.minimalWidth = this.panel.calculateMinimalWidth();
+            console.log(this.minimalWidth + " : " + window.innerWidth);
+            if(window.innerWidth < this.minimalWidth) {
+                this.smallScreenMsg.getDOMObject().style.visibility = "visible";
+            } else {
+                this.smallScreenMsg.getDOMObject().style.visibility = "hidden";
+            }
+        }
+    }
+
     getDesktop() {
         return this.desktop;
     }
@@ -82,6 +86,7 @@ class System {
                         }.bind(this), duration);
                         // console.log("Clearing the interval..");
                         window.clearInterval(intervalId);
+                        this.checkForSmallWindowSize();
                     }
                 }.bind(this), 100);
             }.bind(this), this.minimumLoadingTime);
