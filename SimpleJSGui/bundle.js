@@ -24553,11 +24553,21 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var MenuBarItem = function MenuBarItem(title, action) {
+  _classCallCheck(this, MenuBarItem);
+
+  this.DOMObj = document.createElement("div");
+  this.DOMObj.classList.add("gui-window__menubar__item");
+  this.DOMObj.textContent = title;
+  this.DOMObj.addEventListener('click', action);
+  return this.DOMObj;
+};
 
 var Window =
 /*#__PURE__*/
@@ -24572,6 +24582,8 @@ function () {
     this.remInPixels;
     this.DOMObj;
     this.zIndex = 1;
+    this.menuBar;
+    this.menuBarItems = [];
     this.contextMenuContents = [];
     this.isPinnable = true;
     this.isBeingDragged = false;
@@ -25528,6 +25540,23 @@ function () {
       this.contextMenuContents.push("Separator");
       SimpleJSGui.getWindowManager().notifyListDisplays();
       return this;
+    }
+  }, {
+    key: "addAMenuItem",
+    value: function addAMenuItem(title, action) {
+      if (!this.menuBar) {
+        this.menuBar = document.createElement("div");
+        this.menuBar.classList.add("gui-window__menubar");
+        this.DOMObj.querySelector(".gui-window").insertBefore(this.menuBar, this.windowContent);
+      }
+
+      this.menuBar.appendChild(new MenuBarItem(title, action));
+
+      if (!this.windowContent.style.top) {
+        this.windowContentInitialPadding = parseInt(window.getComputedStyle(this.windowContent).getPropertyValue("top"));
+      }
+
+      this.windowContent.style.top = this.windowContentInitialPadding + this.menuBar.clientHeight + "px";
     }
   }, {
     key: "isWindowPinnable",

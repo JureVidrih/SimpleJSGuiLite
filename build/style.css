@@ -507,6 +507,23 @@
             right: 6px;
             width: 22px;
             height: 22px;
+        }.gui-window__menubar {
+        display: block;
+        width: 100%;
+        background-color: #fafafa;
+        border-bottom: 1px solid black;
+    }.gui-window__menubar__item {
+            display: inline-block;
+            width: auto;
+            height: 31px;
+            padding: 6px 6px;
+            border-left: 1px solid #eee;
+            border-right: 1px solid #eee;
+            color: #333333;
+            font-size: 0.9rem;
+        }.gui-window__menubar__item:hover {
+            color: black;
+            border-bottom: 1px solid gray;
         }.gui-window__content {
         position: absolute;
         border: 1px solid white;

@@ -1,3 +1,14 @@
+class MenuBarItem {
+    constructor(title, action) {
+        this.DOMObj = document.createElement("div");
+        this.DOMObj.classList.add("gui-window__menubar__item");
+        this.DOMObj.textContent = title;
+        this.DOMObj.addEventListener('click', action);
+
+        return this.DOMObj;
+    }
+}
+
 class Window {
     constructor() {
         this.status = "onscreen";
@@ -7,6 +18,9 @@ class Window {
         this.remInPixels;
         this.DOMObj;
         this.zIndex = 1;
+
+        this.menuBar;
+        this.menuBarItems = [];
         
         this.contextMenuContents = [];
         
@@ -886,6 +900,21 @@ class Window {
         SimpleJSGui.getWindowManager().notifyListDisplays();
         
         return this;
+    }
+
+    addAMenuItem(title, action) {
+        if(!this.menuBar) {
+            this.menuBar = document.createElement("div");
+            this.menuBar.classList.add("gui-window__menubar");
+            this.DOMObj.querySelector(".gui-window").insertBefore(this.menuBar, this.windowContent);
+        }
+
+        this.menuBar.appendChild(new MenuBarItem(title, action));
+        if(!this.windowContent.style.top) {
+            this.windowContentInitialPadding = parseInt(window.getComputedStyle(this.windowContent).getPropertyValue("top"));
+        }
+        this.windowContent.style.top = this.windowContentInitialPadding + this.menuBar.clientHeight + "px";
+        
     }
     
     isWindowPinnable() {

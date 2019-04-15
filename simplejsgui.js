@@ -21,6 +21,10 @@ myWindow.setTitle("My first window's title!");
 myWindow.setWindowIcon("themes/newtheme/assets/icons/default.png");
 myWindow.setContent("<p>This is a paragraph.</p>");
 
+myWindow.addAMenuItem("Menu #1", function() {
+    SimpleJSGui.getWindowManager().windowAction("close", myWindow);
+});
+
 // myWindow.getDOMObject().addEventListener("click", function() {
 //     document.documentElement.mozRequestFullScreen();
 // });

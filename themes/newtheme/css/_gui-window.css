@@ -67,6 +67,29 @@
         }
     }
 
+    &__menubar {
+        display: block;
+        width: 100%;
+        background-color: #fafafa;
+        border-bottom: 1px solid black;
+
+        &__item {
+            display: inline-block;
+            width: auto;
+            height: 31px;
+            padding: 6px 6px;
+            border-left: 1px solid #eee;
+            border-right: 1px solid #eee;
+            color: #333333;
+            font-size: 0.9rem;
+        }
+
+        &__item:hover {
+            color: black;
+            border-bottom: 1px solid gray;
+        }
+    }
+
     &__content {
         position: absolute;
         border: 1px solid white;
