@@ -956,7 +956,7 @@ function () {
     value: function rearrangeItems() {
       // console.log("rearrangeItmes enters...");
       if (this.items.length > 0) {
-        console.log("Rearranging items...");
+        // console.log("Rearranging items...");
         var dummyPanelItem = new PanelItem(null, "Dummy ID", "Dummy item");
         var itemsInALine = Math.floor((this.DOMObj.clientWidth - this.lineSwitcher.getDOMObject().clientWidth) / dummyPanelItem.getItemDefaultWidth()); // console.log("itemsInALine: " + itemsInALine);
 
@@ -975,9 +975,9 @@ function () {
 
         if (this.items.length < itemsInALine) {
           numOfItems = this.items.length;
-        }
+        } // console.log("items: " + numOfItems);
 
-        console.log("items: " + numOfItems);
+
         var amount = numOfItems * dummyPanelItem.getItemDefaultWidth();
         this.lineContainer.getDOMObject().style.width = amount + "px";
         var reduce = this.freeSpaceWidget.getDOMObject().clientWidth - amount;
@@ -1014,24 +1014,21 @@ function () {
         }
 
         this.cachedCurrentLine = this.lineContainer.getLines()[this.lineContainer.getCurrentLine()];
-        this.cachedNumOfItemsInCurrentLine = this.cachedCurrentLine.getItems().length;
-        console.log("length: " + this.items.length);
-        console.log("inaline: " + itemsInALine);
-        console.log("numOfLines: " + numOfLines);
+        this.cachedNumOfItemsInCurrentLine = this.cachedCurrentLine.getItems().length; // console.log("length: " + this.items.length);
+        // console.log("inaline: " + itemsInALine);
+        // console.log("numOfLines: " + numOfLines);
 
         if (shouldEmptyLineContainer) {
-          console.log("shouldEmptyLineContainer!");
+          // console.log("shouldEmptyLineContainer!");
           this.lineContainer.empty();
-          this.lines = this.lineContainer.getLines();
-          console.log("this.lines.length: " + this.lines.length);
-          console.log("numOfLines: " + numOfLines);
+          this.lines = this.lineContainer.getLines(); // console.log("this.lines.length: " + this.lines.length);
+          // console.log("numOfLines: " + numOfLines);
 
           for (var i = 0; i < numOfLines; i++) {
             this.lineContainer.addALine(new Line(this)); // let newLine = this.lines[this.lines.length-1];
           } // console.log(this.lines.length);
+          // console.log("this.items.length: " + this.items.length);
 
-
-          console.log("this.items.length: " + this.items.length);
 
           for (var _i3 = 0, j = 0, ij = 0; _i3 < this.items.length; _i3++, ij++) {
             if (ij >= itemsInALine) {
@@ -1039,9 +1036,9 @@ function () {
               ij = 0;
             } // console.log("Line is: " + j + " and item is: " + i);
             // console.log(this.items[i]);
+            // console.log("Putting an item into a line!");
 
 
-            console.log("Putting an item into a line!");
             this.lines[j].putAnItem(this.items[_i3]);
           }
 
@@ -1054,10 +1051,9 @@ function () {
           }
         }
 
-        this.cachedNumOfLines = numOfLines;
-        console.log("Num of lines: " + this.lines.length);
-        console.log("Done rearranging!");
-        console.log(" ");
+        this.cachedNumOfLines = numOfLines; // console.log("Num of lines: " + this.lines.length);
+        // console.log("Done rearranging!");
+        // console.log(" ");
       }
     }
   }, {
