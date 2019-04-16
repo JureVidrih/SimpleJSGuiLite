@@ -918,7 +918,8 @@ class Window {
     }
 
     updateContentTopProperty() {
-        this.windowContent.style.top = this.windowContentInitialPadding + this.menuBar.clientHeight + "px";
+
+        this.windowContent.style.top = this.windowContentInitialPadding + this.menuBar.offsetHeight + "px";
     }
     
     isWindowPinnable() {

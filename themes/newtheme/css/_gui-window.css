@@ -71,7 +71,6 @@
         display: block;
         width: 100%;
         background-color: #fafafa;
-        border-bottom: 1px solid black;
 
         &__item {
             display: inline-block;

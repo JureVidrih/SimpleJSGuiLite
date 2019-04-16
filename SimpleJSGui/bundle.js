@@ -341,6 +341,14 @@ function () {
     window.addEventListener('resize', function (event) {
       this.checkForSmallWindowSize();
     }.bind(this));
+    document.body.addEventListener('click', function (event) {
+      if (!event.target.classList.contains("dropdown-menu") && !event.target.classList.contains("dropdown-menu__item")) {
+        var dropDownMenus = document.querySelectorAll(".dropdown-menu");
+        dropDownMenus.forEach(function (elem) {
+          return elem.remove();
+        });
+      }
+    });
   }
 
   _createClass(System, [{
@@ -25565,7 +25573,7 @@ function () {
   }, {
     key: "updateContentTopProperty",
     value: function updateContentTopProperty() {
-      this.windowContent.style.top = this.windowContentInitialPadding + this.menuBar.clientHeight + "px";
+      this.windowContent.style.top = this.windowContentInitialPadding + this.menuBar.offsetHeight + "px";
     }
   }, {
     key: "isWindowPinnable",
@@ -25606,8 +25614,28 @@ var DropdownMenuItem = function DropdownMenuItem(title, action) {
 
   this.DOMObj = document.createElement("div");
   this.DOMObj.classList.add("dropdown-menu__item");
+
+  if (action instanceof DropdownMenu) {
+    this.DOMObj.addEventListener('click', function () {
+      if (!action.hasBeenRendered) {
+        var coords = this.DOMObj.getBoundingClientRect();
+        var parentWidth = window.getComputedStyle(this.DOMObj).getPropertyValue("width");
+        action.render(coords.left + parseInt(parentWidth), coords.top);
+      } else {
+        if (!action.isOnScreen) {
+          action.DOMObj.style.visibility = "visible";
+          action.isOnScreen = true;
+        } else {
+          action.DOMObj.style.visibility = "hidden";
+          action.isOnScreen = false;
+        }
+      }
+    }.bind(this));
+  } else {
+    this.DOMObj.addEventListener('click', action);
+  }
+
   this.DOMObj.textContent = title;
-  this.DOMObj.addEventListener('click', action);
   return this.DOMObj;
 };
 
@@ -25620,6 +25648,7 @@ function () {
     this.DOMObj = document.createElement("div");
     this.DOMObj.classList.add("dropdown-menu");
     this.items = [];
+    this.isOnScreen = false;
     return this;
   }
 
@@ -25627,6 +25656,7 @@ function () {
     key: "addAnItem",
     value: function addAnItem(title, action) {
       var newItem = new DropdownMenuItem(title, action);
+      this.items.push(newItem);
       this.DOMObj.appendChild(newItem);
     }
   }, {
@@ -25635,6 +25665,8 @@ function () {
       this.DOMObj.style.left = x + "px";
       this.DOMObj.style.top = y + "px";
       document.body.appendChild(this.DOMObj);
+      this.hasBeenRendered = true;
+      this.isOnScreen = true;
     }
   }]);
 
