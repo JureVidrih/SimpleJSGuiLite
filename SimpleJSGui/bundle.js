@@ -24761,8 +24761,6 @@ function () {
       }.bind(this));
       document.addEventListener('mousemove', function (event) {
         if (this.isBeingResized) {
-          this.updateContentTopProperty();
-
           if (this.isResizingNW) {
             var change = this.cachedResizeX - event.clientX;
             var changeToApply = this.getWindowX() - change;
@@ -24949,6 +24947,7 @@ function () {
           }
 
           this.calculateNewTitleLimits();
+          this.updateContentTopProperty();
         }
       }.bind(this));
       this.guiWindow.addEventListener('mousedown', function (event) {

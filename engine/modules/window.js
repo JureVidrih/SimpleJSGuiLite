@@ -211,7 +211,6 @@ class Window {
         
         document.addEventListener('mousemove', function(event) {
             if(this.isBeingResized) {
-                this.updateContentTopProperty();
                 if(this.isResizingNW) {
                     let change = this.cachedResizeX-event.clientX;
                     let changeToApply = this.getWindowX() - change;
@@ -375,6 +374,7 @@ class Window {
                 }
                 
                 this.calculateNewTitleLimits();
+                this.updateContentTopProperty();
             }
         }.bind(this));
         
