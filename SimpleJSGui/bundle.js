@@ -25595,11 +25595,21 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DropdownMenuItem = function DropdownMenuItem(title, action) {
+  _classCallCheck(this, DropdownMenuItem);
+
+  this.DOMObj = document.createElement("div");
+  this.DOMObj.classList.add("dropdown-menu__item");
+  this.DOMObj.textContent = title;
+  this.DOMObj.addEventListener('click', action);
+  return this.DOMObj;
+};
 
 var DropdownMenu =
 /*#__PURE__*/
@@ -25614,8 +25624,18 @@ function () {
   }
 
   _createClass(DropdownMenu, [{
+    key: "addAnItem",
+    value: function addAnItem(title, action) {
+      var newItem = new DropdownMenuItem(title, action);
+      this.DOMObj.appendChild(newItem);
+    }
+  }, {
     key: "render",
-    value: function render(x, y) {}
+    value: function render(x, y) {
+      this.DOMObj.style.left = x + "px";
+      this.DOMObj.style.top = y + "px";
+      document.body.appendChild(this.DOMObj);
+    }
   }]);
 
   return DropdownMenu;
