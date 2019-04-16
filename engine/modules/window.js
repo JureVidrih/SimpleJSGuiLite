@@ -211,6 +211,7 @@ class Window {
         
         document.addEventListener('mousemove', function(event) {
             if(this.isBeingResized) {
+                this.updateContentTopProperty();
                 if(this.isResizingNW) {
                     let change = this.cachedResizeX-event.clientX;
                     let changeToApply = this.getWindowX() - change;
@@ -913,8 +914,11 @@ class Window {
         if(!this.windowContent.style.top) {
             this.windowContentInitialPadding = parseInt(window.getComputedStyle(this.windowContent).getPropertyValue("top"));
         }
+        this.updateContentTopProperty();
+    }
+
+    updateContentTopProperty() {
         this.windowContent.style.top = this.windowContentInitialPadding + this.menuBar.clientHeight + "px";
-        
     }
     
     isWindowPinnable() {

@@ -100,6 +100,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_panel_item__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(169);
 /* harmony import */ var _modules_panel__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(170);
 /* harmony import */ var _modules_window__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(171);
+/* harmony import */ var _modules_dropdown_menu__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(172);
+
 
 
 
@@ -120,6 +122,7 @@ window.PanelItemContextMenu = _modules_panel_item_contextmenu__WEBPACK_IMPORTED_
 window.PanelItem = _modules_panel_item__WEBPACK_IMPORTED_MODULE_7__["default"];
 window.Panel = _modules_panel__WEBPACK_IMPORTED_MODULE_8__["default"];
 window.Window = _modules_window__WEBPACK_IMPORTED_MODULE_9__["default"];
+window.DropdownMenu = _modules_dropdown_menu__WEBPACK_IMPORTED_MODULE_10__["default"];
 
 /***/ }),
 /* 1 */
@@ -24758,6 +24761,8 @@ function () {
       }.bind(this));
       document.addEventListener('mousemove', function (event) {
         if (this.isBeingResized) {
+          this.updateContentTopProperty();
+
           if (this.isResizingNW) {
             var change = this.cachedResizeX - event.clientX;
             var changeToApply = this.getWindowX() - change;
@@ -25556,6 +25561,11 @@ function () {
         this.windowContentInitialPadding = parseInt(window.getComputedStyle(this.windowContent).getPropertyValue("top"));
       }
 
+      this.updateContentTopProperty();
+    }
+  }, {
+    key: "updateContentTopProperty",
+    value: function updateContentTopProperty() {
       this.windowContent.style.top = this.windowContentInitialPadding + this.menuBar.clientHeight + "px";
     }
   }, {
@@ -25579,6 +25589,40 @@ function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (Window);
+
+/***/ }),
+/* 172 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var DropdownMenu =
+/*#__PURE__*/
+function () {
+  function DropdownMenu() {
+    _classCallCheck(this, DropdownMenu);
+
+    this.DOMObj = document.createElement("div");
+    this.DOMObj.classList.add("dropdown-menu");
+    this.items = [];
+    return this;
+  }
+
+  _createClass(DropdownMenu, [{
+    key: "render",
+    value: function render(x, y) {}
+  }]);
+
+  return DropdownMenu;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (DropdownMenu);
 
 /***/ })
 /******/ ]);
