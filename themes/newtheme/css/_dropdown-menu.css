@@ -11,8 +11,7 @@
         width: 100%;
         height: 31px;
         padding: 6px 6px;
-        border: 1px solid #aaa;
-        border: 1px solid #aaa;
+        border: 1px solid #eee;
         color: #333333;
         font-size: 0.9rem;
     }
@@ -23,9 +22,30 @@
         width: 100%;
         height: 31px;
         padding: 6px 6px;
-        border: 1px solid #aaa;
-        border: 1px solid #aaa;
+        border: 1px solid #eee;
         color: #333333;
+        font-size: 0.9rem; 
+    }
+
+    &__item:hover {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 31px;
+        padding: 6px 6px;
+        border: 1px solid lightgray;
+        color: black;
+        font-size: 0.9rem;
+    }
+
+    &__item--menu-item:hover {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 31px;
+        padding: 6px 6px;
+        border: 1px solid lightgray;
+        color: black;
         font-size: 0.9rem; 
     }
 }
