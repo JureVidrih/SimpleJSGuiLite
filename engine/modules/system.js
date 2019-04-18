@@ -31,14 +31,6 @@ class System {
         window.addEventListener('resize', function(event) {
             this.checkForSmallWindowSize();
         }.bind(this));
-
-        document.body.addEventListener('click', function(event) {
-            if(!event.target.classList.contains("dropdown-menu") && !event.target.classList.contains("dropdown-menu__item")) {
-                let dropDownMenus = document.querySelectorAll(".dropdown-menu");
-                dropDownMenus.forEach((elem) => elem.remove());
-            }
-            
-        });
     }
     
     checkForSmallWindowSize() {

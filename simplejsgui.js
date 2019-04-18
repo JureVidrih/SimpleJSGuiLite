@@ -21,13 +21,13 @@ myWindow.setTitle("My first window's title!");
 myWindow.setWindowIcon("themes/newtheme/assets/icons/default.png");
 myWindow.setContent("<p>This is a paragraph.</p>");
 
-myWindow.addAMenuItem("Menu #1", function() {
-    let myDialog = new DropdownMenu();
-    myDialog.addAnItem("Item", () => window.alert("Item was clicked!"));
-    let menu2 = new DropdownMenu();
-    menu2.addAnItem("New item", () => window.alert("New item was clicked!"));
-    myDialog.addAnItem("Menu", menu2); myDialog.render(500, 500);
-});
+let testDialog = new DropdownMenu();
+testDialog.addAnItem("Item", () => window.alert("Item was clicked!"));
+let testSubMenu = new DropdownMenu();
+testSubMenu.addAnItem("New item", () => window.alert("New item was clicked!"));
+testDialog.addAnItem("Menu", testSubMenu);
+
+myWindow.addAMenuItem("Menu #1", testDialog);
 
 // myWindow.getDOMObject().addEventListener("click", function() {
 //     document.documentElement.mozRequestFullScreen();

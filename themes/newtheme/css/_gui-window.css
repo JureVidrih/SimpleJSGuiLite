@@ -73,6 +73,7 @@
         background-color: #fafafa;
 
         &__item {
+            position: relative;
             display: inline-block;
             width: auto;
             height: 31px;

@@ -19,13 +19,13 @@ class Desktop {
         this.width;
         this.height;
 
-        document.addEventListener('mousedown', function(event) {
+        document.body.addEventListener('mousedown', function(event) {
             let windows = SimpleJSGui.getWindowManager().getWindows();
             if(event.button == 0 && windows.length > 0) {
                 let element = event.target;
                 let isAChild = false;
                 do {
-                    if(element.classList && (element.classList.contains("gui-window") || element.classList.contains("gui-panel"))) {
+                    if(element.classList && (element.classList.contains("gui-window") || element.classList.contains("gui-panel") || element.classList.contains("dropdown-menu"))) {
                         isAChild = true;
                         break;
                     }

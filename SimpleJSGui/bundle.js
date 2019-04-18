@@ -160,7 +160,7 @@ function () {
     this.currentBgrDOM = this.DOMObj;
     this.width;
     this.height;
-    document.addEventListener('mousedown', function (event) {
+    document.body.addEventListener('mousedown', function (event) {
       var windows = SimpleJSGui.getWindowManager().getWindows();
 
       if (event.button == 0 && windows.length > 0) {
@@ -168,7 +168,7 @@ function () {
         var isAChild = false;
 
         do {
-          if (element.classList && (element.classList.contains("gui-window") || element.classList.contains("gui-panel"))) {
+          if (element.classList && (element.classList.contains("gui-window") || element.classList.contains("gui-panel") || element.classList.contains("dropdown-menu"))) {
             isAChild = true;
             break;
           }
@@ -341,14 +341,6 @@ function () {
     window.addEventListener('resize', function (event) {
       this.checkForSmallWindowSize();
     }.bind(this));
-    document.body.addEventListener('click', function (event) {
-      if (!event.target.classList.contains("dropdown-menu") && !event.target.classList.contains("dropdown-menu__item")) {
-        var dropDownMenus = document.querySelectorAll(".dropdown-menu");
-        dropDownMenus.forEach(function (elem) {
-          return elem.remove();
-        });
-      }
-    });
   }
 
   _createClass(System, [{
@@ -24576,7 +24568,29 @@ var MenuBarItem = function MenuBarItem(title, action) {
   this.DOMObj = document.createElement("div");
   this.DOMObj.classList.add("gui-window__menubar__item");
   this.DOMObj.textContent = title;
-  this.DOMObj.addEventListener('click', action);
+
+  if (action instanceof DropdownMenu) {
+    this.DOMObj.addEventListener('click', function () {
+      var coords = this.DOMObj.getBoundingClientRect();
+      var parentHeight = window.getComputedStyle(this.DOMObj).getPropertyValue("height");
+
+      if (!action.hasBeenRendered) {
+        action.render(this.DOMObj, coords.left, coords.top + parseInt(parentHeight));
+        action.DOMObj.style.visibility = "visible";
+        action.isOnScreen = true;
+      } else {
+        if (action.isOnScreen) {
+          action.toggleMenu();
+        } else {
+          action.updateCoords(coords.left, coords.top + parseInt(parentHeight));
+          action.toggleMenu();
+        }
+      }
+    }.bind(this));
+  } else {
+    this.DOMObj.addEventListener('click', action);
+  }
+
   return this.DOMObj;
 };
 
@@ -25613,26 +25627,28 @@ var DropdownMenuItem = function DropdownMenuItem(title, action) {
   _classCallCheck(this, DropdownMenuItem);
 
   this.DOMObj = document.createElement("div");
-  this.DOMObj.classList.add("dropdown-menu__item");
 
   if (action instanceof DropdownMenu) {
+    this.DOMObj.classList.add("dropdown-menu__item--menu-item");
     this.DOMObj.addEventListener('click', function () {
+      var coords = this.DOMObj.getBoundingClientRect();
+      var parentWidth = window.getComputedStyle(this.DOMObj).getPropertyValue("width");
+
       if (!action.hasBeenRendered) {
-        var coords = this.DOMObj.getBoundingClientRect();
-        var parentWidth = window.getComputedStyle(this.DOMObj).getPropertyValue("width");
-        action.render(coords.left + parseInt(parentWidth), coords.top);
+        action.render(this.DOMObj, coords.left + parseInt(parentWidth), coords.top);
+        action.isOnScreen = true;
       } else {
-        if (!action.isOnScreen) {
-          action.DOMObj.style.visibility = "visible";
-          action.isOnScreen = true;
+        if (action.isOnScreen) {
+          action.toggleMenu();
         } else {
-          action.DOMObj.style.visibility = "hidden";
-          action.isOnScreen = false;
+          action.updateCoords(coords.left + parseInt(parentWidth), coords.top);
+          action.toggleMenu();
         }
       }
     }.bind(this));
   } else {
-    this.DOMObj.addEventListener('click', action);
+    this.DOMObj.classList.add("dropdown-menu__item");
+    this.DOMObj.addEventListener('mousedown', action);
   }
 
   this.DOMObj.textContent = title;
@@ -25649,6 +25665,13 @@ function () {
     this.DOMObj.classList.add("dropdown-menu");
     this.items = [];
     this.isOnScreen = false;
+
+    this.toggleListener = function (event) {
+      if (event.target != this.parent && !event.target.classList.contains("dropdown-menu__item--menu-item")) {
+        this.toggleMenu();
+      }
+    }.bind(this);
+
     return this;
   }
 
@@ -25656,17 +25679,45 @@ function () {
     key: "addAnItem",
     value: function addAnItem(title, action) {
       var newItem = new DropdownMenuItem(title, action);
+
+      if (!(action instanceof DropdownMenu)) {
+        newItem.addEventListener('click', function () {
+          this.toggleMenu();
+        }.bind(this));
+      }
+
       this.items.push(newItem);
       this.DOMObj.appendChild(newItem);
     }
   }, {
     key: "render",
-    value: function render(x, y) {
+    value: function render(parent, x, y) {
       this.DOMObj.style.left = x + "px";
       this.DOMObj.style.top = y + "px";
+      this.DOMObj.style.zIndex = SimpleJSGui.getWindowManager().getWindows().length + 2;
+      this.parent = parent;
       document.body.appendChild(this.DOMObj);
       this.hasBeenRendered = true;
-      this.isOnScreen = true;
+      this.toggleMenu();
+    }
+  }, {
+    key: "updateCoords",
+    value: function updateCoords(newX, newY) {
+      this.DOMObj.style.left = newX + "px";
+      this.DOMObj.style.top = newY + "px";
+    }
+  }, {
+    key: "toggleMenu",
+    value: function toggleMenu() {
+      if (this.isOnScreen) {
+        this.DOMObj.style.visibility = "hidden";
+        this.isOnScreen = false;
+        document.body.removeEventListener('mousedown', this.toggleListener);
+      } else {
+        this.DOMObj.style.visibility = "visible";
+        this.isOnScreen = true;
+        document.body.addEventListener('mousedown', this.toggleListener);
+      }
     }
   }]);
 

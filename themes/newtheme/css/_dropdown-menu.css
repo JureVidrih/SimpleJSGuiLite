@@ -6,13 +6,26 @@
     /* border: 1px solid gray; */
 
     &__item {
+        position: relative;
         display: inline-block;
         width: 100%;
         height: 31px;
         padding: 6px 6px;
-        border: 1px solid #eee;
-        border: 1px solid #eee;
+        border: 1px solid #aaa;
+        border: 1px solid #aaa;
         color: #333333;
         font-size: 0.9rem;
+    }
+
+    &__item--menu-item {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 31px;
+        padding: 6px 6px;
+        border: 1px solid #aaa;
+        border: 1px solid #aaa;
+        color: #333333;
+        font-size: 0.9rem; 
     }
 }
