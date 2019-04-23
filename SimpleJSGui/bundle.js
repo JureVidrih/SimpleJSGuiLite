@@ -23859,9 +23859,11 @@ function () {
       prevMonth.addEventListener('mousedown', function () {
         currYear = this.clockWidgetDate.getFullYear();
         currMonth = this.clockWidgetDate.getMonth();
+        currYear = Number(currYear);
 
         if (currMonth == 0) {
           currMonth = 11;
+          currYear -= 1;
         } else {
           currMonth -= 1;
         }
@@ -23874,9 +23876,11 @@ function () {
       nextMonth.addEventListener('mousedown', function () {
         currYear = this.clockWidgetDate.getFullYear();
         currMonth = this.clockWidgetDate.getMonth();
+        currYear = Number(currYear);
 
         if (currMonth == 11) {
           currMonth = 0;
+          currYear += 1;
         } else {
           currMonth += 1;
         }
@@ -23972,7 +23976,7 @@ function () {
           break;
       }
 
-      this.monthTextSpan.textContent = monthInText + " " + currYear;
+      this.monthTextSpan.textContent = monthInText + " " + year;
       this.table.innerHTML = "<thead><tr><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td><td>Sun</td></tr></thead>";
       var data = "";
       var isInPreviousMonth = true;

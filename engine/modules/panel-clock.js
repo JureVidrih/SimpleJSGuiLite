@@ -82,8 +82,10 @@ class PanelItemClock {
         prevMonth.addEventListener('mousedown', function() {
             currYear = this.clockWidgetDate.getFullYear();
             currMonth = this.clockWidgetDate.getMonth();
+            currYear = Number(currYear);
             if(currMonth == 0) {
                 currMonth = 11;
+                currYear -= 1;
             } else {
                 currMonth -= 1;
             }
@@ -96,8 +98,10 @@ class PanelItemClock {
         nextMonth.addEventListener('mousedown', function() {
             currYear = this.clockWidgetDate.getFullYear();
             currMonth = this.clockWidgetDate.getMonth();
+            currYear = Number(currYear);
             if(currMonth == 11) {
                 currMonth = 0;
+                currYear += 1;
             } else {
                 currMonth += 1;
             }
@@ -160,7 +164,7 @@ class PanelItemClock {
             case 12: monthInText = "December"; break;
         }
 
-        this.monthTextSpan.textContent = monthInText + " " + currYear;
+        this.monthTextSpan.textContent = monthInText + " " + year;
 
         this.table.innerHTML = "<thead><tr><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td><td>Sun</td></tr></thead>";
         
