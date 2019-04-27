@@ -22,7 +22,7 @@ myWindow.setWindowIcon("themes/newtheme/assets/icons/default.png");
 myWindow.setContent("<p>This is a paragraph.</p>");
 
 let testDialog = new DropdownMenu();
-testDialog.addAnItem("Item", () => window.alert("Item was clicked!"));
+testDialog.addAnItem("Item 111111111111111111111111111111", () => window.alert("Item was clicked!"));
 let testSubMenu = new DropdownMenu();
 testSubMenu.addAnItem("New item", () => window.alert("New item was clicked!"));
 testDialog.addAnItem("Menu", testSubMenu);
