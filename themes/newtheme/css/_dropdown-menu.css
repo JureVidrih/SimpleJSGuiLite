@@ -14,6 +14,7 @@
         border: 1px solid #737373;
         color: #333333;
         font-size: 0.9rem;
+        transition: .05s color ease-out;
     }
 
     &__item--menu-item {
@@ -24,7 +25,8 @@
         padding: 6px 6px;
         border: 1px solid #737373;
         color: #333333;
-        font-size: 0.9rem; 
+        font-size: 0.9rem;
+        transition: .05s color ease-out;
     }
 
     &__item:hover {
@@ -33,8 +35,8 @@
         width: 100%;
         height: 31px;
         padding: 6px 6px;
-        border: 1px solid #d5d5d5;
-        color: black;
+        border: 1px solid #737373;
+        color: #616161;
         font-size: 0.9rem;
     }
 
@@ -44,8 +46,8 @@
         width: 100%;
         height: 31px;
         padding: 6px 6px;
-        border: 1px solid #d5d5d5;
-        color: black;
+        border: 1px solid #737373;
+        color: #616161;
         font-size: 0.9rem; 
     }
 

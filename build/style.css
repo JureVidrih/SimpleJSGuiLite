@@ -650,6 +650,7 @@
         border: 1px solid #737373;
         color: #333333;
         font-size: 0.9rem;
+        transition: .05s color ease-out;
     }.dropdown-menu__item--menu-item {
         position: relative;
         display: inline-block;
@@ -658,15 +659,16 @@
         padding: 6px 6px;
         border: 1px solid #737373;
         color: #333333;
-        font-size: 0.9rem; 
+        font-size: 0.9rem;
+        transition: .05s color ease-out;
     }.dropdown-menu__item:hover {
         position: relative;
         display: inline-block;
         width: 100%;
         height: 31px;
         padding: 6px 6px;
-        border: 1px solid #d5d5d5;
-        color: black;
+        border: 1px solid #737373;
+        color: #616161;
         font-size: 0.9rem;
     }.dropdown-menu__item--menu-item:hover {
         position: relative;
@@ -674,8 +676,8 @@
         width: 100%;
         height: 31px;
         padding: 6px 6px;
-        border: 1px solid #d5d5d5;
-        color: black;
+        border: 1px solid #737373;
+        color: #616161;
         font-size: 0.9rem; 
     }.dropdown-menu__item--menu-item::after {
         content: ">";
