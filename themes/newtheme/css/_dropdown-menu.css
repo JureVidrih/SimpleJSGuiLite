@@ -48,4 +48,11 @@
         color: black;
         font-size: 0.9rem; 
     }
+
+    &__item--menu-item::after {
+        content: ">";
+        font-size: 0.8rem;
+        vertical-align: top;
+        float: right;
+    }
 }

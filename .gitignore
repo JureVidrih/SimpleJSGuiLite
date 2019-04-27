@@ -66,3 +66,6 @@ typings/
 
 #Dolphin files
 .directory
+
+#package-lock.json file
+package-lock.json

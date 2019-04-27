@@ -677,6 +677,11 @@
         border: 1px solid #d5d5d5;
         color: black;
         font-size: 0.9rem; 
+    }.dropdown-menu__item--menu-item::after {
+        content: ">";
+        font-size: 0.8rem;
+        vertical-align: top;
+        float: right;
     }body {
     font-family: 'Montserrat';
 }a {
