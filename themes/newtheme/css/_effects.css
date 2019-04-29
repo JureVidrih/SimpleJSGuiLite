@@ -6,7 +6,7 @@ html .window-snap-indicator-fade-in {
 html .window-applyanimation-minimize {
     opacity: 1.0;
     animation-direction: normal;
-    animation-duration: .03s;
+    animation-duration: .05s;
     animation-timing-function: ease-out;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
@@ -16,7 +16,7 @@ html .window-applyanimation-minimize {
 html .window-applyanimation-unminimize {
     opacity: 0.0;
     animation-direction: normal;
-    animation-duration: .03s;
+    animation-duration: .05s;
     animation-timing-function: ease-out;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;

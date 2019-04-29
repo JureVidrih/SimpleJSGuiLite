@@ -202,7 +202,7 @@
             height: 100%;
             width: 230px;
             color: white;
-            transition: background, color 0.2s;
+            transition: color 0.2s, background-color 0.07s;
             text-align: center;
     
             &__icon {
