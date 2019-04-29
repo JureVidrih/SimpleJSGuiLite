@@ -109,7 +109,7 @@
     width: 100vw;
     height: 100vh;
     z-index: 4;
-    background-color: rgb(77, 87, 94);
+    background-color: white;
     opacity: 1.0;
     transition-property: opacity;
     transition-duration: .3s;
@@ -121,7 +121,7 @@
         transform: translateX(-50%) translateY(-50%);
         text-align: center;
     }.gui-overlay p {
-        color: white;
+        color: rgb(30, 30, 30);
         font-size: 2rem;
         text-align: center;
     }.gui-overlay__spinner {
@@ -129,7 +129,7 @@
         width: 192px;
         height: 192px;
         margin-bottom: 32px;
-        border-top: 4px solid white;
+        border-top: 2px solid rgb(30, 30, 30);
         border-radius: 50%;
         
         transform-origin: 50% 50%;
@@ -292,7 +292,7 @@
             height: 100%;
             width: 230px;
             color: white;
-            transition: color 0.2s, background-color 0.07s;
+            transition: color 0.2s, background-color 0.075s;
             text-align: center;
         }.gui-panel__task-bar__item__icon {
                 display: block;
@@ -313,7 +313,7 @@
             }html .gui-panel__task-bar__item--active:hover {
                 padding-top: 5px;
                 color: black;
-                background-color: rgba(255, 255, 255, 0.93);
+                background-color: rgba(255, 255, 255, 1.0);
             }.gui-panel__task-bar__item p {
                 margin-bottom: 8px;
             }.gui-panel__task-bar__item__context-menu {
@@ -358,7 +358,7 @@
                     }.gui-panel__task-bar__item__context-menu__content__menu-item:hover {
                         color: rgba(0, 0, 0, 0.75);
                     }.gui-panel__task-bar__item:hover {
-            background-color: rgba(255, 255, 255, 0.03);
+            background-color: rgba(255, 255, 255, 0.06);
         }.gui-panel__task-bar__switcher {
             display: block;
         }.gui-panel__task-bar__free-space {
