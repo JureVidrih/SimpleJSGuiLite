@@ -23773,7 +23773,7 @@ function () {
 
     this.panelInstance = panelInstance;
     this.time;
-    this.displayedTime = "MM:MM";
+    this.displayedTime = "";
     this.clockIntervalID;
     this.DOMObj = document.createElement("div");
     this.DOMObj.classList.add("gui-panel__clock");
@@ -23836,7 +23836,7 @@ function () {
         if (this.panelInstance.taskBar) {
           this.panelInstance.taskBar.calculateFreeSpace();
         }
-      }.bind(this), 1000);
+      }.bind(this), 75);
     }
   }, {
     key: "calculateNewWidth",

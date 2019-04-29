@@ -2,7 +2,7 @@ class PanelItemClock {
     constructor(panelInstance) {
         this.panelInstance = panelInstance;
         this.time;
-        this.displayedTime = "MM:MM";
+        this.displayedTime = "";
         this.clockIntervalID;
         this.DOMObj = document.createElement("div");
         this.DOMObj.classList.add("gui-panel__clock");
@@ -59,7 +59,7 @@ class PanelItemClock {
             if(this.panelInstance.taskBar) {
                 this.panelInstance.taskBar.calculateFreeSpace();
             }
-        }.bind(this), 1000);
+        }.bind(this), 75);
     }
 
     calculateNewWidth(input) {
