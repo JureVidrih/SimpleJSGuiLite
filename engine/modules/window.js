@@ -8,7 +8,7 @@ class MenuBarItem {
             this.DOMObj.addEventListener('click', function() {
                 let coords = this.DOMObj.getBoundingClientRect();
                 if(!action.hasBeenRendered) {
-                    action.render(this.DOMObj);
+                    action.render(null, this.DOMObj);
                     action.DOMObj.style.visibility = "visible";
                     action.isOnScreen = true;
                 } else {

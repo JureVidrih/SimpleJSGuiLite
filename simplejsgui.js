@@ -26,7 +26,7 @@ testDialog.addAnItem("Item 111111111111111111111111111111", () => window.alert("
 let testSubMenu = new DropdownMenu();
 testSubMenu.addAnItem("New item", () => window.alert("New item was clicked!"));
 let testSubSubMenu = new DropdownMenu();
-testSubSubMenu.addAnItem("New item", () => window.alert("New item was clicked!"));
+testSubSubMenu.addAnItem("New item #2", () => window.alert("New item was clicked!"));
 testSubMenu.addAnItem("Menu", testSubSubMenu);
 testDialog.addAnItem("Menu", testSubMenu);
 
