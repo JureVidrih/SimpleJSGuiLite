@@ -7,16 +7,15 @@ class MenuBarItem {
         if(action instanceof DropdownMenu) {
             this.DOMObj.addEventListener('click', function() {
                 let coords = this.DOMObj.getBoundingClientRect();
-                let parentHeight = window.getComputedStyle(this.DOMObj).getPropertyValue("height");
                 if(!action.hasBeenRendered) {
-                    action.render(this.DOMObj, coords.left, coords.top + parseInt(parentHeight));
+                    action.render(this.DOMObj);
                     action.DOMObj.style.visibility = "visible";
                     action.isOnScreen = true;
                 } else {
                     if(action.isOnScreen) {
                         action.toggleMenu();
                     } else {
-                        action.updateCoords(coords.left, coords.top + parseInt(parentHeight));
+                        action.updateCoords();
                         action.toggleMenu();
                     }
                 }

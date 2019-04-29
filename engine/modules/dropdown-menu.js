@@ -1,20 +1,33 @@
 class DropdownMenuItem {
     constructor(title, action) {
+        this.isANestedMenu = (action instanceof DropdownMenu);
         this.DOMObj = document.createElement("div");
-        if(action instanceof DropdownMenu) {
+        if(this.isANestedMenu) {
+            this.menu = action;
             this.DOMObj.classList.add("dropdown-menu__item--menu-item");
             this.DOMObj.addEventListener('click', function() {
                 let coords = this.DOMObj.getBoundingClientRect();
-                let parentWidth = window.getComputedStyle(this.DOMObj).getPropertyValue("width");
-                if(!action.hasBeenRendered) {
-                    action.render(this.DOMObj, coords.left + parseInt(parentWidth), coords.top);
-                    action.isOnScreen = true;
-                } else {
-                    if(action.isOnScreen) {
-                        action.toggleMenu();
+                let minWidth = window.getComputedStyle(this.DOMObj.parentNode).getPropertyValue("min-width");
+                let documentCoords = document.body.getBoundingClientRect();
+                if(!this.menu.hasBeenRendered) {
+                    if((coords.right + parseInt(minWidth)) > documentCoords.right) {
+                        this.menu.render(this.DOMObj, "left");
                     } else {
-                        action.updateCoords(coords.left + parseInt(parentWidth), coords.top);
-                        action.toggleMenu();
+                        this.menu.render(this.DOMObj, "right");
+                    }
+                    this.menu.isOnScreen = true;
+                } else {
+                    if(this.menu.isOnScreen) {
+                        this.menu.toggleMenu();
+                    } else {
+                        let updatedAlignment;
+                        if((coords.right + parseInt(minWidth)) > documentCoords.right) {
+                            updatedAlignment = "left";
+                        } else {
+                            updatedAlignment = "right";
+                        }
+                        this.menu.updateCoords(updatedAlignment);
+                        this.menu.toggleMenu();
                     }
                 }
             }.bind(this));
@@ -23,8 +36,6 @@ class DropdownMenuItem {
             this.DOMObj.addEventListener('mousedown', action);
         }
         this.DOMObj.textContent = title;
-        
-        return this.DOMObj;
     }
 }
 
@@ -47,28 +58,52 @@ class DropdownMenu {
     
     addAnItem(title, action) {
         let newItem = new DropdownMenuItem(title, action);
-        if(!(action instanceof DropdownMenu)) {
-            newItem.addEventListener('click', function() {
+        if(!newItem.isANestedMenu) {
+            newItem.DOMObj.addEventListener('click', function() {
                 this.toggleMenu();
             }.bind(this));
         }
         this.items.push(newItem);
-        this.DOMObj.appendChild(newItem);
+        this.DOMObj.appendChild(newItem.DOMObj);
     }
     
-    render(parent, x, y) {
-        this.DOMObj.style.left = x + "px";
-        this.DOMObj.style.top = y + "px";
-        this.DOMObj.style.zIndex = SimpleJSGui.getWindowManager().getWindows().length+2;
+    render(parent, alignment) {
         this.parent = parent;
+        this.alignment = alignment;
+        this.updateCoords(this.alignment);
+        this.DOMObj.style.zIndex = SimpleJSGui.getWindowManager().getWindows().length+2;
         document.body.appendChild(this.DOMObj);
         this.hasBeenRendered = true;
+        if(this.alignment == "left") {
+            this.DOMObj.style.left = (this.coords.left - parseInt(this.DOMObj.offsetWidth)) + "px";
+        }
         this.toggleMenu();
     }
     
-    updateCoords(newX, newY) {
-        this.DOMObj.style.left = newX + "px";
-        this.DOMObj.style.top = newY + "px";
+    updateCoords(alignment) {
+        this.alignment = alignment;
+        this.coords = this.parent.getBoundingClientRect();
+        this.parentWidth = window.getComputedStyle(this.parent).getPropertyValue("width");
+        this.parentHeight = window.getComputedStyle(this.parent).getPropertyValue("height");
+        if(this.alignment) {
+            if(this.alignment == "left") {
+                if(this.hasBeenRendered) {
+                    this.DOMObj.style.left = (this.coords.left - parseInt(this.DOMObj.offsetWidth)) + "px";
+                    this.DOMObj.style.top = this.coords.top + "px";
+                } else {
+                    this.DOMObj.style.left = this.coords.left + "px";
+                    this.DOMObj.style.top = this.coords.top + "px";
+                }
+                
+            } else if(this.alignment == "right") {
+                this.DOMObj.style.left = (this.coords.left + parseInt(this.parentWidth)) + "px";
+                this.DOMObj.style.top = this.coords.top + "px";
+            }
+        } else {
+            this.DOMObj.style.left = this.coords.left + "px";
+            this.DOMObj.style.top = (this.coords.top + parseInt(this.parentHeight)) + "px";
+        }
+        
     }
     
     toggleMenu() {
@@ -76,6 +111,11 @@ class DropdownMenu {
             this.DOMObj.style.visibility = "hidden";
             this.isOnScreen = false;
             document.body.removeEventListener('mousedown', this.toggleListener);
+            for(let i = 0; i < this.items.length; i++) {
+                if(this.items[i].isANestedMenu && this.items[i].menu.isOnScreen) {
+                    this.items[i].menu.toggleMenu();
+                }
+            }
         } else {
             this.DOMObj.style.visibility = "visible";
             this.isOnScreen = true;
