@@ -307,10 +307,13 @@
             }.gui-panel__task-bar__item--without-text img {
                     margin-left: 9px;
                 }.gui-panel__task-bar__item--active {
-                border-top: 1px solid black;
-                padding-top: 6px;
+                padding-top: 5px;
                 color: black;
                 background-color: rgba(255, 255, 255, 0.87);
+            }html .gui-panel__task-bar__item--active:hover {
+                padding-top: 5px;
+                color: black;
+                background-color: rgba(255, 255, 255, 0.93);
             }.gui-panel__task-bar__item p {
                 margin-bottom: 8px;
             }.gui-panel__task-bar__item__context-menu {
@@ -354,7 +357,9 @@
                         font-weight: normal;
                     }.gui-panel__task-bar__item__context-menu__content__menu-item:hover {
                         color: rgba(0, 0, 0, 0.75);
-                    }.gui-panel__task-bar__switcher {
+                    }.gui-panel__task-bar__item:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+        }.gui-panel__task-bar__switcher {
             display: block;
         }.gui-panel__task-bar__free-space {
             display: block;
