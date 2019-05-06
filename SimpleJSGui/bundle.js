@@ -15442,7 +15442,7 @@ elliptic.eddsa = __webpack_require__(133);
 /* 107 */
 /***/ (function(module) {
 
-module.exports = {"_args":[["elliptic@^6.0.0","/home/busyv/Dokumenti/VSCodeProjects/Web Development/Web Apps/SimpleJSGui/node_modules/browserify-sign"]],"_from":"elliptic@>=6.0.0 <7.0.0","_id":"elliptic@6.4.1","_inCache":true,"_installable":true,"_location":"/elliptic","_nodeVersion":"10.5.0","_npmOperationalInternal":{"host":"s3://npm-registry-packages","tmp":"tmp/elliptic_6.4.1_1533787091502_0.6309761823717674"},"_npmUser":{"email":"fedor@indutny.com","name":"indutny"},"_npmVersion":"6.3.0","_phantomChildren":{},"_requested":{"name":"elliptic","raw":"elliptic@^6.0.0","rawSpec":"^6.0.0","scope":null,"spec":">=6.0.0 <7.0.0","type":"range"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","_shasum":"c2d0b7776911b86722c632c3c06c60f2f819939a","_shrinkwrap":null,"_spec":"elliptic@^6.0.0","_where":"/home/busyv/Dokumenti/VSCodeProjects/Web Development/Web Apps/SimpleJSGui/node_modules/browserify-sign","author":{"email":"fedor@indutny.com","name":"Fedor Indutny"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"directories":{},"dist":{"fileCount":17,"integrity":"sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==","npm-signature":"-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJba7vUCRA9TVsSAnZWagAA+gcP/jWaj5GmDZ0YFi/X4g5O\nx+pxu9i3HbP9YqywT7rz3XFXSaytu0LQDeDEbddl523X69tsbKfzHRTcnW8n\n2r0VjPhttRm+0RpEhBwjSIK34VkQA1xIWh2ugOToKXVCFVLM5VFDPGzbiN6x\n/hpL7gj1hoCRVmuhjnqFQ+vPKACKfv1Eq4CsRmu2focmP37kQpWQlweD/z4V\nJF4NxA33Fvp13Fl+9g4sPHyhUVsW9ojVaG3Ijn70pCaGQM18UPlbODkWQ1QX\nAgteOFjkIOtcalJk3B3qsM8GZeHEcAFvt2T73miJkHdCGNmRQS45Ede+gnj0\nlLlZJsCCKUHtTqrlprHo6AgMnBZufmytyozYAHC1/JYniazSBi2yPHtQeniR\nl69BfiRBdD2rNrMPwmCNRkMqrgel5WMGpaD0xdaFAHF1Ru2ZQFKsA7KvPGgp\nA20+LN11cCib67Pg5XDyrZ92T3yXec+6gQ3iq9d9UBZKFGl0P8ebVqq1LrUJ\na6nekwMpRISWnKcqV72XVmQdBmUWHq9VfVLsWJzVIJqtpHmUO7q74ACP3i4W\n0/F1REeI0YEhh3NjeStdDecfjlu7PY0pLQpbk2I3ms+6DO+cAfeDEev5jFBK\nwQabRNhITeT1FVtxZAcApj33fnCdqwaWr1NS00K5ZRqhDTTzPr/O4KRN4CR1\npstU\r\n=UVBB\r\n-----END PGP SIGNATURE-----\r\n","shasum":"c2d0b7776911b86722c632c3c06c60f2f819939a","tarball":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","unpackedSize":118371},"files":["lib"],"gitHead":"523da1cf71ddcfd607fbdee1858bc2af47f0e700","homepage":"https://github.com/indutny/elliptic","keywords":["Cryptography","EC","Elliptic","curve"],"license":"MIT","main":"lib/elliptic.js","maintainers":[{"name":"indutny","email":"fedor@indutny.com"}],"name":"elliptic","optionalDependencies":{},"readme":"ERROR: No README data found!","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.1"};
+module.exports = {"_from":"elliptic@^6.0.0","_id":"elliptic@6.4.1","_inBundle":false,"_integrity":"sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"elliptic@^6.0.0","name":"elliptic","escapedName":"elliptic","rawSpec":"^6.0.0","saveSpec":null,"fetchSpec":"^6.0.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","_shasum":"c2d0b7776911b86722c632c3c06c60f2f819939a","_spec":"elliptic@^6.0.0","_where":"/home/busyv/Dokumenti/VSCodeProjects/WebApps/SimpleJSGui/node_modules/browserify-sign","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"bundleDependencies":false,"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"deprecated":false,"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.1"};
 
 /***/ }),
 /* 108 */
@@ -25639,7 +25639,14 @@ function () {
       this.menu = action;
       this.menu.isRootMenu = false;
       this.DOMObj.classList.add("dropdown-menu__item--menu-item");
-      this.DOMObj.addEventListener('click', function () {
+      this.DOMObj.addEventListener('mouseleave', function (evt) {
+        if (evt.relatedTarget.parentNode == this.DOMObj.parentNode) {
+          if (this.menu.isOnScreen) {
+            this.menu.toggleMenu();
+          }
+        }
+      }.bind(this));
+      this.DOMObj.addEventListener('mouseenter', function () {
         var coords = this.DOMObj.getBoundingClientRect();
         var minWidth = window.getComputedStyle(this.DOMObj.parentNode).getPropertyValue("min-width");
         var documentCoords = document.body.getBoundingClientRect();
@@ -25657,26 +25664,54 @@ function () {
 
           this.menu.isOnScreen = true;
         } else {
-          if (this.menu.isOnScreen) {
-            this.menu.toggleMenu();
-          } else {
-            var updatedAlignment;
-            var rootParent;
+          var updatedAlignment;
+          var rootParent;
 
-            if (coords.right + parseInt(minWidth) > documentCoords.right || this.menu.parentMenu.alignment == "left") {
-              updatedAlignment = "left";
+          if (coords.right + parseInt(minWidth) > documentCoords.right || this.menu.parentMenu.alignment == "left") {
+            updatedAlignment = "left";
 
-              if (this.menu.parentMenu.alignment != "left") {
-                rootParent = this.getRootMenu().DOMObj;
-              }
-            } else {
-              updatedAlignment = "right";
+            if (this.menu.parentMenu.alignment != "left") {
+              rootParent = this.getRootMenu().DOMObj;
             }
-
-            this.menu.updateCoords(updatedAlignment, rootParent);
-            this.menu.toggleMenu();
+          } else {
+            updatedAlignment = "right";
           }
-        }
+
+          this.menu.updateCoords(updatedAlignment, rootParent);
+          this.menu.toggleMenu();
+        } // let coords = this.DOMObj.getBoundingClientRect();
+        // let minWidth = window.getComputedStyle(this.DOMObj.parentNode).getPropertyValue("min-width");
+        // let documentCoords = document.body.getBoundingClientRect();
+        // if(!this.menu.hasBeenRendered) {
+        //     if((coords.right + parseInt(minWidth)) > documentCoords.right || this.menu.parentMenu.alignment == "left") {
+        //         if(this.menu.parentMenu.alignment == "left") {
+        //             this.menu.render("left", this.DOMObj);
+        //         } else {
+        //             this.menu.render("left", this.DOMObj, this.getRootMenu().DOMObj);
+        //         }
+        //     } else {
+        //         this.menu.render("right", this.DOMObj);
+        //     }
+        //     this.menu.isOnScreen = true;
+        // } else {
+        //     if(this.menu.isOnScreen) {
+        //         this.menu.toggleMenu();
+        //     } else {
+        //         let updatedAlignment;
+        //         let rootParent;
+        //         if((coords.right + parseInt(minWidth)) > documentCoords.right || this.menu.parentMenu.alignment == "left") {
+        //             updatedAlignment = "left";
+        //             if(this.menu.parentMenu.alignment != "left") {
+        //                 rootParent = this.getRootMenu().DOMObj;
+        //             }
+        //         } else {
+        //             updatedAlignment = "right";
+        //         }
+        //         this.menu.updateCoords(updatedAlignment, rootParent);
+        //         this.menu.toggleMenu();
+        //     }
+        // }
+
       }.bind(this));
     } else {
       this.DOMObj.classList.add("dropdown-menu__item");
@@ -25744,9 +25779,9 @@ function () {
     value: function render(alignment, parent, rootParent) {
       this.alignment = alignment;
       this.parent = parent;
+      document.body.appendChild(this.DOMObj);
       this.updateCoords(this.alignment, rootParent);
       this.DOMObj.style.zIndex = SimpleJSGui.getWindowManager().getWindows().length + 2;
-      document.body.appendChild(this.DOMObj);
       this.hasBeenRendered = true;
 
       if (this.alignment == "left") {
@@ -25769,8 +25804,25 @@ function () {
       }
 
       this.coordsLeft = left;
-      this.parentWidth = window.getComputedStyle(this.parent).getPropertyValue("width");
-      this.parentHeight = window.getComputedStyle(this.parent).getPropertyValue("height");
+      this.parentWidth = this.parent.offsetWidth;
+      this.parentHeight = this.parent.offsetHeight; // CHECK IF THERE IS ROOM TO THE LEFT
+
+      if (this.alignment != "left") {
+        if (left + this.DOMObj.offsetWidth > document.body.offsetWidth) {
+          left = document.body.offsetWidth - this.DOMObj.offsetWidth;
+        }
+      } // CHECK IF THERE IS ROOM BELOW
+
+
+      if (this.alignment) {
+        if (top + this.DOMObj.offsetHeight > document.body.offsetHeight) {
+          top = document.body.offsetHeight - this.DOMObj.offsetHeight;
+        }
+      } else {
+        if (top + this.DOMObj.offsetHeight + this.parentHeight > document.body.offsetHeight) {
+          top = this.coords.top - this.DOMObj.offsetHeight - this.parentHeight;
+        }
+      }
 
       if (this.alignment) {
         if (this.alignment == "left") {

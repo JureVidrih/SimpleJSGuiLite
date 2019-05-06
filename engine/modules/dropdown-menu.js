@@ -6,7 +6,14 @@ class DropdownMenuItem {
             this.menu = action;
             this.menu.isRootMenu = false;
             this.DOMObj.classList.add("dropdown-menu__item--menu-item");
-            this.DOMObj.addEventListener('click', function() {
+            this.DOMObj.addEventListener('mouseleave', function(evt) {
+                if(evt.relatedTarget.parentNode == this.DOMObj.parentNode) {
+                    if(this.menu.isOnScreen) {
+                       this.menu.toggleMenu(); 
+                    }
+                }
+            }.bind(this));
+            this.DOMObj.addEventListener('mouseenter', function() {
                 let coords = this.DOMObj.getBoundingClientRect();
                 let minWidth = window.getComputedStyle(this.DOMObj.parentNode).getPropertyValue("min-width");
                 let documentCoords = document.body.getBoundingClientRect();
@@ -22,23 +29,51 @@ class DropdownMenuItem {
                     }
                     this.menu.isOnScreen = true;
                 } else {
-                    if(this.menu.isOnScreen) {
-                        this.menu.toggleMenu();
-                    } else {
-                        let updatedAlignment;
-                        let rootParent;
-                        if((coords.right + parseInt(minWidth)) > documentCoords.right || this.menu.parentMenu.alignment == "left") {
-                            updatedAlignment = "left";
-                            if(this.menu.parentMenu.alignment != "left") {
-                                rootParent = this.getRootMenu().DOMObj;
-                            }
-                        } else {
-                            updatedAlignment = "right";
+                    let updatedAlignment;
+                    let rootParent;
+                    if((coords.right + parseInt(minWidth)) > documentCoords.right || this.menu.parentMenu.alignment == "left") {
+                        updatedAlignment = "left";
+                        if(this.menu.parentMenu.alignment != "left") {
+                            rootParent = this.getRootMenu().DOMObj;
                         }
-                        this.menu.updateCoords(updatedAlignment, rootParent);
-                        this.menu.toggleMenu();
+                    } else {
+                        updatedAlignment = "right";
                     }
+                    this.menu.updateCoords(updatedAlignment, rootParent);
+                    this.menu.toggleMenu();
                 }
+                // let coords = this.DOMObj.getBoundingClientRect();
+                // let minWidth = window.getComputedStyle(this.DOMObj.parentNode).getPropertyValue("min-width");
+                // let documentCoords = document.body.getBoundingClientRect();
+                // if(!this.menu.hasBeenRendered) {
+                //     if((coords.right + parseInt(minWidth)) > documentCoords.right || this.menu.parentMenu.alignment == "left") {
+                //         if(this.menu.parentMenu.alignment == "left") {
+                //             this.menu.render("left", this.DOMObj);
+                //         } else {
+                //             this.menu.render("left", this.DOMObj, this.getRootMenu().DOMObj);
+                //         }
+                //     } else {
+                //         this.menu.render("right", this.DOMObj);
+                //     }
+                //     this.menu.isOnScreen = true;
+                // } else {
+                //     if(this.menu.isOnScreen) {
+                //         this.menu.toggleMenu();
+                //     } else {
+                //         let updatedAlignment;
+                //         let rootParent;
+                //         if((coords.right + parseInt(minWidth)) > documentCoords.right || this.menu.parentMenu.alignment == "left") {
+                //             updatedAlignment = "left";
+                //             if(this.menu.parentMenu.alignment != "left") {
+                //                 rootParent = this.getRootMenu().DOMObj;
+                //             }
+                //         } else {
+                //             updatedAlignment = "right";
+                //         }
+                //         this.menu.updateCoords(updatedAlignment, rootParent);
+                //         this.menu.toggleMenu();
+                //     }
+                // }
             }.bind(this));
         } else {
             this.DOMObj.classList.add("dropdown-menu__item");
@@ -46,14 +81,14 @@ class DropdownMenuItem {
         }
         this.DOMObj.textContent = title;
     }
-
+    
     getRootMenu() {
         let menu = this.menu;
-
+        
         while(!menu.isRootMenu && menu.parentMenu) {
             menu = menu.parentMenu;
         }
-
+        
         return menu;
     }
 }
@@ -92,9 +127,9 @@ class DropdownMenu {
     render(alignment, parent, rootParent) {
         this.alignment = alignment;
         this.parent = parent;
+        document.body.appendChild(this.DOMObj);
         this.updateCoords(this.alignment, rootParent);
         this.DOMObj.style.zIndex = SimpleJSGui.getWindowManager().getWindows().length+2;
-        document.body.appendChild(this.DOMObj);
         this.hasBeenRendered = true;
         if(this.alignment == "left") {
             this.DOMObj.style.left = (this.coordsLeft - parseInt(this.DOMObj.offsetWidth)) + "px";
@@ -112,8 +147,28 @@ class DropdownMenu {
             left = parentCoords.left;
         }
         this.coordsLeft = left;
-        this.parentWidth = window.getComputedStyle(this.parent).getPropertyValue("width");
-        this.parentHeight = window.getComputedStyle(this.parent).getPropertyValue("height");
+        this.parentWidth = this.parent.offsetWidth;
+        this.parentHeight = this.parent.offsetHeight;
+        
+        // CHECK IF THERE IS ROOM TO THE LEFT
+        if(this.alignment != "left") {
+            if(left + this.DOMObj.offsetWidth > document.body.offsetWidth) {
+                left = document.body.offsetWidth - this.DOMObj.offsetWidth;
+            }
+        }
+        
+        // CHECK IF THERE IS ROOM BELOW
+        if(this.alignment) {
+            if((top + this.DOMObj.offsetHeight) > document.body.offsetHeight) {
+                top = document.body.offsetHeight - this.DOMObj.offsetHeight;
+            }
+        } else {
+            if((top + this.DOMObj.offsetHeight + this.parentHeight) > document.body.offsetHeight) {
+                top = this.coords.top - this.DOMObj.offsetHeight - this.parentHeight;
+            }
+        }
+        
+        
         if(this.alignment) {
             if(this.alignment == "left") {
                 if(this.hasBeenRendered) {
