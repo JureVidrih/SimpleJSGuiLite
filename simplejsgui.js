@@ -21,16 +21,31 @@ myWindow.setTitle("My first window's title!");
 myWindow.setWindowIcon("themes/newtheme/assets/icons/default.png");
 myWindow.setContent("<p>This is a paragraph.</p>");
 
-let testDialog = new DropdownMenu();
-testDialog.addAnItem("Item 111111111111111111111111111111", () => window.alert("Item was clicked!"));
-let testSubMenu = new DropdownMenu();
-testSubMenu.addAnItem("New item", () => window.alert("New item was clicked!"));
-let testSubSubMenu = new DropdownMenu();
-testSubSubMenu.addAnItem("New item #2", () => window.alert("New item was clicked!"));
-testSubMenu.addAnItem("Menu", testSubSubMenu);
-testDialog.addAnItem("Menu", testSubMenu);
+let menuBarItem1 = new DropdownMenu();
+menuBarItem1.addAnItem("Item 111111111111111111111111111111", () => window.alert("Item was clicked!"));
+let subMenu1 = new DropdownMenu();
+subMenu1.addAnItem("New item", () => window.alert("New item was clicked!"));
+let subMenu2 = new DropdownMenu();
+subMenu2.addAnItem("New item #2", () => window.alert("New item was clicked!"));
+subMenu1.addAnItem("Menu", subMenu2);
+let subMenu3 = new DropdownMenu();
+subMenu3.addAnItem("New item #2", () => window.alert("New item was clicked!"));
+subMenu2.addAnItem("Menu", subMenu3);
+menuBarItem1.addAnItem("Menu", subMenu1);
 
-myWindow.addAMenuItem("Menu #1", testDialog);
+let menuBarItem2 = new DropdownMenu();
+
+for(let i = 0; i < 80; i++) {
+    let title = "Item #" + i;
+    let action = function() {
+        window.alert("Item #" + i + " was clicked!");
+    };
+    
+    menuBarItem2.addAnItem(title, action);
+}
+
+myWindow.addAMenuItem("Menu #1", menuBarItem1);
+myWindow.addAMenuItem("Menu #2", menuBarItem2);
 
 // myWindow.getDOMObject().addEventListener("click", function() {
 //     document.documentElement.mozRequestFullScreen();

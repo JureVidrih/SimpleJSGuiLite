@@ -648,7 +648,7 @@
     background-color: white;
 }/* border: 1px solid gray; */.dropdown-menu__item {
         position: relative;
-        display: inline-block;
+        display: block;
         width: 100%;
         height: 31px;
         padding: 6px 6px;
@@ -658,7 +658,7 @@
         transition: .05s color ease-out;
     }.dropdown-menu__item--menu-item {
         position: relative;
-        display: inline-block;
+        display: block;
         width: 100%;
         height: 31px;
         padding: 6px 6px;

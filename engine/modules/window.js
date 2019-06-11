@@ -13,8 +13,10 @@ class MenuBarItem {
                     action.isOnScreen = true;
                 } else {
                     if(action.isOnScreen) {
+                        // console.log("Toggling off action...");
                         action.toggleMenu();
                     } else {
+                        // console.log("Toggling on action...");
                         action.updateCoords();
                         action.toggleMenu();
                     }

@@ -24583,8 +24583,10 @@ var MenuBarItem = function MenuBarItem(title, action) {
         action.isOnScreen = true;
       } else {
         if (action.isOnScreen) {
+          // console.log("Toggling off action...");
           action.toggleMenu();
         } else {
+          // console.log("Toggling on action...");
           action.updateCoords();
           action.toggleMenu();
         }
@@ -25620,11 +25622,15 @@ function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_0__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
 
 var DropdownMenuItem =
 /*#__PURE__*/
@@ -25634,6 +25640,8 @@ function () {
 
     this.isANestedMenu = action instanceof DropdownMenu;
     this.DOMObj = document.createElement("div");
+    this.title = title;
+    this.action = action;
 
     if (this.isANestedMenu) {
       this.menu = action;
@@ -25715,10 +25723,10 @@ function () {
       }.bind(this));
     } else {
       this.DOMObj.classList.add("dropdown-menu__item");
-      this.DOMObj.addEventListener('mousedown', action);
+      this.DOMObj.addEventListener('mousedown', this.action);
     }
 
-    this.DOMObj.textContent = title;
+    this.DOMObj.textContent = this.title;
   }
 
   _createClass(DropdownMenuItem, [{
@@ -25745,9 +25753,18 @@ function () {
 
     this.DOMObj = document.createElement("div");
     this.DOMObj.classList.add("dropdown-menu");
+    this.hasBeenSplit = false;
     this.isRootMenu = true;
     this.items = [];
     this.isOnScreen = false;
+    this.dummyMenuItem = new DropdownMenuItem("dummy title", function () {
+      console.log("dummy callback");
+    });
+    this.dummyMenuItem.DOMObj.style.display = "none";
+    document.body.appendChild(this.dummyMenuItem.DOMObj);
+    this.cachedItemHeight = Number.parseInt(window.getComputedStyle(this.dummyMenuItem.DOMObj).getPropertyValue("height"));
+    document.body.removeChild(this.dummyMenuItem.DOMObj);
+    console.log("this.cachedItemHeight: " + this.cachedItemHeight);
 
     this.toggleListener = function (event) {
       if (event.target != this.parent && !event.target.classList.contains("dropdown-menu__item--menu-item")) {
@@ -25780,6 +25797,7 @@ function () {
       this.alignment = alignment;
       this.parent = parent;
       document.body.appendChild(this.DOMObj);
+      this.cachedHeight = this.DOMObj.offsetHeight;
       this.updateCoords(this.alignment, rootParent);
       this.DOMObj.style.zIndex = SimpleJSGui.getWindowManager().getWindows().length + 2;
       this.hasBeenRendered = true;
@@ -25793,6 +25811,16 @@ function () {
   }, {
     key: "updateCoords",
     value: function updateCoords(alignment, rootParent) {
+      if (this.menuArr && this.menuArr.length > 1) {
+        for (var i = 0; i < this.menuArr.length; i++) {
+          if (i > 0) {
+            this.menuArr[i].updateCoords("right", this.menuArr[0].DOMObj);
+          } else {
+            this.menuArr[i].updateCoords(null, this.menuArr[0].DOMObj);
+          }
+        }
+      }
+
       this.alignment = alignment;
       this.coords = this.parent.getBoundingClientRect();
       var top = this.coords.top;
@@ -25811,6 +25839,17 @@ function () {
         if (left + this.DOMObj.offsetWidth > document.body.offsetWidth) {
           left = document.body.offsetWidth - this.DOMObj.offsetWidth;
         }
+      } // CHECK IF THE MENU WILL FIT ON THE SCREEN WHILE BEING DISPLAYED UPSIDE DOWN
+
+
+      if (!this.hasBeenSplit) {
+        console.log(this.cachedHeight + " vs " + (document.body.offsetHeight - top - this.parentHeight));
+      }
+
+      if (!this.hasBeenSplit && this.cachedHeight > document.body.offsetHeight - top - this.parentHeight) {
+        console.log("Condition true, proceeding...");
+        this.splitMenuItems();
+        return;
       } // CHECK IF THERE IS ROOM BELOW
 
 
@@ -25843,22 +25882,126 @@ function () {
       }
     }
   }, {
+    key: "splitMenuItems",
+    value: function splitMenuItems() {
+      this.menuArr = [];
+      console.log("this.DOMObj.offsetHeight: " + this.DOMObj.offsetHeight + ", this.cachedHeight: " + this.cachedHeight);
+      var numOfNewMenus = this.cachedHeight / document.body.offsetHeight;
+      var numOfItemsInMenu = [];
+      console.log(this.cachedItemHeight + ", " + this.coords.top + ", " + this.parentHeight);
+      var maxItemsOnScreen = Math.floor(document.body.offsetHeight / this.cachedItemHeight);
+      console.log("maxItemsOnScreen: " + maxItemsOnScreen);
+      var firstMenuNumOfItems = Math.floor((document.body.offsetHeight - (this.coords.top + this.parentHeight)) / this.cachedItemHeight);
+      console.log("firstMenuNumOfItems: " + firstMenuNumOfItems);
+      var lastMenuNumOfItems = Math.floor(numOfNewMenus % 1 * maxItemsOnScreen - firstMenuNumOfItems);
+      console.log("lastMenuNumOfItems: " + lastMenuNumOfItems);
+
+      if (numOfNewMenus % 1 != 0) {
+        numOfNewMenus = Math.floor(numOfNewMenus) + 1;
+      }
+
+      console.log("TEST: " + firstMenuNumOfItems + ", " + (firstMenuNumOfItems - lastMenuNumOfItems));
+
+      if (firstMenuNumOfItems != 0 && lastMenuNumOfItems > 0 && firstMenuNumOfItems - lastMenuNumOfItems > 0) {
+        numOfNewMenus += 1;
+      }
+
+      console.log("Number of new menus: " + numOfNewMenus);
+      var remainingItems = this.items.length;
+      console.log("remainingItems: " + remainingItems);
+
+      for (var i = 0; i < numOfNewMenus; i++) {
+        console.log("Allocating menu sizes: " + i + " of " + numOfNewMenus);
+
+        if (i == 0) {
+          numOfItemsInMenu[0] = firstMenuNumOfItems;
+          remainingItems -= numOfItemsInMenu[0];
+        } else if (i == numOfNewMenus - 1) {
+          numOfItemsInMenu[numOfNewMenus - 1] = remainingItems;
+          remainingItems -= numOfItemsInMenu[numOfNewMenus - 1];
+        } else {
+          numOfItemsInMenu[i] = maxItemsOnScreen;
+          remainingItems -= numOfItemsInMenu[i];
+        }
+
+        console.log("remainingItems: " + remainingItems);
+      }
+
+      console.log("numOfNewMenus: " + numOfNewMenus);
+
+      for (var _i = 0, items = 0; _i < numOfNewMenus; _i++) {
+        var newMenu = new DropdownMenu();
+        console.log("numOfItemsInMenu: " + numOfItemsInMenu[_i]);
+
+        for (var j = 0; j < numOfItemsInMenu[_i]; j++, items++) {
+          console.log(_i + ", " + j + ": Adding an item #" + items + " with title: " + this.items[items].DOMObj.textContent);
+          newMenu.addAnItem(this.items[items].title, this.items[items].action);
+        }
+
+        newMenu.hasBeenSplit = true;
+        this.menuArr.push(newMenu);
+      }
+
+      if (document.body.contains(this.DOMObj)) {
+        document.body.removeChild(this.DOMObj);
+      } else {
+        if (this.menuArr.length > 0) {
+          for (var _i2 = 0; _i2 < this.menuArr.length; _i2++) {
+            if (document.body.contains(this.menuArr[_i2].DOMObj)) {
+              document.body.removeChild(this.menuArr[_i2].DOMObj);
+            }
+          }
+        }
+      }
+
+      for (var _i3 = 0; _i3 < this.menuArr.length; _i3++) {
+        if (_i3 == 0) {
+          this.menuArr[0].render(null, this.parent);
+        } else {
+          this.menuArr[_i3].render("right", this.menuArr[_i3 - 1].DOMObj);
+        }
+      }
+    }
+  }, {
     key: "toggleMenu",
     value: function toggleMenu() {
       if (this.isOnScreen) {
-        this.DOMObj.style.visibility = "hidden";
-        this.isOnScreen = false;
-        document.body.removeEventListener('mousedown', this.toggleListener);
+        if (this.menuArr && this.menuArr.length > 1) {
+          for (var i = 0; i < this.menuArr.length; i++) {
+            this.menuArr[i].DOMObj.style.visibility = "hidden";
+            this.isOnScreen = false;
+            document.body.removeEventListener('mousedown', this.menuArr[i].toggleListener);
 
-        for (var i = 0; i < this.items.length; i++) {
-          if (this.items[i].isANestedMenu && this.items[i].menu.isOnScreen) {
-            this.items[i].menu.toggleMenu();
+            for (var j = 0; j < this.menuArr[i].items.length; j++) {
+              if (this.menuArr[i].items[j].isANestedMenu && this.menuArr[i].items[j].menu.isOnScreen) {
+                this.menuArr[i].items[j].menu.toggleMenu();
+              }
+            }
+          }
+        } else {
+          this.DOMObj.style.visibility = "hidden";
+          this.isOnScreen = false;
+          document.body.removeEventListener('mousedown', this.toggleListener);
+
+          for (var _i4 = 0; _i4 < this.items.length; _i4++) {
+            if (this.items[_i4].isANestedMenu && this.items[_i4].menu.isOnScreen) {
+              this.items[_i4].menu.toggleMenu();
+            }
           }
         }
       } else {
-        this.DOMObj.style.visibility = "visible";
-        this.isOnScreen = true;
-        document.body.addEventListener('mousedown', this.toggleListener);
+        if (this.menuArr && this.menuArr.length > 1) {
+          for (var _i5 = 0; _i5 < this.menuArr.length; _i5++) {
+            this.menuArr[_i5].DOMObj.style.visibility = "visible";
+            this.menuArr[_i5].isOnScreen = true;
+            this.isOnScreen = true;
+            document.body.addEventListener('mousedown', this.menuArr[_i5].toggleListener);
+          }
+        } else {
+          this.DOMObj.style.visibility = "visible";
+          this.isOnScreen = true;
+          document.body.addEventListener('mousedown', this.toggleListener);
+        }
       }
     }
   }]);
