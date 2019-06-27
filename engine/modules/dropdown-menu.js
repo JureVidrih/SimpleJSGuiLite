@@ -123,7 +123,7 @@ class DropdownMenu {
         this.DOMObj.addEventListener('mouseenter', function(evt) {
             for(let i = 0; i < this.items.length; i++) {
                 let isInsideTheCurrentMenuItem = false;
-                if(this.items[i].menu.isOnScreen) {
+                if(this.items[i].isANestedMenu && this.items[i].menu.isOnScreen) {
                     let itemCoords = this.items[i].DOMObj.getBoundingClientRect();
                     isInsideTheCurrentMenuItem = (evt.clientY >= itemCoords.top && evt.clientY <= itemCoords.bottom);
                 }

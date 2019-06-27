@@ -25776,7 +25776,7 @@ function () {
       for (var i = 0; i < this.items.length; i++) {
         var isInsideTheCurrentMenuItem = false;
 
-        if (this.items[i].menu.isOnScreen) {
+        if (this.items[i].isANestedMenu && this.items[i].menu.isOnScreen) {
           var itemCoords = this.items[i].DOMObj.getBoundingClientRect();
           isInsideTheCurrentMenuItem = evt.clientY >= itemCoords.top && evt.clientY <= itemCoords.bottom;
         }
