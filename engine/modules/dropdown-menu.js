@@ -17,7 +17,7 @@ class DropdownMenuItem {
                     }
                 }
             }.bind(this));
-            this.DOMObj.addEventListener('mouseenter', function() {
+            this.DOMObj.addEventListener('mouseenter', function(evt) {
                 let coords = this.DOMObj.getBoundingClientRect();
                 let minWidth = window.getComputedStyle(this.DOMObj.parentNode).getPropertyValue("min-width");
                 let documentCoords = document.body.getBoundingClientRect();
@@ -120,7 +120,18 @@ class DropdownMenu {
             }
         }.bind(this);
         
-        return this;
+        this.DOMObj.addEventListener('mouseenter', function(evt) {
+            for(let i = 0; i < this.items.length; i++) {
+                let isInsideTheCurrentMenuItem = false;
+                if(this.items[i].menu.isOnScreen) {
+                    let itemCoords = this.items[i].DOMObj.getBoundingClientRect();
+                    isInsideTheCurrentMenuItem = (evt.clientY >= itemCoords.top && evt.clientY <= itemCoords.bottom);
+                }
+                if(this.items[i].isANestedMenu && !isInsideTheCurrentMenuItem && this.items[i].menu.isOnScreen) {
+                    this.items[i].menu.toggleMenu();
+                }
+            }
+        }.bind(this));
     }
     
     addAnItem(title, action) {
@@ -239,8 +250,6 @@ class DropdownMenu {
         if(numOfNewMenus % 1 != 0) {
             numOfNewMenus = Math.floor(numOfNewMenus) + 1;
         }
-        
-        console.log("TEST: " + firstMenuNumOfItems + ", " + (firstMenuNumOfItems - lastMenuNumOfItems));
         if(firstMenuNumOfItems != 0 && (lastMenuNumOfItems > 0) && (firstMenuNumOfItems - lastMenuNumOfItems > 0)) {
             numOfNewMenus += 1;
         }

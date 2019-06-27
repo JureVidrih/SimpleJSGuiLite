@@ -25654,7 +25654,7 @@ function () {
           }
         }
       }.bind(this));
-      this.DOMObj.addEventListener('mouseenter', function () {
+      this.DOMObj.addEventListener('mouseenter', function (evt) {
         var coords = this.DOMObj.getBoundingClientRect();
         var minWidth = window.getComputedStyle(this.DOMObj.parentNode).getPropertyValue("min-width");
         var documentCoords = document.body.getBoundingClientRect();
@@ -25772,7 +25772,20 @@ function () {
       }
     }.bind(this);
 
-    return this;
+    this.DOMObj.addEventListener('mouseenter', function (evt) {
+      for (var i = 0; i < this.items.length; i++) {
+        var isInsideTheCurrentMenuItem = false;
+
+        if (this.items[i].menu.isOnScreen) {
+          var itemCoords = this.items[i].DOMObj.getBoundingClientRect();
+          isInsideTheCurrentMenuItem = evt.clientY >= itemCoords.top && evt.clientY <= itemCoords.bottom;
+        }
+
+        if (this.items[i].isANestedMenu && !isInsideTheCurrentMenuItem && this.items[i].menu.isOnScreen) {
+          this.items[i].menu.toggleMenu();
+        }
+      }
+    }.bind(this));
   }
 
   _createClass(DropdownMenu, [{
@@ -25899,8 +25912,6 @@ function () {
       if (numOfNewMenus % 1 != 0) {
         numOfNewMenus = Math.floor(numOfNewMenus) + 1;
       }
-
-      console.log("TEST: " + firstMenuNumOfItems + ", " + (firstMenuNumOfItems - lastMenuNumOfItems));
 
       if (firstMenuNumOfItems != 0 && lastMenuNumOfItems > 0 && firstMenuNumOfItems - lastMenuNumOfItems > 0) {
         numOfNewMenus += 1;

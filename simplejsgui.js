@@ -35,12 +35,16 @@ menuBarItem1.addAnItem("Menu", subMenu1);
 
 let menuBarItem2 = new DropdownMenu();
 
-for(let i = 0; i < 80; i++) {
-    let title = "Item #" + i;
-    let action = function() {
-        window.alert("Item #" + i + " was clicked!");
-    };
+for(let i = 0; i < 4; i++) {
+    let title = "Menu #" + i;
+    // let action = function() {
+    //     window.alert("Item #" + i + " was clicked!");
+    // };
     
+    let action = new DropdownMenu();
+    action.addAnItem("test", () => window.alert("Test!"));
+    action.addAnItem("test 2", () => window.alert("Test 2!"));
+
     menuBarItem2.addAnItem(title, action);
 }
 
