@@ -15442,7 +15442,7 @@ elliptic.eddsa = __webpack_require__(133);
 /* 107 */
 /***/ (function(module) {
 
-module.exports = {"_from":"elliptic@^6.0.0","_id":"elliptic@6.4.1","_inBundle":false,"_integrity":"sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"elliptic@^6.0.0","name":"elliptic","escapedName":"elliptic","rawSpec":"^6.0.0","saveSpec":null,"fetchSpec":"^6.0.0"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","_shasum":"c2d0b7776911b86722c632c3c06c60f2f819939a","_spec":"elliptic@^6.0.0","_where":"/home/busyv/Dokumenti/VSCodeProjects/WebApps/SimpleJSGui/node_modules/browserify-sign","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"bundleDependencies":false,"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"deprecated":false,"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.1"};
+module.exports = {"_args":[["elliptic@^6.0.0","/home/busyv/Dokumenti/VSCodeProjects/Web Development/Web Apps/SimpleJSGui/node_modules/browserify-sign"]],"_from":"elliptic@>=6.0.0 <7.0.0","_id":"elliptic@6.4.1","_inCache":true,"_installable":true,"_location":"/elliptic","_nodeVersion":"10.5.0","_npmOperationalInternal":{"host":"s3://npm-registry-packages","tmp":"tmp/elliptic_6.4.1_1533787091502_0.6309761823717674"},"_npmUser":{"email":"fedor@indutny.com","name":"indutny"},"_npmVersion":"6.3.0","_phantomChildren":{},"_requested":{"name":"elliptic","raw":"elliptic@^6.0.0","rawSpec":"^6.0.0","scope":null,"spec":">=6.0.0 <7.0.0","type":"range"},"_requiredBy":["/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","_shasum":"c2d0b7776911b86722c632c3c06c60f2f819939a","_shrinkwrap":null,"_spec":"elliptic@^6.0.0","_where":"/home/busyv/Dokumenti/VSCodeProjects/Web Development/Web Apps/SimpleJSGui/node_modules/browserify-sign","author":{"email":"fedor@indutny.com","name":"Fedor Indutny"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"directories":{},"dist":{"fileCount":17,"integrity":"sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==","npm-signature":"-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJba7vUCRA9TVsSAnZWagAA+gcP/jWaj5GmDZ0YFi/X4g5O\nx+pxu9i3HbP9YqywT7rz3XFXSaytu0LQDeDEbddl523X69tsbKfzHRTcnW8n\n2r0VjPhttRm+0RpEhBwjSIK34VkQA1xIWh2ugOToKXVCFVLM5VFDPGzbiN6x\n/hpL7gj1hoCRVmuhjnqFQ+vPKACKfv1Eq4CsRmu2focmP37kQpWQlweD/z4V\nJF4NxA33Fvp13Fl+9g4sPHyhUVsW9ojVaG3Ijn70pCaGQM18UPlbODkWQ1QX\nAgteOFjkIOtcalJk3B3qsM8GZeHEcAFvt2T73miJkHdCGNmRQS45Ede+gnj0\nlLlZJsCCKUHtTqrlprHo6AgMnBZufmytyozYAHC1/JYniazSBi2yPHtQeniR\nl69BfiRBdD2rNrMPwmCNRkMqrgel5WMGpaD0xdaFAHF1Ru2ZQFKsA7KvPGgp\nA20+LN11cCib67Pg5XDyrZ92T3yXec+6gQ3iq9d9UBZKFGl0P8ebVqq1LrUJ\na6nekwMpRISWnKcqV72XVmQdBmUWHq9VfVLsWJzVIJqtpHmUO7q74ACP3i4W\n0/F1REeI0YEhh3NjeStdDecfjlu7PY0pLQpbk2I3ms+6DO+cAfeDEev5jFBK\nwQabRNhITeT1FVtxZAcApj33fnCdqwaWr1NS00K5ZRqhDTTzPr/O4KRN4CR1\npstU\r\n=UVBB\r\n-----END PGP SIGNATURE-----\r\n","shasum":"c2d0b7776911b86722c632c3c06c60f2f819939a","tarball":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","unpackedSize":118371},"files":["lib"],"gitHead":"523da1cf71ddcfd607fbdee1858bc2af47f0e700","homepage":"https://github.com/indutny/elliptic","keywords":["Cryptography","EC","Elliptic","curve"],"license":"MIT","main":"lib/elliptic.js","maintainers":[{"name":"indutny","email":"fedor@indutny.com"}],"name":"elliptic","optionalDependencies":{},"readme":"ERROR: No README data found!","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.1"};
 
 /***/ }),
 /* 108 */
@@ -25855,10 +25855,6 @@ function () {
       } // CHECK IF THE MENU WILL FIT ON THE SCREEN WHILE BEING DISPLAYED UPSIDE DOWN
 
 
-      if (!this.hasBeenSplit) {
-        console.log(this.cachedHeight + " vs " + (document.body.offsetHeight - top - this.parentHeight));
-      }
-
       if (!this.hasBeenSplit && this.cachedHeight > document.body.offsetHeight - top - this.parentHeight) {
         console.log("Condition true, proceeding...");
         this.splitMenuItems();
@@ -25898,20 +25894,39 @@ function () {
     key: "splitMenuItems",
     value: function splitMenuItems() {
       this.menuArr = [];
-      console.log("this.DOMObj.offsetHeight: " + this.DOMObj.offsetHeight + ", this.cachedHeight: " + this.cachedHeight);
-      var numOfNewMenus = this.cachedHeight / document.body.offsetHeight;
-      var numOfItemsInMenu = [];
-      console.log(this.cachedItemHeight + ", " + this.coords.top + ", " + this.parentHeight);
       var maxItemsOnScreen = Math.floor(document.body.offsetHeight / this.cachedItemHeight);
       console.log("maxItemsOnScreen: " + maxItemsOnScreen);
+      console.log("document.body.offsetHeight: " + document.body.offsetHeight + ", this.cachedHeight: " + this.cachedHeight);
+      var numOfNewMenus = this.cachedHeight / (maxItemsOnScreen * this.cachedItemHeight);
+      console.log("numOfNewMenus: " + numOfNewMenus);
+      var numOfItemsInMenu = [];
+      console.log(this.cachedItemHeight + ", " + this.coords.top + ", " + this.parentHeight);
       var firstMenuNumOfItems = Math.floor((document.body.offsetHeight - (this.coords.top + this.parentHeight)) / this.cachedItemHeight);
       console.log("firstMenuNumOfItems: " + firstMenuNumOfItems);
-      var lastMenuNumOfItems = Math.floor(numOfNewMenus % 1 * maxItemsOnScreen - firstMenuNumOfItems);
-      console.log("lastMenuNumOfItems: " + lastMenuNumOfItems);
+      var lastMenuNumOfItems = 0;
+
+      if (numOfNewMenus % 1 == 0) {
+        lastMenuNumOfItmes = maxItemsOnScreen - firstMenuNumOfItems;
+      } else {
+        lastMenuNumOfItems = Math.floor(numOfNewMenus % 1 * maxItemsOnScreen - firstMenuNumOfItems);
+        console.log("First pass: " + Math.floor(numOfNewMenus % 1 * maxItemsOnScreen));
+
+        if (lastMenuNumOfItems <= 0) {
+          lastMenuNumOfItems = maxItemsOnScreen - Math.abs(lastMenuNumOfItems);
+        }
+      }
+
+      console.log("lastMenuNumOfItems: " + lastMenuNumOfItems + ", as in: " + (Math.floor(numOfNewMenus % 1 * maxItemsOnScreen) + " - " + firstMenuNumOfItems));
+
+      if (lastMenuNumOfItems == 0) {
+        lastMenuNumOfItems;
+      }
 
       if (numOfNewMenus % 1 != 0) {
         numOfNewMenus = Math.floor(numOfNewMenus) + 1;
       }
+
+      console.log(firstMenuNumOfItems + ", " + lastMenuNumOfItems + ", " + (firstMenuNumOfItems - lastMenuNumOfItems));
 
       if (firstMenuNumOfItems != 0 && lastMenuNumOfItems > 0 && firstMenuNumOfItems - lastMenuNumOfItems > 0) {
         numOfNewMenus += 1;

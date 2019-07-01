@@ -192,10 +192,6 @@ class DropdownMenu {
         
         // CHECK IF THE MENU WILL FIT ON THE SCREEN WHILE BEING DISPLAYED UPSIDE DOWN
         
-        if(!this.hasBeenSplit) {
-            console.log(this.cachedHeight + " vs " + (document.body.offsetHeight - top - this.parentHeight));
-        }
-        
         if(!this.hasBeenSplit && (this.cachedHeight) > (document.body.offsetHeight - top - this.parentHeight)) {
             console.log("Condition true, proceeding...");
             this.splitMenuItems();
@@ -236,20 +232,34 @@ class DropdownMenu {
     
     splitMenuItems() {
         this.menuArr = [];
-        console.log("this.DOMObj.offsetHeight: " + this.DOMObj.offsetHeight + ", this.cachedHeight: " + this.cachedHeight);
-        let numOfNewMenus = (this.cachedHeight / document.body.offsetHeight);
-        
-        let numOfItemsInMenu = [];
-        console.log(this.cachedItemHeight + ", " + this.coords.top + ", " + this.parentHeight);
         let maxItemsOnScreen = Math.floor(document.body.offsetHeight / this.cachedItemHeight);
         console.log("maxItemsOnScreen: " + maxItemsOnScreen);
+        console.log("document.body.offsetHeight: " + document.body.offsetHeight + ", this.cachedHeight: " + this.cachedHeight);
+        let numOfNewMenus = (this.cachedHeight / (maxItemsOnScreen * this.cachedItemHeight));
+        console.log("numOfNewMenus: " + numOfNewMenus)
+
+        let numOfItemsInMenu = [];
+        console.log(this.cachedItemHeight + ", " + this.coords.top + ", " + this.parentHeight);
         let firstMenuNumOfItems = Math.floor((document.body.offsetHeight - (this.coords.top + this.parentHeight)) / this.cachedItemHeight);
         console.log("firstMenuNumOfItems: " + firstMenuNumOfItems);
-        let lastMenuNumOfItems = Math.floor(((numOfNewMenus % 1) * maxItemsOnScreen) - firstMenuNumOfItems);
-        console.log("lastMenuNumOfItems: " + lastMenuNumOfItems);
+        let lastMenuNumOfItems = 0;
+        if(numOfNewMenus % 1 == 0) {
+            lastMenuNumOfItmes = maxItemsOnScreen - firstMenuNumOfItems;
+        } else  {
+            lastMenuNumOfItems = Math.floor(((numOfNewMenus % 1) * maxItemsOnScreen) - firstMenuNumOfItems);
+            console.log("First pass: " + Math.floor(((numOfNewMenus % 1) * maxItemsOnScreen)));
+            if(lastMenuNumOfItems <= 0) {
+                lastMenuNumOfItems = maxItemsOnScreen - Math.abs(lastMenuNumOfItems);
+            }
+        }
+        console.log("lastMenuNumOfItems: " + lastMenuNumOfItems + ", as in: " + (Math.floor(((numOfNewMenus % 1) * maxItemsOnScreen)) + " - " + firstMenuNumOfItems));
+        if(lastMenuNumOfItems == 0) {
+            lastMenuNumOfItems
+        }
         if(numOfNewMenus % 1 != 0) {
             numOfNewMenus = Math.floor(numOfNewMenus) + 1;
         }
+        console.log(firstMenuNumOfItems + ", " + lastMenuNumOfItems + ", " + (firstMenuNumOfItems - lastMenuNumOfItems));
         if(firstMenuNumOfItems != 0 && (lastMenuNumOfItems > 0) && (firstMenuNumOfItems - lastMenuNumOfItems > 0)) {
             numOfNewMenus += 1;
         }

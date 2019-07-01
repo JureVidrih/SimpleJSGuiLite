@@ -35,7 +35,7 @@ menuBarItem1.addAnItem("Menu", subMenu1);
 
 let menuBarItem2 = new DropdownMenu();
 
-for(let i = 0; i < 4; i++) {
+for(let i = 0; i < 80; i++) {
     let title = "Menu #" + i;
     // let action = function() {
     //     window.alert("Item #" + i + " was clicked!");
